@@ -128,16 +128,19 @@ create table MarketDominance(
 );
 
 
-insert into MarketDominance (year, symbol, total_value,dominance)
-values (2009,'BTC',0.00001,100),
-       (2013,'BTC',1.2,80),
-       (2013,'LTC',0.15,10),
-       (2013,'XRP',0.05,3.3),
-       (2017,'BTC',320,53),
-       (2017,'ETH',70,11.7);
+# insert into MarketDominance (year, symbol, total_value,dominance)
+# values (2009,'BTC',0.00001,100),
+#        (2013,'BTC',1.2,80),
+#        (2013,'LTC',0.15,10),
+#        (2013,'XRP',0.05,3.3),
+#        (2017,'BTC',320,53),
+#        (2017,'ETH',70,11.7);
 
 select year,symbol,concat(total_value,' billion') as market_cap,concat(dominance,' %') as market_dominance
 from MarketDominance;
+
+
+
 
 
 drop table MarketDominance;
@@ -568,3 +571,109 @@ drop table Controversy;
 
 select name,own_crypto_currency from
              Brokerage order by name asc ;
+
+
+INSERT INTO MarketDominance (year, symbol, total_value, dominance) VALUES
+(2009, 'BTC', 0.00001, 100.00),
+(2010, 'BTC', 0.001, 100.00),
+(2011, 'BTC', 0.01, 100.00),
+(2012, 'BTC', 0.1, 95.00),
+(2013, 'BTC', 1.2, 80.00),
+(2013, 'DOGE', 0.001, 0.07),
+(2014, 'BTC', 4.0, 80.00),
+(2014, 'DOGE', 0.02, 0.40),
+(2014, 'USDT', 0.01, 0.20),
+(2014, 'XMR', 0.01, 0.20),
+(2015, 'BTC', 5.0, 71.43),
+(2015, 'ETH', 0.7, 10.00),
+(2015, 'DOGE', 0.02, 0.29),
+(2015, 'USDT', 0.02, 0.29),
+(2015, 'XMR', 0.01, 0.14),
+(2016, 'BTC', 12.0, 70.59),
+(2016, 'ETH', 1.5, 8.82),
+(2016, 'DOGE', 0.03, 0.18),
+(2016, 'USDT', 0.05, 0.29),
+(2016, 'XMR', 0.1, 0.59),
+(2017, 'BTC', 320.0, 53.33),
+(2017, 'ETH', 70.0, 11.67),
+(2017, 'DOGE', 0.2, 0.03),
+(2017, 'USDT', 1.0, 0.17),
+(2017, 'XMR', 2.0, 0.33),
+(2018, 'BTC', 70.0, 53.85),
+(2018, 'ETH', 15.0, 11.54),
+(2018, 'DOGE', 0.2, 0.15),
+(2018, 'USDT', 2.0, 1.54),
+(2018, 'XMR', 1.0, 0.77),
+(2019, 'BTC', 130.0, 54.17),
+(2019, 'ETH', 20.0, 8.33),
+(2019, 'DOGE', 0.3, 0.13),
+(2019, 'USDT', 4.0, 1.67),
+(2019, 'XMR', 1.5, 0.63),
+(2020, 'BTC', 500.0, 65.79),
+(2020, 'ETH', 80.0, 10.53),
+(2020, 'DOGE', 0.5, 0.07),
+(2020, 'USDT', 15.0, 1.97),
+(2020, 'XMR', 2.5, 0.33),
+(2020, 'SOL', 0.1, 0.01),
+(2020, 'DOT', 3.0, 0.39),
+(2021, 'BTC', 1300.0, 59.09),
+(2021, 'ETH', 400.0, 18.18),
+(2021, 'DOGE', 50.0, 2.27),
+(2021, 'USDT', 60.0, 2.73),
+(2021, 'XMR', 5.0, 0.23),
+(2021, 'SOL', 70.0, 3.18),
+(2021, 'DOT', 30.0, 1.36),
+(2022, 'BTC', 400.0, 50.00),
+(2022, 'ETH', 150.0, 18.75),
+(2022, 'DOGE', 10.0, 1.25),
+(2022, 'USDT', 65.0, 8.13),
+(2022, 'XMR', 2.0, 0.25),
+(2022, 'SOL', 15.0, 1.88),
+(2022, 'DOT', 5.0, 0.63),
+(2023, 'BTC', 1000.0, 58.82),
+(2023, 'ETH', 250.0, 14.71),
+(2023, 'DOGE', 15.0, 0.88),
+(2023, 'USDT', 90.0, 5.29),
+(2023, 'XMR', 3.0, 0.18),
+(2023, 'SOL', 50.0, 2.94),
+(2023, 'DOT', 7.0, 0.41),
+(2024, 'BTC', 1880.0, 63.30),
+(2024, 'ETH', 217.0, 7.31),
+(2024, 'DOGE', 25.0, 0.84),
+(2024, 'USDT', 100.0, 3.37),
+(2024, 'XMR', 4.0, 0.13),
+(2024, 'SOL', 90.0, 3.03),
+(2024, 'DOT', 10.0, 0.34);
+
+
+# sample query
+# Sort top 10 Cryptocurrency by ascending order depend on max price
+select *
+from AllCrypto order by max_price asc limit 10;
+
+# # Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
+select * from AllCrypto order by max_price asc limit 10 offset 2;
+
+# Query for only PoS currencies
+select * from AllCrypto where consensus_algorithm='PoS';
+
+# Market Growth And User Growth Of Every Year From 2009 To 2025
+
+select T2.year,
+       concat(T2.total_user,' million') as total_user,
+       concat((((T2.total_user-T1.total_user)*100)/T1.total_user),'%') as user_growth,
+       concat(T2.total_market_cap,' billion') as market_cap,
+       concat((((T2.total_market_cap-T1.total_market_cap)*100)/T1.total_user),'%') as market_growth
+from TotalUserDistribution as T1 join TotalUserDistribution as T2
+where timediff(T2.year,T1.year)=1;
+;
+
+
+# query for only these currency which consensus algo is 'Layer-1'
+select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_value,' billion'),concat(MarketDominance.dominance,'%') from MarketDominance join AllCrypto  where MarketDominance.symbol=AllCrypto.symbol
+and AllCrypto.blockchain_network_type='Layer-1';
+
+
+select *
+from AllCrypto where symbol='DOGE';
+

@@ -70,5 +70,22 @@ where timediff(T2.year,T1.year)=1;
 
 </li>
 
+```sql
+# query for only these currency which consensus algo is 'PoS'
+select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_value,' billion'),concat(MarketDominance.dominance,'%') from MarketDominance join AllCrypto  where MarketDominance.symbol=AllCrypto.symbol
+and AllCrypto.consensus_algorithm='PoS';
+```
+
+</li>
+
+
+<li>
+
+```sql
+# query for only these currency which consensus algo is 'Layer-1'
+select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_value,' billion'),concat(MarketDominance.dominance,'%') from MarketDominance join AllCrypto  where MarketDominance.symbol=AllCrypto.symbol
+and AllCrypto.blockchain_network_type='Layer-1';
+```
+
 </li>
 <ol>
