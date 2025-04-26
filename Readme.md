@@ -37,6 +37,7 @@ from AllCrypto order by max_price asc limit 10;
 ```
 
 
+
 </li>
 
 <li>
@@ -114,6 +115,9 @@ with  tmp as (select MarketDominance.year,MarketDominance.symbol,MarketDominance
 select tmp1.year,tmp1.symbol,concat(((tmp1.total_value-tmp2.total_value)*100/tmp2.total_value),'%') as market_growth,concat(tmp1.dominance,'%') as market_dominance from tmp as tmp1 join tmp as tmp2 where  timediff(tmp1.year,tmp2.year)=1 and tmp1.year>=2015 and tmp1.year<=2016
 and tmp2.year>=2015 and tmp2.year<=2016 order by tmp1.dominance desc ;
 ```
+
+
+<img src="./SS/C4.png">
 </li>
 
 <li>
@@ -122,6 +126,8 @@ and tmp2.year>=2015 and tmp2.year<=2016 order by tmp1.dominance desc ;
 # controversies occur due to hacked
 select * from Controversy where controversy_detail like '%hack%';
 ```
+
+<img src="./SS/c5.png">
 
 </li>
 
@@ -136,6 +142,8 @@ with tmp as (select * from HedgeFundHFTAFM as giant left join EFTAsTransactionBy
 select tmp.company_name,tmp.country_name,tmp.company_type from tmp where tmp.etf_name is null;
 ```
 
+<img src="./SS/C6.png">
+
 </li>
 
 
@@ -148,6 +156,7 @@ with tmp as (select * from Brokerage as br left join Controversy C on br.name = 
 select tmp.name from tmp where tmp.affected_crypto is null;
 ```
 
+<img src="./SS/C7.png">
 </li>
 
 
@@ -160,6 +169,7 @@ with tmp as (select brokerage_name,count(brokerage_name) as reward from Controve
 select * from tmp order by reward desc limit 1;
 ```
 
+<img src="./SS/c8.png">
 </li>
 
 <ol>
