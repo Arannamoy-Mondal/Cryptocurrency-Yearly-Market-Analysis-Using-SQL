@@ -19,3 +19,53 @@
 > Please verify information independently before using it in real-world applications.
 > **We are not responsible or liable for any financial loss, damages, or consequences** arising from the use of this data, including but not limited to scams, misinterpretations, or inappropriate real-world applications.
 > Users are strongly advised to independently verify any information before relying on it for financial, commercial, or personal decision-making.
+
+
+## Schema Diagram:
+<img src="Schema.png">
+
+## Sample Query:
+
+<ol>
+<li>
+
+```sql
+# Sort top 10 Cryptocurrency by ascending order depend on max price
+select *
+from AllCrypto order by max_price asc limit 10;
+```
+
+
+</li>
+# # Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
+select * from AllCrypto order by max_price asc limit 10 offset 2;
+<li>
+
+<li>
+
+```
+# Query for only PoS currencies
+select * from AllCrypto where consensus_algorithm='PoS'
+```
+
+</li>
+
+<li>
+
+```
+# Market Growth And User Growth Of Every Year From 2009 To 2025
+
+select T2.year,
+       concat(T2.total_user,' million') as total_user,
+       concat((((T2.total_user-T1.total_user)*100)/T1.total_user),'%') as user_growth,
+       concat(T2.total_market_cap,' billion') as market_cap,
+       concat((((T2.total_market_cap-T1.total_market_cap)*100)/T1.total_user),'%') as market_growth
+from TotalUserDistribution as T1 join TotalUserDistribution as T2
+where timediff(T2.year,T1.year)=1;
+;
+```
+
+</li>
+
+</li>
+<ol>
