@@ -646,6 +646,34 @@ INSERT INTO MarketDominance (year, symbol, total_value, dominance) VALUES
 (2024, 'DOT', 10.0, 0.34);
 
 
+CREATE TABLE CryptoPerformanceMetrics (
+    symbol VARCHAR(10),
+    tps FLOAT CHECK (tps >= 0),
+    electricity_per_txn_kwh FLOAT CHECK (electricity_per_txn_kwh >= 0),
+    txn_cost_usd FLOAT CHECK (txn_cost_usd >= 0),
+    CONSTRAINT CryptoPerformanceMetrics_pk PRIMARY KEY (symbol),
+    CONSTRAINT CryptoPerformanceMetrics_fk FOREIGN KEY (symbol) REFERENCES AllCrypto(symbol)
+);
+
+INSERT INTO CryptoPerformanceMetrics (symbol, tps, electricity_per_txn_kwh, txn_cost_usd) VALUES
+('BTC',  7.0, 707.0, 15.0),
+('ETH',  15.0, 0.01, 3.5),
+('USDT', 2000.0, 0.0001, 0.001),
+('SOL',  65000.0, 0.0002, 0.00025),
+('XRP', 1500.0, 0.0001, 0.0001),
+('DOGE',  56.0, 100.0, 0.01),
+('ADA',  1000.0, 0.0001, 0.01),
+('DOT', 1000.0, 0.0001, 0.01),
+('XMR',  10.0, 50.0, 0.5),
+('BNB', 150.0, 0.0001, 0.005);
+
+drop table CryptoPerformanceMetrics;
+
+
+INSERT INTO CryptoPerformanceMetrics (symbol, tps, electricity_per_txn_kwh, txn_cost_usd)
+values ('MATIC',  65000.0, 0.0001, 0.001);
+
+
 # sample query
 # Sort top 10 Cryptocurrency by ascending order depend on max price
 select *
@@ -677,3 +705,38 @@ and AllCrypto.blockchain_network_type='Layer-1';
 select *
 from AllCrypto where symbol='DOGE';
 
+
+# which country has highest atm booth for 'AuxPoW' consensus algorithm.
+select AcceptedCountry.country_name from AcceptedCountry join AllCrypto where AcceptedCountry.symbol=AllCrypto.symbol and AllCrypto.consensus_algorithm='AuxPoW';
+
+select * from AllCrypto where consensus_algorithm like '%PoS%';
+
+# market growth of PoS (Ethereum), PoS from 2015 to 2016
+with  tmp as (select MarketDominance.year,MarketDominance.symbol,MarketDominance.total_value
+              ,MarketDominance.dominance
+              from MarketDominance join AllCrypto where AllCrypto.consensus_algorithm like '%PoS%' and AllCrypto.symbol=MarketDominance.symbol)
+select tmp1.year,tmp1.symbol,concat(((tmp1.total_value-tmp2.total_value)*100/tmp2.total_value),'%') as market_growth,concat(tmp1.dominance,'%') as market_dominance from tmp as tmp1 join tmp as tmp2 where  timediff(tmp1.year,tmp2.year)=1 and tmp1.year>=2015 and tmp1.year<=2016
+and tmp2.year>=2015 and tmp2.year<=2016 order by tmp1.dominance desc ;
+
+
+select * from MarketDominance where symbol='ETH' and (year=2015 or year=2016);
+
+
+# controversies occur due to hacked
+select * from Controversy where controversy_detail like '%hack%';
+
+# query for those company who has not launch etf yet
+
+with tmp as (select * from HedgeFundHFTAFM as giant left join EFTAsTransactionByAMF EATBA on giant.company_name = EATBA.etf_company)
+select tmp.company_name,tmp.country_name,tmp.company_type from tmp where tmp.etf_name is null;
+;
+
+# query for those broker who has no controversies
+
+with tmp as (select * from Brokerage as br left join Controversy C on br.name = C.brokerage_name)
+select tmp.name from tmp where tmp.affected_crypto is null;
+
+
+# if a broker get 1 reward for 1 controversy which broker got 1s place
+with tmp as (select brokerage_name,count(brokerage_name) as reward from Controversy group by brokerage_name)
+select * from tmp order by reward desc limit 1;

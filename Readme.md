@@ -6,7 +6,7 @@
 - Blockchain Type, Network Type, Consensus Algorithm Type
 - Crypto Dominance Metrics
 - Country-wise Crypto ATM Distribution
-<!-- - Average Transaction Cost and Speed Analysis -->
+- Average Transaction Cost and Speed Analysis
 - Yearly Returns Tracking
 - Founding Year Analysis and Market Capitalization Study
 - Exchange Traded Fund (ETF's).
@@ -126,8 +126,39 @@ select * from Controversy where controversy_detail like '%hack%';
 </li>
 
 
+
 <li>
 
+```sql
+# query for those company who have not launch etf yet 
+
+with tmp as (select * from HedgeFundHFTAFM as giant left join EFTAsTransactionByAMF EATBA on giant.company_name = EATBA.etf_company)
+select tmp.company_name,tmp.country_name,tmp.company_type from tmp where tmp.etf_name is null;
+```
+
+</li>
+
+
+<li>
+
+```sql
+# query for those broker who has no controversies
+
+with tmp as (select * from Brokerage as br left join Controversy C on br.name = C.brokerage_name)
+select tmp.name from tmp where tmp.affected_crypto is null;
+```
+
+</li>
+
+
+<li>
+
+
+```sql
+# if a broker get 1 reward for 1 controversy which broker got 1s place
+with tmp as (select brokerage_name,count(brokerage_name) as reward from Controversy group by brokerage_name)
+select * from tmp order by reward desc limit 1;
+```
 
 </li>
 
