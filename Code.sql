@@ -117,14 +117,26 @@ alter table CurrentMarketCap rename CurrentMarketCapOfCrypto;
 drop table CurrentMarketCapOfCrypto;
 
 create table MarketDominance(
+  year year,
   symbol varchar(10),
   total_value float,
-  check ( total_value<=100 ),
+  dominance decimal(30,5),
+  check ( dominance<=100 ),
   constraint MarketDominance_fk foreign key (symbol) references AllCrypto(symbol),
-  constraint MarketDominance_pk primary key (symbol)
+  constraint MarketDominance_pk primary key (symbol,year),
+  constraint MarketDominance_year_fk foreign key (year) references TotalUserDistribution(year)
 );
 
-select *
+
+insert into MarketDominance (year, symbol, total_value,dominance)
+values (2009,'BTC',0.00001,100),
+       (2013,'BTC',1.2,80),
+       (2013,'LTC',0.15,10),
+       (2013,'XRP',0.05,3.3),
+       (2017,'BTC',320,53),
+       (2017,'ETH',70,11.7);
+
+select year,symbol,concat(total_value,' billion') as market_cap,concat(dominance,' %') as market_dominance
 from MarketDominance;
 
 
@@ -385,5 +397,174 @@ INSERT INTO AllCrypto (
 
 # drop table AllCrypto;
 
+create table Brokerage(
+    name varchar(200),
+    hq varchar(200),
+    established_year year,
+    own_crypto_currency varchar(10),
+    founder_name varchar(200),
+    constraint Brokerage_pk primary key (name),
+    constraint Brokerage_fk foreign key (own_crypto_currency) references AllCrypto(symbol) on delete cascade
+);
+
+alter table Brokerage drop constraint Brokerage_fk;
+
+INSERT INTO Brokerage (name, hq, established_year, own_crypto_currency, founder_name) VALUES
+('Coinbase', 'San Francisco, CA, USA', 2012, NULL, 'Brian Armstrong'),
+('Robinhood', 'Menlo Park, CA, USA', 2013, NULL, 'Vlad Tenev, Baiju Bhatt'),
+('Binance', 'George Town, Cayman Islands', 2017, 'BNB', 'Changpeng Zhao'),
+('Kraken', 'San Francisco, CA, USA', 2011, NULL, 'Jesse Powell'),
+('Crypto.com', 'Singapore', 2016, 'CRO', 'Kris Marszalek'),
+('Bitget', 'Victoria, Seychelles', 2018, 'BGB', 'Sandra Lou'),
+('BitMart', 'New York, NY, USA', 2017, 'BMX', 'Sheldon Xia'),
+('Gemini', 'New York, NY, USA', 2014, NULL, 'Cameron Winklevoss, Tyler Winklevoss'),
+('Bitfinex', 'Hong Kong', 2012, 'LEO', 'Giancarlo Devasini'),
+('Bitstamp', 'Luxembourg City, Luxembourg', 2011, NULL, 'Nejc Kodrič, Damijan Merlak'),
+('KuCoin', 'Victoria, Seychelles', 2017, 'KCS', 'Johnny Lyu'),
+('OKX', 'Victoria, Seychelles', 2017, 'OKB', 'Star Xu'),
+('Bybit', 'Dubai, UAE', 2018, 'BIT', 'Ben Zhou'),
+('Gate.io', 'George Town, Cayman Islands', 2013, 'GT', 'Lin Han'),
+('Uphold', 'New York, NY, USA', 2015, NULL, 'J.P. Thieriot'),
+('eToro', 'Tel Aviv, Israel', 2007, NULL, 'Yoni Assia'),
+('AvaTrade', 'Dublin, Ireland', 2006, NULL, 'Emanuel Kronitz'),
+('Capital.com', 'Limassol, Cyprus', 2016, NULL, 'Viktor Prokopenya'),
+('Interactive Brokers', 'Greenwich, CT, USA', 1977, NULL, 'Thomas Peterffy'),
+('Tastytrade', 'Chicago, IL, USA', 2017, NULL, 'Tom Sosnoff');
+
+insert into Brokerage (name, hq, established_year, own_crypto_currency, founder_name)
+values ('Mt. Gox','Shibuya, Tokyo, Japan',2010,null,'Jed McCaleb');
+
+INSERT INTO Brokerage (name, hq, established_year, own_crypto_currency) VALUES
+('WazirX', 'Mumbai, India', 2018, 'WRX'),
+('NiceHash', 'Ljubljana, Slovenia', 2014, NULL),
+('FTX', 'Nassau, Bahamas', 2019, 'FTT')
+;
+drop table Brokerage;
+
+# delete from Brokerage where name='Coinbase';
+
+select * from Brokerage order by name asc;
+
+create table Top_Brokerage(
+    year year,
+    brokerage_name varchar(200),
+    total_market_cap decimal(30,5),
+    market_share decimal(30,5),
+    total_user decimal(30,5),
+    constraint Top_Brokerage_pk primary key (brokerage_name,year),
+    constraint Top_Brokerage_Fk foreign key (brokerage_name) references Brokerage(name) on delete cascade ,
+    constraint Top_Brokerage_Fk_2 foreign key (year) references TotalUserDistribution(year) on delete cascade
+);
 
 
+
+INSERT INTO Top_Brokerage (year, brokerage_name, total_market_cap, market_share, total_user) VALUES
+(2011, 'Mt. Gox', 0.00000, 70.00000, 0.01000),
+(2012, 'Mt. Gox', 0.00000, 80.00000, 0.05000),
+(2012, 'Bitstamp', 0.00000, 10.00000, 0.01000),
+(2013, 'Mt. Gox', 0.00000, 60.00000, 0.10000),
+(2013, 'Bitstamp', 0.00000, 15.00000, 0.02000),
+(2013, 'Coinbase', 0.00000, 5.00000, 0.10000),
+(2014, 'Bitstamp', 0.00000, 20.00000, 0.20000),
+(2014, 'Coinbase', 0.00000, 10.00000, 0.50000),
+(2014, 'Kraken', 0.00000, 5.00000, 0.10000),
+(2014, 'Bitfinex', 0.00000, 5.00000, 0.05000),
+(2015, 'Coinbase', 0.40000, 15.00000, 1.00000),
+(2015, 'Bitstamp', 0.00000, 10.00000, 0.30000),
+(2015, 'Kraken', 0.00000, 5.00000, 0.20000),
+(2015, 'Bitfinex', 0.00000, 5.00000, 0.10000),
+(2016, 'Coinbase', 1.00000, 20.00000, 2.00000),
+(2016, 'Bitfinex', 0.00000, 15.00000, 0.50000),
+(2016, 'Kraken', 0.00000, 5.00000, 0.30000),
+(2016, 'Bitstamp', 0.00000, 5.00000, 0.20000),
+(2017, 'Coinbase', 1.60000, 25.00000, 10.00000),
+(2017, 'Binance', 0.00000, 20.00000, 5.00000),
+(2017, 'Bitfinex', 0.00000, 10.00000, 1.00000),
+(2017, 'Kraken', 0.00000, 5.00000, 0.50000),
+(2017, 'Bitstamp', 0.00000, 5.00000, 0.30000),
+(2018, 'Coinbase', 8.00000, 20.00000, 13.00000),
+(2018, 'Binance', 0.00000, 30.00000, 10.00000),
+(2018, 'Robinhood', 7.00000, 5.00000, 15.00000),
+(2018, 'Kraken', 0.00000, 5.00000, 1.00000),
+(2018, 'Bitfinex', 0.00000, 5.00000, 0.50000),
+(2019, 'Coinbase', 8.00000, 20.00000, 15.00000),
+(2019, 'Binance', 0.00000, 35.00000, 15.00000),
+(2019, 'Robinhood', 8.00000, 5.00000, 18.00000),
+(2019, 'Kraken', 0.00000, 5.00000, 2.00000),
+(2019, 'Gemini', 0.00000, 3.00000, 0.50000),
+(2020, 'Coinbase', 8.00000, 20.00000, 35.00000),
+(2020, 'Binance', 0.00000, 35.00000, 20.00000),
+(2020, 'Robinhood', 11.00000, 5.00000, 20.00000),
+(2020, 'Kraken', 0.00000, 5.00000, 3.00000),
+(2020, 'Gemini', 0.00000, 3.00000, 1.00000),
+(2021, 'Coinbase', 60.00000, 15.00000, 73.00000),
+(2021, 'Robinhood', 30.00000, 5.00000, 23.00000),
+(2021, 'Binance', 0.00000, 34.70000, 30.00000),
+(2021, 'Kraken', 0.00000, 5.00000, 6.00000),
+(2021, 'Gemini', 0.00000, 3.00000, 2.00000),
+(2022, 'Coinbase', 20.00000, 10.00000, 108.00000),
+(2022, 'Robinhood', 10.00000, 3.00000, 24.00000),
+(2022, 'Binance', 0.00000, 35.00000, 35.00000),
+(2022, 'Kraken', 0.00000, 5.00000, 8.00000),
+(2022, 'Crypto.com', 0.00000, 10.00000, 10.00000),
+(2023, 'Coinbase', 35.00000, 10.00000, 110.00000),
+(2023, 'Robinhood', 12.00000, 3.00000, 25.00000),
+(2023, 'Binance', 0.00000, 34.70000, 40.00000),
+(2023, 'Kraken', 0.00000, 5.00000, 9.00000),
+(2023, 'Crypto.com', 0.00000, 11.20000, 12.00000),
+(2024, 'Coinbase', 50.00000, 10.00000, 112.00000),
+(2024, 'Robinhood', 15.00000, 3.00000, 25.60000),
+(2024, 'Binance', 0.00000, 34.70000, 45.00000),
+(2024, 'Crypto.com', 0.00000, 11.20000, 15.00000),
+(2024, 'Kraken', 0.00000, 5.00000, 10.00000),
+(2025, 'Coinbase', 71.20000, 10.00000, 115.00000),
+(2025, 'Robinhood', 20.00000, 3.00000, 26.00000),
+(2025, 'Binance', 0.00000, 34.70000, 50.00000),
+(2025, 'Crypto.com', 0.00000, 11.20000, 15.00000),
+(2025, 'Kraken', 0.00000, 5.00000, 10.00000);
+
+# drop table Top_Brokerage;
+
+select * from Top_Brokerage order by year asc;
+
+
+create table Controversy(
+    year year,
+    id int auto_increment,
+    brokerage_name varchar(200),
+    controversy_detail varchar(400),
+    affected_crypto varchar(10),
+    constraint Controversy_pk primary key (id),
+    constraint Controversy_fk foreign key (brokerage_name) references Brokerage(name),
+    constraint Controversy_fk2 foreign key (affected_crypto) references AllCrypto(symbol)
+);
+
+
+INSERT INTO Controversy (year,brokerage_name,affected_crypto, controversy_detail) VALUES
+(2015, 'Bitstamp','BTC' ,'Hacked, lost ~19,000 BTC ($5M). Suspended operations for days due to phishing attack targeting employees.'),
+(2017, 'NiceHash','BTC' ,'Hacked, lost 4,700 BTC ($64M) from hot wallet; repaid users by 2020.'),
+(2018, 'KuCoin','BTC', 'Hacked, lost $150M in crypto. Recovered most funds but raised security concerns.'),
+(2021, 'Robinhood', 'DOGE','Restricted crypto/stock trades (e.g., Dogecoin, GameStop) due to clearinghouse issues, sparking manipulation claims.'),
+(2022, 'Coinbase', 'ETH','Super Bowl ad QR code crashed site, overwhelming servers with traffic.'),
+(2022, 'FTX', 'SOL','Collapsed after $8B fraud; Alameda misused customer funds, triggering $6B withdrawals.'),
+(2023, 'Coinbase','BTC', 'SEC sued for unregistered securities exchange, targeting tokens like ADA, SOL.'),
+(2023, 'Binance', 'BNB','SEC sued for unregistered exchange, offering BNB, BUSD as securities.'),
+(2023, 'Kraken','BTC', 'SEC alleged unregistered exchange operations, targeting staking services.'),
+(2023, 'Bybit','BTC', 'India FIU fined $1.06M for PMLA violations; Bybit paid and registered in 2025.'),
+(2023, 'Bybit', 'SOL','FTX sued Bybit for $1B over prioritized withdrawals; settled for $228M in 2024.'),
+(2023, 'FTX','SOL', 'SBF convicted of fraud, conspiracy; sentenced to 25 years for $8B theft.'),
+(2024, 'Crypto.com','BTC', 'Sued SEC after Wells notice, challenging jurisdiction over token sales.'),
+(2024, 'eToro','BTC', 'Settled with SEC, ceased most U.S. crypto trading for unregistered broker violations.'),
+(2024, 'Interactive Brokers', 'BTC','$48M loss from NYSE glitch affecting trades, exposing platform vulnerabilities.'),
+(2024, 'WazirX','ETH', 'Hacked, lost $234.9M to Lazarus Group via multisig wallet; halted trading.'),
+(2024, 'WazirX','ETH', 'User poll for 55% fund access sparked backlash as unfair socialized loss.'),
+(2025, 'Bybit','ETH', 'Hacked, lost $1.5B ETH to Lazarus Group via Safe{Wallet} flaw; reserves replenished.'),
+(2025, 'Bybit','SOL', 'Airdrop delays for $PAWS, $NOT, $MAJOR tokens caused user complaints.'),
+(2025, 'FTX','BTC', 'Repaid $16B to creditors using 2022 prices, angering Bitcoin/Solana holders.'),
+(2025, 'WazirX','BTC', 'Regulatory scrutiny; Delhi HC sought RBI probe after $234.9M hack.'),
+(2025, 'NiceHash', 'ETH','Users reported ETH transfer delays to WazirX and high BTC withdrawal fees.');
+
+drop table Controversy;
+
+select name,own_crypto_currency from
+             Brokerage order by name asc ;
