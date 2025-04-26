@@ -111,8 +111,24 @@ select AcceptedCountry.country_name from AcceptedCountry join AllCrypto where Ac
 with  tmp as (select MarketDominance.year,MarketDominance.symbol,MarketDominance.total_value
               ,MarketDominance.dominance
               from MarketDominance join AllCrypto where AllCrypto.consensus_algorithm like '%PoS%' and AllCrypto.symbol=MarketDominance.symbol)
-select tmp1.year,tmp1.symbol,concat(((tmp1.total_value-tmp2.total_value)*100/tmp2.total_value),'%'),concat(tmp1.dominance,'%') from tmp as tmp1 join tmp as tmp2 where  timediff(tmp1.year,tmp2.year)=1 and tmp1.year>=2015 and tmp1.year<=2016
+select tmp1.year,tmp1.symbol,concat(((tmp1.total_value-tmp2.total_value)*100/tmp2.total_value),'%') as market_growth,concat(tmp1.dominance,'%') as market_dominance from tmp as tmp1 join tmp as tmp2 where  timediff(tmp1.year,tmp2.year)=1 and tmp1.year>=2015 and tmp1.year<=2016
 and tmp2.year>=2015 and tmp2.year<=2016 order by tmp1.dominance desc ;
 ```
 </li>
+
+<li>
+
+```sql
+# controversies occur due to hacked
+select * from Controversy where controversy_detail like '%hack%';
+```
+
+</li>
+
+
+<li>
+
+
+</li>
+
 <ol>
