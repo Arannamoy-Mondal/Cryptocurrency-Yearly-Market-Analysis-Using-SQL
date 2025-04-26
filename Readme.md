@@ -27,6 +27,7 @@
 ## Sample Query:
 
 <ol>
+
 <li>
 
 ```sql
@@ -38,11 +39,13 @@ from AllCrypto order by max_price asc limit 10;
 
 </li>
 
+<li>
+
 ```sql
 # # Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
 select * from AllCrypto order by max_price asc limit 10 offset 2;
 ```
-<li>
+</li>
 
 <li>
 
@@ -70,6 +73,8 @@ where timediff(T2.year,T1.year)=1;
 
 </li>
 
+<li>
+
 ```sql
 # query for only these currency which consensus algo is 'PoS'
 select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_value,' billion'),concat(MarketDominance.dominance,'%') from MarketDominance join AllCrypto  where MarketDominance.symbol=AllCrypto.symbol
@@ -87,5 +92,22 @@ select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_
 and AllCrypto.blockchain_network_type='Layer-1';
 ```
 
+</li>
+
+<li>
+
+```sql
+
+# which country has highest atm booth for 'AuxPoW' consensus algorithm.
+select AcceptedCountry.country_name from AcceptedCountry join AllCrypto where AcceptedCountry.symbol=AllCrypto.symbol and AllCrypto.consensus_algorithm='AuxPoW';
+```
+
+</li>
+
+<li>
+
+```sql
+
+```
 </li>
 <ol>
