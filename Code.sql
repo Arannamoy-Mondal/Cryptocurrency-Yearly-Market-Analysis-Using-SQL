@@ -111,7 +111,10 @@ create table CurrentMarketCap(
   constraint CurrrentMarketCap_fk foreign key (symbol) references AllCrypto(symbol),
   constraint CurrrentMarketCap_PK primary key (symbol)
 );
-drop table CurrentMarketCap;
+
+
+alter table CurrentMarketCap rename CurrentMarketCapOfCrypto;
+drop table CurrentMarketCapOfCrypto;
 
 create table MarketDominance(
   symbol varchar(10),
@@ -120,16 +123,21 @@ create table MarketDominance(
   constraint MarketDominance_fk foreign key (symbol) references AllCrypto(symbol),
   constraint MarketDominance_pk primary key (symbol)
 );
+
+select *
+from MarketDominance;
+
+
 drop table MarketDominance;
 
 create table AcceptedCountry(
-  id int auto_increment,
+  country_id int auto_increment,
   symbol varchar(10),
   country_name varchar(200),
   restrictions varchar(200),
   crypto_atms int not null,
   constraint AcceptedCountry_fk foreign key (symbol) references AllCrypto(symbol),
-  constraint AcceptedCountry_pk primary key (id)
+  constraint AcceptedCountry_pk primary key (country_id)
 );
 
 insert into AcceptedCountry (symbol, country_name, restrictions, crypto_atms)
@@ -148,6 +156,8 @@ values ('BTC','United States','Legal (regulated as property/commodity)',27000),
 ('ETH','Germany','Legal (Legal (tax-free after 1-year holding))',500)
 ;
 
+select *
+from AcceptedCountry;
 
 drop table AcceptedCountry;
 
@@ -155,40 +165,90 @@ drop table AcceptedCountry;
 
 create table TotalUserDistribution(
     year year,
-    total_user_in_word varchar(200),
-    total_user int,
+    asia_user decimal(30,5),
+    north_america_user decimal(30,5),
+    america_user decimal(30,5), -- Nort America + South America
+    africa_user decimal(30,5),
+    europe_user decimal(30,5),
+    oceania_user decimal(30,5),
+    total_user_in_word decimal(30,5),
+    total_market_cap decimal(30,5),
     constraint TotalUserDistribution_pk_rule primary key (year)
 );
 
-INSERT INTO TotalUserDistribution (year, total_user_in_word, total_user)
-VALUES
-    (2008, '1 Thousand', 1000),
-    (2009, '10 Thousand', 10000),
-    (2010, '100 Thousand', 100000),
-    (2011, '500 Thousand', 500000),
-    (2012, '1 Million', 1000000),
-    (2013, '3 Million', 3000000),
-    (2014, '5 Million', 5000000),
-    (2015, '10 Million', 10000000),
-    (2016, '20 Million', 20000000),
-    (2017, '30 Million', 30000000),
-    (2018, '35 Million', 35000000),
-    (2019, '45 Million', 45000000),
-    (2020, '101 Million', 101000000),
-    (2021, '295 Million', 295000000),
-    (2022, '425 Million', 425000000),
-    (2023, '580 Million', 580000000),
-    (2024, '620 Million', 620000000),
-    (2025, '660 Million', 660000000);
 
-drop table TotalUserDistribution;
+alter table TotalUserDistribution change total_user_in_word total_user decimal(30,5);
 
-create table RegionalUserDistribution(
+INSERT INTO TotalUserDistribution (year, asia_user, north_america_user, america_user, africa_user, europe_user, oceania_user, total_user,total_market_cap) VALUES
+(2009, 0.001, 0.002, 0.003, 0.0001, 0.001, 0.0001, 0.004,0.00001),
+(2010, 0.005, 0.005, 0.010, 0.0005, 0.003, 0.0005, 0.020,0.0003),
+(2011, 0.020, 0.010, 0.030, 0.001, 0.010, 0.001, 0.070,0.04),
+(2012, 0.050, 0.030, 0.080, 0.002, 0.020, 0.002, 0.150,0.13),
+(2013, 0.200, 0.100, 0.300, 0.010, 0.080, 0.010, 0.500,1.5),
+(2014, 0.500, 0.300, 0.800, 0.020, 0.200, 0.020, 1.500,5),
+(2015, 1.000, 0.500, 1.500, 0.050, 0.400, 0.050, 3.000,7),
+(2016, 3.000, 1.500, 4.500, 0.100, 2.500, 0.100, 8.000,17),
+(2017, 10.000, 5.000, 15.000, 0.500, 5.000, 0.300, 30.500,600),
+(2018, 15.000, 8.000, 23.000, 1.000, 7.000, 0.500, 50.000,120),
+(2019, 25.000, 12.000, 37.000, 2.000, 10.000, 0.800, 80.000,250),
+(2020, 50.000, 20.000, 70.000, 5.000, 15.000, 1.000, 150.000,1000),
+(2021, 100.000, 30.000, 130.000, 10.000, 20.000, 1.500, 300.000,2900),
+(2022, 150.000, 40.000, 180.000, 20.000, 25.000, 2.000, 420.000,1000),
+(2023, 200.000, 50.000, 230.000, 30.000, 28.000, 3.000, 580.000,1750),
+(2024, 263.000, 57.000, 186.600, 38.000, 31.000, 5.000, 833.700,3800),
+(2025, 265.100, 65.700, 186.600, 53.900, 35.000, 5.000, 926.750,2970);
 
-);
 
-create table HedgeFundHFTAFM(
-#     id int auto_increment,
+
+
+# INSERT INTO TotalUserDistribution (year, total_user_in_word, total_user)
+# VALUES
+#     (2008, '1 Thousand', 1000),
+#     (2009, '10 Thousand', 10000),
+#     (2010, '100 Thousand', 100000),
+#     (2011, '500 Thousand', 500000),
+#     (2012, '1 Million', 1000000),
+#     (2013, '3 Million', 3000000),
+#     (2014, '5 Million', 5000000),
+#     (2015, '10 Million', 10000000),
+#     (2016, '20 Million', 20000000),
+#     (2017, '30 Million', 30000000),
+#     (2018, '35 Million', 35000000),
+#     (2019, '45 Million', 45000000),
+#     (2020, '101 Million', 101000000),
+#     (2021, '295 Million', 295000000),
+#     (2022, '425 Million', 425000000),
+#     (2023, '580 Million', 580000000),
+#     (2024, '620 Million', 620000000),
+#     (2025, '660 Million', 660000000);
+
+# drop table TotalUserDistribution;
+
+
+select year,
+       concat(total_market_cap,' billion'),
+       concat(asia_user,' million'),
+       concat(north_america_user,' million'),
+       concat(america_user-north_america_user,' million') as south_america_user,
+       concat(america_user,' million'),
+       concat(africa_user,' million'),
+       concat(europe_user,' million'),
+       concat(oceania_user,' million'),
+       concat(TotalUserDistribution.total_user,' million')
+from TotalUserDistribution;
+
+select T2.year,
+       concat(T2.total_user,' million') as total_user,
+       concat((((T2.total_user-T1.total_user)*100)/T1.total_user),'%') as user_growth,
+       concat(T2.total_market_cap,' billion') as market_cap,
+       concat((((T2.total_market_cap-T1.total_market_cap)*100)/T1.total_user),'%') as market_growth
+from TotalUserDistribution as T1 join TotalUserDistribution as T2
+where timediff(T2.year,T1.year)=1;
+;
+
+
+create table HedgeFundHFTAFM( # table for corporate organization who used cryto as a alternative asset
+#   id int auto_increment,
     company_name varchar(200) not null ,
     country_name varchar(200) not null ,
     company_type enum('High-Frequency Trading (HFT) Firms','Asset Management Firms','Crypto Funds'),
