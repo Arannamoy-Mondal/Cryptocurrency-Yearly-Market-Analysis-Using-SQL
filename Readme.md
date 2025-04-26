@@ -37,13 +37,16 @@ from AllCrypto order by max_price asc limit 10;
 
 
 </li>
+
+```sql
 # # Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
 select * from AllCrypto order by max_price asc limit 10 offset 2;
-<li>
-
-<li>
-
 ```
+<li>
+
+<li>
+
+```sql
 # Query for only PoS currencies
 select * from AllCrypto where consensus_algorithm='PoS'
 ```
@@ -52,7 +55,7 @@ select * from AllCrypto where consensus_algorithm='PoS'
 
 <li>
 
-```
+```sql
 # Market Growth And User Growth Of Every Year From 2009 To 2025
 
 select T2.year,
