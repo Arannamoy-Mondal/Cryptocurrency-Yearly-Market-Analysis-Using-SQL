@@ -172,6 +172,34 @@ select * from tmp order by reward desc limit 1;
 <img src="./SS/c8.png">
 </li>
 
+<li>
+
+```sql
+# QUERY FOR THIS BROKERAGE WHOSE HEADQUARTER IN THIS KIND OF COUNTRY WHERE CRYPTO IS ACCEPTED
+SELECT BROKERAGE.NAME,BROKERAGE.HEADQUARTER,COUNTRY.CRYPTO_STATUS FROM BROKERAGE JOIN COUNTRY WHERE COUNTRY.CRYPTO_STATUS='ACCEPTED' AND BROKERAGE.HEADQUARTER LIKE
+                                                                                                     CONCAT('%',COUNTRY.COUNTRY_NAME,'%');
+```
+
+```
+Output:
+AvaTrade,"Dublin, Ireland",ACCEPTED
+Binance,"George Town, Cayman Islands",ACCEPTED
+Bitfinex,Hong Kong,ACCEPTED
+Bitget,"Victoria, Seychelles",ACCEPTED
+Bitstamp,"Luxembourg City, Luxembourg",ACCEPTED
+Capital.com,"Limassol, Cyprus",ACCEPTED
+Crypto.com,Singapore,ACCEPTED
+eToro,"Tel Aviv, Israel",ACCEPTED
+FTX,"Nassau, Bahamas",ACCEPTED
+Gate.io,"George Town, Cayman Islands",ACCEPTED
+KuCoin,"Victoria, Seychelles",ACCEPTED
+Mt. Gox,"Shibuya, Tokyo, Japan",ACCEPTED
+NiceHash,"Ljubljana, Slovenia",ACCEPTED
+OKX,"Victoria, Seychelles",ACCEPTED
+
+```       
+</li>
+
 <ol>
 
 
