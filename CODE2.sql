@@ -234,8 +234,52 @@ CREATE TABLE BLOCK_REWARD_EMISSION( # BASICALLY WORKS ON HALVING PERIOD BLOCK TI
     CONSTRAINT HALVING_PERIOD_FK_1 FOREIGN KEY (SYMBOL) REFERENCES CRYPTO(SYMBOL)
 );
 
+CREATE TABLE HFT_AMF_FIRMS( # HFT FIRMS AND ASSET MANAGEMENT FINANCIAL FIRMS
+    COMPANY_NAME VARCHAR(200),
+    HEAD_QUARTER VARCHAR(200),
+    ESTABLISHED_YEAR YEAR,
+    WORK_TYPE VARCHAR(500),
+    FAMOUS_FOR VARCHAR(500),
+    CONSTRAINT HFT_ASM_FIRMS PRIMARY KEY (COMPANY_NAME,HEAD_QUARTER,ESTABLISHED_YEAR)
+);
+# DROP TABLE HFT_AMF_FIRMS;
+
+CREATE TABLE ETF_INVESTMENT_TYPE(
+    TYPE VARCHAR(200) PRIMARY KEY,
+    DESCRIPTION TEXT
+);
+INSERT INTO ETF_INVESTMENT_TYPE (TYPE, DESCRIPTION) VALUES
+('SPOT', 'An investment type where the ETF holds the underlying cryptocurrency directly, tracking the spot price of the crypto asset itself. It provides direct exposure to the asset, without any time-based contracts or derivatives.'),
+
+('FUTURES', 'An investment type where the ETF invests in cryptocurrency futures contracts, which are agreements to buy or sell the cryptocurrency at a future date at a predetermined price. It tracks the future price of the crypto asset and may involve roll costs.'),
+
+('SPOT (Converted)', 'An investment type where the ETF holds the underlying cryptocurrency directly, but the asset is converted to a security or trust structure (such as a trust or a fund). This provides exposure to the spot price, but typically through a structured vehicle like Grayscale Bitcoin Trust.');
+
+# DROP TABLE ETF_INVESTMENT_TYPE;
+
+CREATE TABLE CRYPTO_ETF(
+    ETF_NAME VARCHAR(300),
+    ETF_CODE VARCHAR(200),
+    COMPANY_NAME VARCHAR(200),
+    LAUNCH_DATE DATE,
+    YEAR YEAR,
+    TOTAL_AUM_UNDER_ETF DECIMAL(65,20), # IN BILLION USD
+    CRYPTO_SYMBOL VARCHAR(10),
+    ETF_INVESTMENT_TYPE VARCHAR(200),
+    EXPENSE_RATIO DECIMAL(10,5),
+    CHECK ( EXPENSE_RATIO <100),
+    CONSTRAINT CRYPTO_ETF_FK_1 FOREIGN KEY (COMPANY_NAME) REFERENCES HFT_AMF_FIRMS(COMPANY_NAME),
+    CONSTRAINT CRYPTO_ETF_FK_2 FOREIGN KEY (CRYPTO_SYMBOL) REFERENCES CRYPTO(SYMBOL),
+    CONSTRAINT CRYPTO_ETF_PK PRIMARY KEY (ETF_CODE,CRYPTO_SYMBOL)
+);
+
+# DROP TABLE CRYPTO_ETF;
+
+# DROP TABLE BLOCK_REWARD_EMISSION;
+
 SELECT * FROM CRYPTO WHERE SYMBOL='btc';
 
+SELECT * FROM BLOCK_REWARD_EMISSION;
 # INSERT DATA
 
 # BLOCKCHAIN_ACCESS_TYPE DATA
@@ -1112,6 +1156,62 @@ INSERT INTO USER_AMOUNT_IN_BANNED_COUNTRY (YEAR, COUNTRY_CODE, USER_AMOUNT) VALU
 ('2024', 'AFG', 0.00100000000000000000);
 
 # USER_AMOUNT_IN_BANNED_COUNTRY DATA END
+
+INSERT INTO BLOCK_REWARD_EMISSION (SYMBOL, YEAR, DATE, BLOCK_REWARD, HALVING_YEAR_MARKET_PRICE, HALVING_YEAR_MARKET_CAP, NETWORK_HASH_RATE) VALUES
+('BTC', 2012, '2012-11-28', 25.00000000, 13.00, 136.5, 0.0000028),
+('BTC', 2016, '2016-07-09', 12.50000000, 650.00, 10237.5, 2.5),
+('BTC', 2020, '2020-05-11', 6.25, 8700.00, 160280.0, 110.0),
+('BTC', 2024, '2024-04-20', 3.125, 64000.00, 1256000.0, 560.0),
+('LTC', 2015, '2015-08-25', 25.00000000, 2.57, 107.94, 0.000000015),
+('LTC', 2019, '2019-08-05', 12.50000000, 80.70, 5084.1, 0.00035),
+('LTC', 2023, '2023-08-02', 6.25, 75.00, 5512.5, 0.085);
+
+INSERT INTO BLOCK_REWARD_EMISSION (SYMBOL, YEAR, DATE, BLOCK_REWARD, HALVING_YEAR_MARKET_PRICE, HALVING_YEAR_MARKET_CAP, NETWORK_HASH_RATE) VALUES
+('BCH', 2020, '2020-04-08', 6.25, 240.00, 4380000000.00, 1500000000000000000.00),
+('BCH', 2024, '2024-04-04', 3.125, 370.93, 7178000000.00, 3500000000000000000.00),
+('XMR', 2022, '2022-05-31', 0.6, 226.00, 3899500000.00, 2500000000.00);
+
+
+INSERT INTO HFT_AMF_FIRMS (COMPANY_NAME, HEAD_QUARTER, ESTABLISHED_YEAR, WORK_TYPE, FAMOUS_FOR) VALUES
+('BlackRock', 'New York, USA', 1988, 'Asset Management', 'Largest asset manager globally; iShares ETF'),
+
+('Fidelity', 'Boston, USA', 1946, 'Asset Management', 'Early institutional crypto adopter; Fidelity Digital Assets'),
+
+('Grayscale', 'Stamford, USA', 2013, 'Digital Asset Management', 'Grayscale Bitcoin Trust (GBTC); Crypto investment pioneer'),
+
+('ProShares', 'Bethesda, USA', 2006, 'ETF Provider', 'Launched first U.S. Bitcoin Futures ETF (BITO)'),
+
+('VanEck', 'New York, USA', 1955, 'Asset & ETF Management', 'Crypto & Gold ETFs; XBTF Futures ETF'),
+
+('ARK Invest', 'St. Petersburg, USA', 2014, 'Active Asset Management', 'Disruptive innovation; Cathie Wood-led crypto investments'),
+
+('21Shares', 'Zurich, Switzerland', 2018, 'Crypto ETP Provider', 'World’s first crypto ETPs listed in Europe'),
+
+('Franklin Templeton', 'San Mateo, USA', 1947, 'Asset Management', 'Entered crypto ETF space in 2024'),
+
+('Bitwise', 'San Francisco, USA', 2017, 'Crypto Asset Management', 'Index-based crypto funds; Spot Bitcoin ETF (BITB)'),
+
+('Virtu Financial', 'New York, USA', 2008, 'High-Frequency Trading (HFT)', 'Global market maker; algorithmic trading'),
+
+('Jane Street', 'New York, USA', 2000, 'High-Frequency Trading (HFT)', 'Major ETF liquidity provider; active in crypto market'),
+
+('Jump Trading', 'Chicago, USA', 1999, 'Proprietary Trading & HFT', 'Deep in crypto market making; Jump Crypto');
+
+
+
+INSERT INTO CRYPTO_ETF
+(ETF_NAME, ETF_CODE, COMPANY_NAME, LAUNCH_DATE, YEAR, TOTAL_AUM_UNDER_ETF, CRYPTO_SYMBOL, ETF_INVESTMENT_TYPE, EXPENSE_RATIO)
+VALUES
+('iShares Bitcoin Trust', 'IBIT', 'BlackRock', '2024-01-11', 2024, 56.70000000000000000000, 'BTC', 'Spot', 0.12000),
+
+('Fidelity Wise Origin Bitcoin Fund', 'FBTC', 'Fidelity', '2024-01-11', 2024, 18.90000000000000000000, 'BTC', 'Spot', 0.25000),
+
+('Grayscale Bitcoin Trust ETF', 'GBTC', 'Grayscale', '2024-01-11', 2024, 18.10000000000000000000, 'BTC', 'Spot (Converted)', 1.50000),
+
+('ProShares Bitcoin Strategy ETF', 'BITO', 'ProShares', '2021-10-19', 2021, 1.70000000000000000000, 'BTC', 'Futures', 0.95000),
+
+('VanEck Bitcoin Strategy ETF', 'XBTF', 'VanEck', '2021-11-15', 2021, 0.70000000000000000000, 'BTC', 'Futures', 0.65000);
+
 
 SELECT * FROM BLOCKCHAIN_ACCESS_TYPE;
 SELECT * FROM BLOCKCHAIN_NETWORK_TYPE;
