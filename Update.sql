@@ -1286,8 +1286,22 @@ INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCEN
 
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
 ('BTN', 'Bhutan', 'RESTRICTED', 66.6, 5.0, 2.5000000000);
-
-
+INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
+('IND', 'India', 'RESTRICTED', 77.7, 7.8, 3400.0000000000);
+INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
+('SVN', 'Slovenia', 'ACCEPTED', 98.5, 4.5, 68.0000000000)
+,('SYC', 'Seychelles', 'ACCEPTED', 95.5, 3.0, 2.0000000000),
+ ('IRL', 'Ireland', 'ACCEPTED', 99.0, 4.8, 589.0000000000),
+ ('CYM', 'Cayman Islands', 'ACCEPTED', 98.0, 3.3, 6.8000000000),
+ ('HKG', 'Hong Kong', 'ACCEPTED', 94.0, 3.3, 368.0000000000),  -- Special Administrative Region of China
+('LUX', 'Luxembourg', 'ACCEPTED', 99.0, 4.8, 89.0000000000),   -- EU member with crypto-friendly laws
+('ARE', 'United Arab Emirates', 'ACCEPTED', 98.0, 3.4, 500.0000000000),  -- Dubai's VARA regulations
+('CYP', 'Cyprus', 'ACCEPTED', 97.5, 6.8, 28.0000000000),       -- EU member with crypto tax incentives
+# ('SGP', 'Singapore', 'ACCEPTED', 97.0, 2.1, 466.0000000000),   -- MAS-regulated framework
+('ISR', 'Israel', 'ACCEPTED', 97.0, 3.6, 520.0000000000),      -- Crypto taxed but not banned
+('BHS', 'Bahamas', 'ACCEPTED', 95.0, 10.1, 13.0000000000)
+ ;
+                                                                                                                  ;
 # ACCEPTED COUNTRY DATA START
 INSERT INTO ACCEPTED_COUNTRY (COUNTRY_CODE, RESTRICTIONS, CRYPTO_ATMS, ACCEPTED_YEAR)
 VALUES
@@ -1554,5 +1568,9 @@ SELECT UPPER('create table Controversy(
     constraint Controversy_pk primary key (id),
     constraint Controversy_fk foreign key (brokerage_name) references Brokerage(name),
     constraint Controversy_fk2 foreign key (affected_crypto) references AllCrypto(symbol)
-);')
+);');
 
+
+# QUERY FOR THIS BROKERAGE WHOSE HEADQUARTER IN THIS KIND OF COUNTRY WHERE CRYPTO IS ACCEPTED
+SELECT BROKERAGE.NAME,BROKERAGE.HEADQUARTER,COUNTRY.CRYPTO_STATUS FROM BROKERAGE JOIN COUNTRY WHERE COUNTRY.CRYPTO_STATUS='ACCEPTED' AND BROKERAGE.HEADQUARTER LIKE
+                                                                                                     CONCAT('%',COUNTRY.COUNTRY_NAME,'%');
