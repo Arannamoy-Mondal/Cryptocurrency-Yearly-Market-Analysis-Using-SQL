@@ -22,7 +22,7 @@
 
 
 ## Schema Diagram:
-<img src="Schema.png">
+<img src="CRYPTO_MARKET_ANALYSIS_PROJECT_DATABASE8.png">
 
 ## Sample Query:
 
