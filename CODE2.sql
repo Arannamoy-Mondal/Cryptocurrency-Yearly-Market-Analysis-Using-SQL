@@ -161,7 +161,42 @@ CREATE TABLE MARKET_DOMINANCE(
   CONSTRAINT MARKETDOMINANCE_YEAR_FK1 FOREIGN KEY (YEAR) REFERENCES TOTAL_USER_DISTRIBUTION(YEAR)
 );
 
+
+
 DROP TABLE MARKET_DOMINANCE;
+
+
+CREATE TABLE ACCEPTED_COUNTRY(
+  COUNTRY_CODE VARCHAR(50),
+  COUNTRY_NAME VARCHAR(200),
+  RESTRICTIONS VARCHAR(200),
+  CRYPTO_ATMS INT NOT NULL,
+  ACCEPTED_YEAR YEAR,
+  CONSTRAINT ACCEPTEDCOUNTRY_PK PRIMARY KEY (COUNTRY_CODE,COUNTRY_NAME)
+);
+
+
+CREATE TABLE BANNED_COUNTRY(
+  COUNTRY_CODE VARCHAR(50),
+  COUNTRY_NAME VARCHAR(200),
+  RESTRICTIONS VARCHAR(200),
+  CRYPTO_ATMS INT NOT NULL,
+  ACCEPTED_YEAR YEAR,
+  CONSTRAINT ACCEPTEDCOUNTRY_PK PRIMARY KEY (COUNTRY_CODE,COUNTRY_NAME)
+);
+
+
+CREATE TABLE ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO(
+    YEAR YEAR,
+    COUNTRY_CODE VARCHAR(50),
+    CRYPTO_SYMBOL VARCHAR(10),
+    USER_PERCENTAGE DECIMAL(10,5),
+    CHECK ( USER_PERCENTAGE<=100 ),
+    CONSTRAINT ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO_PK PRIMARY KEY (YEAR,COUNTRY_CODE,CRYPTO_SYMBOL),
+    CONSTRAINT ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO_FK_1 FOREIGN KEY (COUNTRY_CODE) REFERENCES ACCEPTED_COUNTRY(COUNTRY_CODE),
+    CONSTRAINT ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO_FK_2 FOREIGN KEY (CRYPTO_SYMBOL) REFERENCES CRYPTO(SYMBOL)
+);
+
 # INSERT DATA
 
 # BLOCKCHAIN_ACCESS_TYPE DATA
@@ -738,6 +773,124 @@ VALUES
 # MARKET_DOMINANCE DATA END
 
 
+# ACCEPTED COUNTRY DATA START
+INSERT INTO ACCEPTED_COUNTRY (COUNTRY_CODE, COUNTRY_NAME, RESTRICTIONS, CRYPTO_ATMS, ACCEPTED_YEAR)
+VALUES
+('USA', 'United States', 'Legal (regulated as property/commodity, FinCEN oversight)', 27000, 2013),
+('CAN', 'Canada', 'Legal (regulated under AML/CFT laws, taxed as capital gains)', 2500, 2014),
+('SLV', 'El Salvador', 'Bitcoin is legal tender (mandatory acceptance, IMF restrictions)', 200, 2021),
+('DEU', 'Germany', 'Legal (tax-free after 1-year holding, MiCA compliance)', 500, 2013),
+('JPN', 'Japan', 'Legal (regulated as payment method, strict AML rules)', 1000, 2017),
+('AUS', 'Australia', 'Legal (regulated, taxed as property, AML/CTF compliance)', 400, 2017),
+('CHE', 'Switzerland', 'Legal (crypto-friendly, FINMA oversight)', 150, 2014),
+('GBR', 'United Kingdom', 'Legal (regulated, taxed as assets, FCA authorization)', 300, 2014),
+('SGP', 'Singapore', 'Legal (regulated under Payment Services Act)', 200, 2019),
+('KOR', 'South Korea', 'Legal (regulated, strict KYC/AML compliance)', 100, 2017),
+('BTN', 'Bhutan', 'Legal (state-managed Bitcoin mining for reserves)', 0, 2020),
+('CZE', 'Czech Republic', 'Legal (exploring reserve, MiCA compliance)', 50, 2025);
+# ACCEPTED COUNTRY DATA END
+
+
+# BANNED COUNTRY DATA START
+INSERT INTO BANNED_COUNTRY (COUNTRY_CODE, COUNTRY_NAME, RESTRICTIONS, CRYPTO_ATMS, ACCEPTED_YEAR)
+VALUES
+('CHN', 'China', 'Banned (exchanges, trading, mining; financial stability, capital flight)', 10, 2021),
+('DZA', 'Algeria', 'Banned (ownership, transactions; money laundering, terrorism financing)', 0, 2018),
+('BGD', 'Bangladesh', 'Banned (fines, imprisonment; financial stability, illicit activities)', 5, 2017),
+('NPL', 'Nepal', 'Banned (trading, use; fraud, financial stability)', 0, 2021),
+('AFG', 'Afghanistan', 'Banned (Taliban rule; financial instability, Islamic law)', 0, 2022),
+('EGY', 'Egypt', 'Banned (haram under Islamic law; money laundering, volatility)', 2, 2018),
+('IRQ', 'Iraq', 'Banned (financial crime, consumer protection; patchy enforcement)', 1, 2017),
+('MAR', 'Morocco', 'Banned (financial crime, instability; possible legalization 2025)', 3, 2017),
+('QAT', 'Qatar', 'Banned (QFCRA prohibits all crypto activities)', 0, 2018),
+('TUN', 'Tunisia', 'Banned (limited data; financial stability concerns)', 0, 2018);
+# BANNED COUNTRY DATA END
+
+# ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
+INSERT INTO ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO (YEAR, COUNTRY_CODE, CRYPTO_SYMBOL, USER_PERCENTAGE)
+VALUES
+-- United States (USA): 2013-2024
+(2013, 'USA', 'BTC', 95.00000), -- BTC dominates early
+(2013, 'USA', 'XRP', 4.00000),
+(2014, 'USA', 'BTC', 90.00000),
+(2014, 'USA', 'XRP', 5.00000),
+(2014, 'USA', 'USDT', 4.00000), -- USDT launched 2014
+(2015, 'USA', 'BTC', 80.00000),
+(2015, 'USA', 'ETH', 10.00000), -- ETH launched 2015
+(2015, 'USA', 'USDT', 5.00000),
+(2015, 'USA', 'XRP', 4.00000),
+(2017, 'USA', 'BTC', 60.00000), -- ICO boom, altcoins grow
+(2017, 'USA', 'ETH', 20.00000),
+(2017, 'USA', 'USDT', 10.00000),
+(2017, 'USA', 'DOGE', 3.00000), -- DOGE launched 2013, gains traction
+(2017, 'USA', 'XRP', 3.00000),
+(2017, 'USA', 'BNB', 2.00000), -- BNB, ADA launched 2017
+(2017, 'USA', 'ADA', 2.00000),
+(2020, 'USA', 'BTC', 50.00000), -- DeFi, NFTs boost altcoins
+(2020, 'USA', 'ETH', 20.00000),
+(2020, 'USA', 'USDT', 10.00000),
+(2020, 'USA', 'DOGE', 8.00000),
+(2020, 'USA', 'SOL', 3.00000), -- SOL, DOT launched 2020
+(2020, 'USA', 'ADA', 2.00000),
+(2020, 'USA', 'DOT', 2.00000),
+(2020, 'USA', 'XRP', 2.00000),
+(2020, 'USA', 'BNB', 2.00000),
+(2024, 'USA', 'BTC', 50.00000), -- Matches previous 2024 estimate
+(2024, 'USA', 'ETH', 20.00000),
+(2024, 'USA', 'USDT', 10.00000),
+(2024, 'USA', 'DOGE', 8.00000),
+(2024, 'USA', 'SOL', 5.00000),
+(2024, 'USA', 'ADA', 2.00000),
+(2024, 'USA', 'DOT', 2.00000),
+(2024, 'USA', 'XRP', 1.50000),
+(2024, 'USA', 'BNB', 1.00000),
+-- El Salvador (SLV): 2021-2024 (BTC legal tender)
+(2021, 'SLV', 'BTC', 90.00000),
+(2021, 'SLV', 'ETH', 5.00000),
+(2021, 'SLV', 'USDT', 2.00000),
+(2021, 'SLV', 'DOGE', 1.00000),
+(2021, 'SLV', 'SOL', 0.50000),
+(2021, 'SLV', 'ADA', 0.50000),
+(2021, 'SLV', 'DOT', 0.50000),
+(2021, 'SLV', 'XRP', 0.50000),
+(2021, 'SLV', 'BNB', 0.50000),
+(2024, 'SLV', 'BTC', 85.00000),
+(2024, 'SLV', 'ETH', 5.00000),
+(2024, 'SLV', 'USDT', 3.00000),
+(2024, 'SLV', 'DOGE', 1.00000),
+(2024, 'SLV', 'SOL', 1.00000),
+(2024, 'SLV', 'ADA', 1.00000),
+(2024, 'SLV', 'DOT', 1.00000),
+(2024, 'SLV', 'XRP', 1.00000),
+(2024, 'SLV', 'BNB', 1.00000),
+-- Singapore (SGP): 2019-2024 (DeFi, trading hub)
+(2019, 'SGP', 'BTC', 60.00000),
+(2019, 'SGP', 'ETH', 20.00000),
+(2019, 'SGP', 'USDT', 10.00000),
+(2019, 'SGP', 'DOGE', 3.00000),
+(2019, 'SGP', 'XRP', 3.00000),
+(2019, 'SGP', 'BNB', 2.00000),
+(2019, 'SGP', 'ADA', 2.00000),
+(2020, 'SGP', 'BTC', 45.00000),
+(2020, 'SGP', 'ETH', 25.00000),
+(2020, 'SGP', 'USDT', 15.00000),
+(2020, 'SGP', 'DOGE', 3.00000),
+(2020, 'SGP', 'SOL', 3.00000),
+(2020, 'SGP', 'ADA', 3.00000),
+(2020, 'SGP', 'DOT', 3.00000),
+(2020, 'SGP', 'XRP', 2.00000),
+(2020, 'SGP', 'BNB', 2.00000),
+(2024, 'SGP', 'BTC', 35.00000), -- Matches previous 2024 estimate
+(2024, 'SGP', 'ETH', 25.00000),
+(2024, 'SGP', 'USDT', 20.00000),
+(2024, 'SGP', 'DOGE', 3.00000),
+(2024, 'SGP', 'SOL', 7.00000),
+(2024, 'SGP', 'ADA', 5.00000),
+(2024, 'SGP', 'DOT', 5.00000),
+(2024, 'SGP', 'XRP', 3.00000),
+(2024, 'SGP', 'BNB', 3.00000);
+
+# ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
 SELECT * FROM BLOCKCHAIN_ACCESS_TYPE;
 SELECT * FROM BLOCKCHAIN_NETWORK_TYPE;
 SELECT * FROM CONSENSUS_ALGORITHM_TYPE;
@@ -763,74 +916,12 @@ INSERT INTO Test VALUES (1840445685000.00005);
 SELECT * FROM Test;
 
 
-SELECT UPPER('INSERT INTO MarketDominance (year, symbol, total_value, dominance) VALUES
-(2009, ''BTC'', 0.00001, 100.00),
-(2010, ''BTC'', 0.001, 100.00),
-(2011, ''BTC'', 0.01, 100.00),
-(2012, ''BTC'', 0.1, 95.00),
-(2013, ''BTC'', 1.2, 80.00),
-(2013, ''DOGE'', 0.001, 0.07),
-(2014, ''BTC'', 4.0, 80.00),
-(2014, ''DOGE'', 0.02, 0.40),
-(2014, ''USDT'', 0.01, 0.20),
-(2014, ''XMR'', 0.01, 0.20),
-(2015, ''BTC'', 5.0, 71.43),
-(2015, ''ETH'', 0.7, 10.00),
-(2015, ''DOGE'', 0.02, 0.29),
-(2015, ''USDT'', 0.02, 0.29),
-(2015, ''XMR'', 0.01, 0.14),
-(2016, ''BTC'', 12.0, 70.59),
-(2016, ''ETH'', 1.5, 8.82),
-(2016, ''DOGE'', 0.03, 0.18),
-(2016, ''USDT'', 0.05, 0.29),
-(2016, ''XMR'', 0.1, 0.59),
-(2017, ''BTC'', 320.0, 53.33),
-(2017, ''ETH'', 70.0, 11.67),
-(2017, ''DOGE'', 0.2, 0.03),
-(2017, ''USDT'', 1.0, 0.17),
-(2017, ''XMR'', 2.0, 0.33),
-(2018, ''BTC'', 70.0, 53.85),
-(2018, ''ETH'', 15.0, 11.54),
-(2018, ''DOGE'', 0.2, 0.15),
-(2018, ''USDT'', 2.0, 1.54),
-(2018, ''XMR'', 1.0, 0.77),
-(2019, ''BTC'', 130.0, 54.17),
-(2019, ''ETH'', 20.0, 8.33),
-(2019, ''DOGE'', 0.3, 0.13),
-(2019, ''USDT'', 4.0, 1.67),
-(2019, ''XMR'', 1.5, 0.63),
-(2020, ''BTC'', 500.0, 65.79),
-(2020, ''ETH'', 80.0, 10.53),
-(2020, ''DOGE'', 0.5, 0.07),
-(2020, ''USDT'', 15.0, 1.97),
-(2020, ''XMR'', 2.5, 0.33),
-(2020, ''SOL'', 0.1, 0.01),
-(2020, ''DOT'', 3.0, 0.39),
-(2021, ''BTC'', 1300.0, 59.09),
-(2021, ''ETH'', 400.0, 18.18),
-(2021, ''DOGE'', 50.0, 2.27),
-(2021, ''USDT'', 60.0, 2.73),
-(2021, ''XMR'', 5.0, 0.23),
-(2021, ''SOL'', 70.0, 3.18),
-(2021, ''DOT'', 30.0, 1.36),
-(2022, ''BTC'', 400.0, 50.00),
-(2022, ''ETH'', 150.0, 18.75),
-(2022, ''DOGE'', 10.0, 1.25),
-(2022, ''USDT'', 65.0, 8.13),
-(2022, ''XMR'', 2.0, 0.25),
-(2022, ''SOL'', 15.0, 1.88),
-(2022, ''DOT'', 5.0, 0.63),
-(2023, ''BTC'', 1000.0, 58.82),
-(2023, ''ETH'', 250.0, 14.71),
-(2023, ''DOGE'', 15.0, 0.88),
-(2023, ''USDT'', 90.0, 5.29),
-(2023, ''XMR'', 3.0, 0.18),
-(2023, ''SOL'', 50.0, 2.94),
-(2023, ''DOT'', 7.0, 0.41),
-(2024, ''BTC'', 1880.0, 63.30),
-(2024, ''ETH'', 217.0, 7.31),
-(2024, ''DOGE'', 25.0, 0.84),
-(2024, ''USDT'', 100.0, 3.37),
-(2024, ''XMR'', 4.0, 0.13),
-(2024, ''SOL'', 90.0, 3.03),
-(2024, ''DOT'', 10.0, 0.34);')
+SELECT UPPER('create table AcceptedCountry(
+  country_id int auto_increment,
+  symbol varchar(10),
+  country_name varchar(200),
+  restrictions varchar(200),
+  crypto_atms int not null,
+  constraint AcceptedCountry_fk foreign key (symbol) references AllCrypto(symbol),
+  constraint AcceptedCountry_pk primary key (country_id)
+);')
