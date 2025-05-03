@@ -2,8 +2,8 @@
 
 ## License
 
-This project is licensed under the Apache License 2.0.  
-See the [LICENSE](./LICENSE) file for more details.
+> This project is licensed under the Apache License 2.0.  
+> See the [LICENSE](./LICENSE) file for more details.
 
 ## 📚 Description: This project focuses on analyzing the cryptocurrency market using SQL. It covers various aspects like global adoption, blockchain type (like as: Public, Private, Hybrid, Consortium), blockchain network type (like as: Layer-1, Layer-2), consensus algorithm type (like as: PoS, PoW, PoC etc.), every year market cap, market dominance, transaction speeds, brokerage holdings, yearly returns, exchange traded fund, brokerage market dominance,controversy.
 
