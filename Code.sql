@@ -45,10 +45,10 @@ insert into Consensus_algorithm_type (type) values ('PoH');
 insert into Consensus_algorithm_type (type) values ('PoH+PoS+BFT');
 
 
-# Consensus_algorithm_type table end
+-- Consensus_algorithm_type table end
 
 
-# BlockChainNetwork_type table start
+-- BlockChainNetwork_type table start
 create table BlockChainNetwork_type(
     type varchar(200),
     constraint BlockChainNetwork_type_pk primary key (type)
@@ -56,10 +56,10 @@ create table BlockChainNetwork_type(
 
 insert into BlockChainNetwork_type (type) values ('Layer-1'),('Layer-2'),('Layer-3');
 
-# BlockChainNetwork_type table end
+-- BlockChainNetwork_type table end
 
 
-# AllCrypto table start
+-- AllCrypto table start
 
 create table AllCrypto(
   crypto_id int auto_increment,
@@ -86,7 +86,7 @@ create table AllCrypto(
 
 alter table AllCrypto modify column max_total_market_cap varchar(200) not null; -- only for mysql
 alter table AllCrypto modify column min_total_market_cap varchar(200) not null; -- only for mysql
-# alter table AllCrypto add column symbol varchar(10) not null unique;
+-- alter table AllCrypto add column symbol varchar(10) not null unique;
 alter table AllCrypto modify column total_supply varchar(200) not null;
 alter table AllCrypto modify column circulating_supply varchar(200) not null ;
 alter table AllCrypto modify column max_price float;
@@ -94,7 +94,7 @@ alter table AllCrypto modify column min_price float;
 alter table AllCrypto add column current_market_cap float not null ;
 
 alter table AllCrypto drop column current_market_cap;
-# AllCrypto table start
+-- AllCrypto table start
 
 select * from AllCrypto;
 
@@ -142,13 +142,13 @@ create table MarketDominance(
 );
 
 
-# insert into MarketDominance (year, symbol, total_value,dominance)
-# values (2009,'BTC',0.00001,100),
-#        (2013,'BTC',1.2,80),
-#        (2013,'LTC',0.15,10),
-#        (2013,'XRP',0.05,3.3),
-#        (2017,'BTC',320,53),
-#        (2017,'ETH',70,11.7);
+-- insert into MarketDominance (year, symbol, total_value,dominance)
+-- values (2009,'BTC',0.00001,100),
+--        (2013,'BTC',1.2,80),
+--        (2013,'LTC',0.15,10),
+--        (2013,'XRP',0.05,3.3),
+--        (2017,'BTC',320,53),
+--        (2017,'ETH',70,11.7);
 
 select year,symbol,concat(total_value,' billion') as market_cap,concat(dominance,' %') as market_dominance
 from MarketDominance;
@@ -230,28 +230,28 @@ INSERT INTO TotalUserDistribution (year, asia_user, north_america_user, america_
 
 
 
-# INSERT INTO TotalUserDistribution (year, total_user_in_word, total_user)
-# VALUES
-#     (2008, '1 Thousand', 1000),
-#     (2009, '10 Thousand', 10000),
-#     (2010, '100 Thousand', 100000),
-#     (2011, '500 Thousand', 500000),
-#     (2012, '1 Million', 1000000),
-#     (2013, '3 Million', 3000000),
-#     (2014, '5 Million', 5000000),
-#     (2015, '10 Million', 10000000),
-#     (2016, '20 Million', 20000000),
-#     (2017, '30 Million', 30000000),
-#     (2018, '35 Million', 35000000),
-#     (2019, '45 Million', 45000000),
-#     (2020, '101 Million', 101000000),
-#     (2021, '295 Million', 295000000),
-#     (2022, '425 Million', 425000000),
-#     (2023, '580 Million', 580000000),
-#     (2024, '620 Million', 620000000),
-#     (2025, '660 Million', 660000000);
+-- INSERT INTO TotalUserDistribution (year, total_user_in_word, total_user)
+-- VALUES
+--     (2008, '1 Thousand', 1000),
+--     (2009, '10 Thousand', 10000),
+--     (2010, '100 Thousand', 100000),
+--     (2011, '500 Thousand', 500000),
+--     (2012, '1 Million', 1000000),
+--     (2013, '3 Million', 3000000),
+--     (2014, '5 Million', 5000000),
+--     (2015, '10 Million', 10000000),
+--     (2016, '20 Million', 20000000),
+--     (2017, '30 Million', 30000000),
+--     (2018, '35 Million', 35000000),
+--     (2019, '45 Million', 45000000),
+--     (2020, '101 Million', 101000000),
+--     (2021, '295 Million', 295000000),
+--     (2022, '425 Million', 425000000),
+--     (2023, '580 Million', 580000000),
+--     (2024, '620 Million', 620000000),
+--     (2025, '660 Million', 660000000);
 
-# drop table TotalUserDistribution;
+-- drop table TotalUserDistribution;
 
 
 select year,
@@ -276,8 +276,8 @@ where timediff(T2.year,T1.year)=1;
 ;
 
 
-create table HedgeFundHFTAFM( # table for corporate organization who used cryto as a alternative asset
-#   id int auto_increment,
+create table HedgeFundHFTAFM( -- table for corporate organization who used cryto as a alternative asset
+--   id int auto_increment,
     company_name varchar(200) not null ,
     country_name varchar(200) not null ,
     company_type enum('High-Frequency Trading (HFT) Firms','Asset Management Firms','Crypto Funds'),
@@ -319,9 +319,9 @@ insert into EFTAsTransactionByAMF (etf_company, etf_crpto_symbol, etf_total_cap,
 
 drop table EFTAsTransactionByAMF;
 
-# delete
-# from AllCrypto
-# where symbol='ETH';
+-- delete
+-- from AllCrypto
+-- where symbol='ETH';
 
 
 insert into Consensus_algorithm_type (type) values
@@ -412,7 +412,7 @@ INSERT INTO AllCrypto (
 
 ;
 
-# drop table AllCrypto;
+-- drop table AllCrypto;
 
 create table Brokerage(
     name varchar(200),
@@ -458,7 +458,7 @@ INSERT INTO Brokerage (name, hq, established_year, own_crypto_currency) VALUES
 ;
 drop table Brokerage;
 
-# delete from Brokerage where name='Coinbase';
+-- delete from Brokerage where name='Coinbase';
 
 select * from Brokerage order by name asc;
 
@@ -540,7 +540,7 @@ INSERT INTO Top_Brokerage (year, brokerage_name, total_market_cap, market_share,
 (2025, 'Crypto.com', 0.00000, 11.20000, 15.00000),
 (2025, 'Kraken', 0.00000, 5.00000, 10.00000);
 
-# drop table Top_Brokerage;
+-- drop table Top_Brokerage;
 
 select * from Top_Brokerage order by year asc;
 
@@ -688,18 +688,18 @@ INSERT INTO CryptoPerformanceMetrics (symbol, tps, electricity_per_txn_kwh, txn_
 values ('MATIC',  65000.0, 0.0001, 0.001);
 
 
-# sample query
-# Sort top 10 Cryptocurrency by ascending order depend on max price
+-- sample query
+-- Sort top 10 Cryptocurrency by ascending order depend on max price
 select *
 from AllCrypto order by max_price asc limit 10;
 
-# # Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
+-- -- Sort top 10 Cryptocurrency by ascending order depend on max price except the 3 lowest max price
 select * from AllCrypto order by max_price asc limit 10 offset 2;
 
-# Query for only PoS currencies
+-- Query for only PoS currencies
 select * from AllCrypto where consensus_algorithm='PoS';
 
-# Market Growth And User Growth Of Every Year From 2009 To 2025
+-- Market Growth And User Growth Of Every Year From 2009 To 2025
 
 select T2.year,
        concat(T2.total_user,' million') as total_user,
@@ -711,7 +711,7 @@ where timediff(T2.year,T1.year)=1;
 ;
 
 
-# query for only these currency which consensus algo is 'Layer-1'
+-- query for only these currency which consensus algo is 'Layer-1'
 select MarketDominance.year,MarketDominance.symbol,concat(MarketDominance.total_value,' billion'),concat(MarketDominance.dominance,'%') from MarketDominance join AllCrypto  where MarketDominance.symbol=AllCrypto.symbol
 and AllCrypto.blockchain_network_type='Layer-1';
 
@@ -720,12 +720,12 @@ select *
 from AllCrypto where symbol='DOGE';
 
 
-# which country has highest atm booth for 'AuxPoW' consensus algorithm.
+-- which country has highest atm booth for 'AuxPoW' consensus algorithm.
 select AcceptedCountry.country_name from AcceptedCountry join AllCrypto where AcceptedCountry.symbol=AllCrypto.symbol and AllCrypto.consensus_algorithm='AuxPoW';
 
 select * from AllCrypto where consensus_algorithm like '%PoS%';
 
-# market growth of PoS (Ethereum), PoS from 2015 to 2016
+-- market growth of PoS (Ethereum), PoS from 2015 to 2016
 with  tmp as (select MarketDominance.year,MarketDominance.symbol,MarketDominance.total_value
               ,MarketDominance.dominance
               from MarketDominance join AllCrypto where AllCrypto.consensus_algorithm like '%PoS%' and AllCrypto.symbol=MarketDominance.symbol)
@@ -736,22 +736,22 @@ and tmp2.year>=2015 and tmp2.year<=2016 order by tmp1.dominance desc ;
 select * from MarketDominance where symbol='ETH' and (year=2015 or year=2016);
 
 
-# controversies occur due to hacked
+-- controversies occur due to hacked
 select * from Controversy where controversy_detail like '%hack%';
 
-# query for those company who has not launch etf yet
+-- query for those company who has not launch etf yet
 
 with tmp as (select * from HedgeFundHFTAFM as giant left join EFTAsTransactionByAMF EATBA on giant.company_name = EATBA.etf_company)
 select tmp.company_name,tmp.country_name,tmp.company_type from tmp where tmp.etf_name is null;
 ;
 
-# query for those broker who has no controversies
+-- query for those broker who has no controversies
 
 with tmp as (select * from Brokerage as br left join Controversy C on br.name = C.brokerage_name)
 select tmp.name from tmp where tmp.affected_crypto is null;
 
 
-# if a broker get 1 reward for 1 controversy which broker got 1s place
+-- if a broker get 1 reward for 1 controversy which broker got 1s place
 with tmp as (select brokerage_name,count(brokerage_name) as reward from Controversy group by brokerage_name)
 select * from tmp order by reward desc limit 1;
 
@@ -783,11 +783,11 @@ CREATE TABLE BLOCKCHAIN_ACCESS_TYPE(
     DESCRIPTION TEXT NOT NULL
 );
 
-# TEST 1
+-- TEST 1
 INSERT INTO BLOCKCHAIN_ACCESS_TYPE VALUES ('PUBLIC','Open to everyone; decentralized, permissionless, and transparent.');
 DELETE  FROM BLOCKCHAIN_ACCESS_TYPE;
 SELECT * FROM BLOCKCHAIN_ACCESS_TYPE;
-# DROP TABLE BLOCKCHAIN_ACCESS_TYPE;
+-- DROP TABLE BLOCKCHAIN_ACCESS_TYPE;
 
 
 CREATE TABLE BLOCKCHAIN_TOKEN_TYPE(
@@ -795,11 +795,11 @@ CREATE TABLE BLOCKCHAIN_TOKEN_TYPE(
     DESCRIPTION TEXT NOT NULL
 );
 
-# TEST
+-- TEST
 INSERT INTO BLOCKCHAIN_TOKEN_TYPE VALUES ('Native Coin','Primary currency of a blockchain');
 DELETE FROM BLOCKCHAIN_TOKEN_TYPE;
 SELECT * FROM BLOCKCHAIN_TOKEN_TYPE;
-# DROP TABLE BLOCKCHAIN_TOKEN_TYPE;
+-- DROP TABLE BLOCKCHAIN_TOKEN_TYPE;
 
 CREATE TABLE CONSENSUS_ALGORITHM_TYPE(
     TYPE VARCHAR(200) PRIMARY KEY NOT NULL ,
@@ -807,8 +807,8 @@ CREATE TABLE CONSENSUS_ALGORITHM_TYPE(
 );
 
 
-# DELETE FROM CONSENSUS_ALGORITHM_TYPE;
-# DROP TABLE CONSENSUS_ALGORITHM_TYPE;
+-- DELETE FROM CONSENSUS_ALGORITHM_TYPE;
+-- DROP TABLE CONSENSUS_ALGORITHM_TYPE;
 
 CREATE TABLE BLOCKCHAIN_NETWORK_TYPE(
     TYPE VARCHAR(200) PRIMARY KEY NOT NULL ,
@@ -817,8 +817,8 @@ CREATE TABLE BLOCKCHAIN_NETWORK_TYPE(
     KEY_FEATURES TEXT NOT NULL
 );
 
-# INSERT INTO BLOCKCHAIN_NETWORK_TYPE VALUES ('LAYER-1','Base blockchain');
-# DROP TABLE BLOCKCHAIN_NETWORK_TYPE;
+-- INSERT INTO BLOCKCHAIN_NETWORK_TYPE VALUES ('LAYER-1','Base blockchain');
+-- DROP TABLE BLOCKCHAIN_NETWORK_TYPE;
 
 CREATE TABLE HASH_ALGO_NAME(
     NAME VARCHAR(200) NOT NULL ,
@@ -832,8 +832,8 @@ CREATE TABLE HASH_ALGO_NAME(
     CONSTRAINT HASH_ALGO_NAME_PK PRIMARY KEY (NAME,CONSENSUS_ALGORITHM_TYPE)
 );
 
-# DROP TABLE HASH_ALGO_NAME;
-# DELETE FROM HASH_ALGO_NAME;
+-- DROP TABLE HASH_ALGO_NAME;
+-- DELETE FROM HASH_ALGO_NAME;
 
 
 CREATE TABLE CRYPTO(
@@ -848,16 +848,16 @@ CREATE TABLE CRYPTO(
     CIRCULATING_SUPPLY DECIMAL(65,15) NOT NULL ,
 
     BLOCKCHAIN_ACCESS_TYPE VARCHAR(200) NOT NULL ,
-#     ------------------------
+--     ------------------------
     CONSENSUS_ALGORITHM_TYPE VARCHAR(200) NOT NULL ,
-#     ----------------------------
+--     ----------------------------
     BLOCKCHAIN_NETWORK_TYPE VARCHAR(200) NOT NULL ,
 
     BLOCKCHAIN_TOKEN_TYPE VARCHAR(200) NOT NULL,
-#    ------------------------------
+--    ------------------------------
     HASH_ALGO_NAME VARCHAR(200),
 
-#   --------------------------------
+--   --------------------------------
 
     FOUNDER VARCHAR(200) NOT NULL ,
     INITIAL_RELEASE_YEAR YEAR NOT NULL,
@@ -878,17 +878,17 @@ CREATE TABLE CRYPTO(
 );
 
 ALTER TABLE CRYPTO MODIFY COLUMN TOTAL_SUPPLY DECIMAL(65,15);
-# NAME, SYMBOL, CURRENT_MARKET_CAP, MAX_PRICE, MAX_PRICE_DATE, MIN_PRICE, MIN_PRICE_DATE,
-#     TOTAL_SUPPLY, CIRCULATING_SUPPLY, BLOCKCHAIN_ACCESS_TYPE, CONSENSUS_ALGORITHM_TYPE,
-#     BLOCKCHAIN_NETWORK_TYPE, BLOCKCHAIN_TOKEN_TYPE, HASH_ALGO_NAME,
-#     FOUNDER, INITIAL_RELEASE_YEAR, OFFICIAL_WEBSITE, DESCRIPTION_FOR_MAJOR_CHANGES_LIKE_AS_MERGE
+-- NAME, SYMBOL, CURRENT_MARKET_CAP, MAX_PRICE, MAX_PRICE_DATE, MIN_PRICE, MIN_PRICE_DATE,
+--     TOTAL_SUPPLY, CIRCULATING_SUPPLY, BLOCKCHAIN_ACCESS_TYPE, CONSENSUS_ALGORITHM_TYPE,
+--     BLOCKCHAIN_NETWORK_TYPE, BLOCKCHAIN_TOKEN_TYPE, HASH_ALGO_NAME,
+--     FOUNDER, INITIAL_RELEASE_YEAR, OFFICIAL_WEBSITE, DESCRIPTION_FOR_MAJOR_CHANGES_LIKE_AS_MERGE
 DROP TABLE CRYPTO;
 
 SELECT * FROM CRYPTO;
 
-# INSERT DATA
+-- INSERT DATA
 
-# BLOCKCHAIN_ACCESS_TYPE DATA
+-- BLOCKCHAIN_ACCESS_TYPE DATA
 
 INSERT INTO BLOCKCHAIN_ACCESS_TYPE (
     TYPE,
@@ -906,7 +906,7 @@ INSERT INTO BLOCKCHAIN_ACCESS_TYPE (
 
 
 
-# BLOCKCHAIN_TOKEN_TYPE DATA
+-- BLOCKCHAIN_TOKEN_TYPE DATA
 
 INSERT INTO BLOCKCHAIN_TOKEN_TYPE (
     TYPE,
@@ -921,7 +921,7 @@ INSERT INTO BLOCKCHAIN_TOKEN_TYPE (
 
 INSERT INTO BLOCKCHAIN_TOKEN_TYPE (TYPE, DESCRIPTION)
 VALUES ('MEME TOKEN','Meme tokens are cryptocurrencies driven by internet culture, humor, and community hype, often lacking fundamental utility. They gain traction through social media (e.g., Reddit, Twitter) and viral trends.');
-# CONSENSUS_ALGORITHM_TYPE DATA
+-- CONSENSUS_ALGORITHM_TYPE DATA
     -- Insert new consensus algorithms with descriptions
 INSERT INTO CONSENSUS_ALGORITHM_TYPE (TYPE, DESCRIPTION) VALUES
 ('PoW', 'Proof of Work: Miners solve cryptographic puzzles to validate transactions. Used by Bitcoin (BTC), Litecoin (LTC), and Dogecoin (DOGE).'),
@@ -955,7 +955,7 @@ INSERT INTO CONSENSUS_ALGORITHM_TYPE (TYPE, DESCRIPTION) VALUES
 ('PoA', 'Proof of Authority: Pre-approved validators with identity stakes. Used by VeChain (VET).');
 
 
-# BLOCKCHAIN_NETWORK_TYPE
+-- BLOCKCHAIN_NETWORK_TYPE
     INSERT INTO BLOCKCHAIN_NETWORK_TYPE (TYPE, DESCRIPTION, EXAMPLES, KEY_FEATURES) VALUES
 ('Layer-0',
  'Protocols enabling cross-chain interoperability and multi-chain infrastructure.',
@@ -999,7 +999,7 @@ INSERT INTO CONSENSUS_ALGORITHM_TYPE (TYPE, DESCRIPTION) VALUES
 
 
 
-# HASH_ALGO_NAME TABLE DATA
+-- HASH_ALGO_NAME TABLE DATA
 INSERT INTO HASH_ALGO_NAME (NAME, CONSENSUS_ALGORITHM_TYPE, DESCRIPTION, HARDWARE_TYPE, PROS, CONS, ENERGY_EFFICIENCY) VALUES
 ('SHA-256', 'PoW', 'Secure Hash Algorithm 256-bit, developed by the NSA, produces a 256-bit hash. Used for Bitcoin mining and transaction verification, ensuring data integrity through deterministic output.', 'ASIC, GPU', 'High security, widely adopted, resistant to collisions, standardized by NIST.', 'High computational power required, ASIC dominance centralizes mining, vulnerable to length extension attacks.', 'LOW'),
 ('Scrypt', 'PoW', 'A memory-intensive hash function designed to reduce ASIC advantage, used for mining Litecoin and Dogecoin. Produces a hash through iterative computations.', 'ASIC, GPU, CPU', 'Memory-hard, reduces ASIC dominance, supports CPU/GPU mining, faster than SHA-256.', 'Still vulnerable to ASIC mining, less secure than SHA-256 against certain attacks.', 'MODERATE'),
@@ -1026,7 +1026,7 @@ INSERT INTO HASH_ALGO_NAME VALUES ('N/A', 'PoS',
                                   ,'N/A','N/A','N/A','HIGH');
 
 
-# CRYPTO DATA START
+-- CRYPTO DATA START
 
 
 INSERT INTO CRYPTO (
@@ -1136,7 +1136,7 @@ INSERT INTO CRYPTO (
 -- 50. Ondo
 ('Ondo', 'ONDO', 3.330000000000000, '2024-03-31', 0.810000000000000, '2024-01-18', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Nathan Allman', 2024, 'https://ondo.finance', 'RWA tokenization launch (2024)');
 
-# CRYPTO DATA END
+-- CRYPTO DATA END
 
 
 SELECT * FROM BLOCKCHAIN_ACCESS_TYPE;
