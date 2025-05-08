@@ -1,3 +1,4 @@
+>> N.B. These queries will run without errors in MSSQL, but in other databases, they may cause errors, and they may or may not run again after fixing the errors.
 <ol>
 <li>
 
