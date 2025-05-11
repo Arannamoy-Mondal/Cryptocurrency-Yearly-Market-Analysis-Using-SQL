@@ -18,6 +18,458 @@
 - Exchange Traded Fund (ETF's).
 - Brokerages’ Holdings Overview and Controversy
 
+
+# Table Description:
+
+## 1. BLOCKCHAIN_ACCESS_TYPE
+**Description:** Stores types of blockchain access (public/private)  
+**Attributes:**  
+- `TYPE` (VARCHAR(200) **PK** NOT NULL  
+- `DESCRIPTION` (TEXT) NOT NULL  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO  
+**Real-Time Usage:** Regulatory compliance categorization
+
+## 2. BLOCKCHAIN_TOKEN_TYPE
+**Description:** Defines token types (utility/security)  
+**Attributes:**  
+- `TYPE` (VARCHAR(200) **PK** NOT NULL  
+- `DESCRIPTION` (TEXT) NOT NULL  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO  
+**Real-Time Usage:** Token classification for taxation
+RIBUTION
+**Description:** Global user distribution by region  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- Regional user counts (7 columns)  
+- `TOTAL_USER_IN_WORD` (DECIMAL(38,15))  
+- `TOTAL_MARKET_CAP` (DECIMAL(38,15))  
+**Normalization:** 2NF  
+**Cardinality:** 1:N with MARKET_DOMINANCE  
+**Real-Time Usage:** Regional adoption tracking
+
+## 9. MARKET_DOMINANCE
+**Description:** Annual market share tracking  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- Price extremes (4 columns)  
+- `TOTAL_MARKET_CAP_OF_THIS_CURRENCY` (DECIMAL(38,10))  
+- `DOMINANCE` (FLOAT) CHECK(<=100)  
+- Transaction/user metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with CRYPTO  
+**Real-Time Usage:** Market share analysis
+
+## 10. COUNTRY
+**Description:** National crypto regulations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK**  
+- `COUNTRY_NAME` (VARCHAR(200))  
+- `CRYPTO_STATUS` (VARCHAR(20)) CHECK  
+- Socioeconomic metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with 3 related tables  
+**Real-Time Usage:** Regulatory compliance mapping
+
+## 11. ACCEPTED_COUNTRY
+**Description:** Crypto-friendly nations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `RESTRICTIONS` (VARCHAR(200))  
+- `CRYPTO_ATMS` (INT) NOT NULL  
+- `ACCEPTED_YEAR` (INT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with COUNTRY  
+**Real-Time Usage:** ATM deployment planning
+
+## 12. BANNED_COUNTRY
+**Description:** Crypto-restricted nations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `RESTRICTIONS` (VARCHAR(200))  
+- `CRYPTO_ATMS` (INT) NOT NULL  
+- `BANNED_YEAR` (INT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with COUNTRY  
+**Real-Time Usage:** Regulatory risk assessment
+
+## 13. USER_AMOUNT_IN_BANNED_COUNTRY
+**Description:** Illicit usage tracking  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `USER_AMOUNT` (DECIMAL(38,20))  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with COUNTRY  
+**Real-Time Usage:** Compliance monitoring
+
+## 14. ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO
+**Description:** Regional crypto popularity  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `CRYPTO_SYMBOL` (VARCHAR(10)) **PK** FK  
+- `USER_PERCENTAGE` (DECIMAL(10,5)) CHECK(<=100)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with COUNTRY/CRYPTO  
+**Real-Time Usage:** Regional marketing strategies
+
+## 15. BLOCK_REWARD_EMISSION_TYPE
+**Description:** Reward distribution models  
+**Attributes:**  
+- `TYPE` (VARCHAR(50)) **PK**  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with REWARD_DETAILS  
+**Real-Time Usage:** Supply schedule analysis
+
+## 16. REWARD_DETAILS
+**Description:** Mining reward specifics  
+**Attributes:**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- `EMISSION_TYPE` (VARCHAR(50)) FK  
+- Emission metrics (4 columns)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with CRYPTO  
+**Real-Time Usage:** Miner incentive tracking
+
+## 17. BLOCK_REWARD_EMISSION
+**Description:** Historical reward changes  
+**Attributes:**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- `YEAR` (INT) **PK**  
+- `DATE` (DATE)  
+- Market/hash metrics (4 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with CRYPTO  
+**Real-Time Usage:** Halving event analysis
+
+## 18. HFT_AMF_FIRMS
+**Description:** Trading firms data  
+**Attributes:**  
+- `COMPANY_NAME` (VARCHAR(200)) **PK**  
+- `HEAD_QUARTER` (VARCHAR(200))  
+- `ESTABLISHED_YEAR` (INT)  
+- `WORK_TYPE` (VARCHAR(500))  
+- `FAMOUS_FOR` (VARCHAR(500))  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO_ETF  
+**Real-Time Usage:** Market influence tracking
+
+## 19. ETF_INVESTMENT_TYPE
+**Description:** ETF classification  
+**Attributes:**  
+- `TYPE` (VARCHAR(200)) **PK**  
+- `DESCRIPTION` (TEXT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO_ETF  
+**Real-Time Usage:** ETF risk categorization
+
+## 20. CRYPTO_ETF
+**Description:** ETF details  
+**Attributes:**  
+- `ETF_NAME` (VARCHAR(300))  
+- `ETF_CODE` (VARCHAR(200)) **PK**  
+- `COMPANY_NAME` (VARCHAR(200)) FK  
+- `LAUNCH_DATE` (DATE)  
+- `YEAR` (INT)  
+- `TOTAL_AUM_UNDER_ETF` (DECIMAL(38,20))  
+- `CRYPTO_SYMBOL` (VARCHAR(10)) **PK** FK  
+- `ETF_INVESTMENT_TYPE` (VARCHAR(200)) FK  
+- `EXPENSE_RATIO` (DECIMAL(10,5)) CHECK(<100)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with 3 related tables  
+**Real-Time Usage:** ETF performance comparison
+
+## 21. BROKERAGE
+**Description:** Exchange platforms  
+**Attributes:**  
+- `NAME` (VARCHAR(200)) **PK**  
+- `HEADQUARTER` (VARCHAR(200))  
+- `ESTABLISHED_YEAR` (INT)  
+- `OWN_CRYPTO_CURRENCY` (VARCHAR(10))  
+- `FOUNDER_NAME` (VARCHAR(200))  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with 2 related tables  
+**Real-Time Usage:** Exchange reliability assessment
+
+## 22. TOP_BROKERAGE
+**Description:** Leading exchanges  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `BROKERAGE_NAME` (VARCHAR(200)) **PK** FK  
+- Market metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with BROKERAGE  
+**Real-Time Usage:** Market leadership tracking
+
+## 23. CONTROVERSY
+**Description:** Brokerage incidents  
+**Attributes:**  
+- `YEAR` (INT)  
+- `BROKERAGE_NAME` (VARCHAR(200)) FK  
+- `CONTROVERSY_DETAIL` (VARCHAR(400))  
+- `AFFECTED_CRYPTO` (VARCHAR(10)) FK  
+- `AFFECTED_AMOUNT_IN_BILLION` (DECIMAL(38,10))  
+**Normalization:** 2NF (Recommended PK: YEAR+BROKERAGE_NAME)  
+**Cardinality:** N:1 with BROKERAGE  
+**Real-Time Usage:** Risk management database
+## 3. CONSENSUS_ALGORITHM_TYPE
+**Description:** Stores consensus mechanisms (PoW/PoS)  
+**Attributes:**  
+- `TYPE` (VARCHAR(200) **PK** NOT NULL  
+- `DESCRIPTION` (TEXT) NOT NULL  
+**Normalization:** 3NF  
+**Cardinality:**  
+- 1:N with CRYPTO  
+- 1:N with HASH_ALGO_NAME  
+**Real-Time Usage:** Energy efficiency analysis
+
+## 4. BLOCKCHAIN_NETWORK_TYPE
+**Description:** Network types (mainnet/testnet)  
+**Attributes:**  
+- `TYPE` (VARCHAR(200) **PK** NOT NULL  
+- `DESCRIPTION` (TEXT) NOT NULL  
+- `EXAMPLES` (TEXT) NOT NULL  
+- `KEY_FEATURES` (TEXT) NOT NULL  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO  
+**Real-Time Usage:** Network capability comparison
+
+## 5. HASH_ALGO_NAME
+**Description:** Hash algorithms and hardware specs  
+**Attributes:**  
+- `NAME` (VARCHAR(200) **PK** NOT NULL  
+- `CONSENSUS_ALGORITHM_TYPE` (VARCHAR(200) **PK** NOT NULL  
+- `DESCRIPTION` (VARCHAR(MAX) NOT NULL  
+- `HARDWARE_TYPE` (VARCHAR(200) NOT NULL  
+- `PROS` (VARCHAR(MAX) NOT NULL  
+- `CONS` (VARCHAR(MAX) NOT NULL  
+- `ENERGY_EFFICIENCY` (VARCHAR(10) CHECK('HIGH','LOW','MODERATE')  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with CONSENSUS_ALGORITHM_TYPE  
+**Real-Time Usage:** Mining hardware optimization
+
+## 6. CRYPTO
+**Description:** Core cryptocurrency details  
+**Attributes:**  
+- `NAME` (VARCHAR(200)) NOT NULL  
+- `SYMBOL` (VARCHAR(10)) **PK** NOT NULL  
+- `MAX_PRICE` (DECIMAL(38,15)) NOT NULL  
+- `MIN_PRICE` (DECIMAL(38,15)) NOT NULL  
+- `MAX_PRICE_DATE` (DATE)  
+- `MIN_PRICE_DATE` (DATE)  
+- `TOTAL_SUPPLY` (DECIMAL(38,15)) NOT NULL  
+- `CIRCULATING_SUPPLY` (DECIMAL(38,15)) NOT NULL  
+- `BLOCKCHAIN_ACCESS_TYPE` (VARCHAR(200)) FK NOT NULL  
+- `CONSENSUS_ALGORITHM_TYPE` (VARCHAR(200)) FK NOT NULL  
+- `BLOCKCHAIN_NETWORK_TYPE` (VARCHAR(200)) FK NOT NULL  
+- `BLOCKCHAIN_TOKEN_TYPE` (VARCHAR(200)) FK NOT NULL  
+- `HASH_ALGO_NAME` (VARCHAR(200)) FK  
+- `HASH_ALGO_CONSENSUS_TYPE` (VARCHAR(200)) FK  
+- `FOUNDER` (VARCHAR(200)) NOT NULL  
+- `INITIAL_RELEASE_YEAR` (INT) NOT NULL  
+- `OFFICIAL_WEBSITE` (VARCHAR(100)) NOT NULL  
+- `DESCRIPTION_FOR_MAJOR_CHANGES` (VARCHAR(MAX)) NOT NULL  
+**Normalization:** 3NF  
+**Cardinality:**  
+- 1:N with 7 related tables  
+- N:1 with 4 lookup tables  
+**Real-Time Usage:** Central reference for all crypto analysis
+
+## 7. CRYPTO_CURRENCY_PERFORMANCE_METRICS
+**Description:** Performance and energy metrics  
+**Attributes:**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- `TRANSACTION_PER_SECOND` (DECIMAL(38,15))  
+- `AVERAGE_TRX_FEE` (DECIMAL(38,15))  
+- `ELECTRICITY_COST_PER_BLOCK` (DECIMAL(38,15))  
+- `HEAT_IMMERSION_PER_TX` (DECIMAL(38,2))  
+- `HASH_RATE_PER_UNIT` (VARCHAR(50))  
+- `TOTAL_USERS` (DECIMAL(38,0))  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with CRYPTO  
+**Real-Time Usage:** Environmental impact assessment
+
+## 8. TOTAL_USER_DISTRIBUTION
+**Description:** Global user distribution by region  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- Regional user counts (7 columns)  
+- `TOTAL_USER_IN_WORD` (DECIMAL(38,15))  
+- `TOTAL_MARKET_CAP` (DECIMAL(38,15))  
+**Normalization:** 2NF  
+**Cardinality:** 1:N with MARKET_DOMINANCE  
+**Real-Time Usage:** Regional adoption tracking
+
+## 9. MARKET_DOMINANCE
+**Description:** Annual market share tracking  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- Price extremes (4 columns)  
+- `TOTAL_MARKET_CAP_OF_THIS_CURRENCY` (DECIMAL(38,10))  
+- `DOMINANCE` (FLOAT) CHECK(<=100)  
+- Transaction/user metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with CRYPTO  
+**Real-Time Usage:** Market share analysis
+
+## 10. COUNTRY
+**Description:** National crypto regulations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK**  
+- `COUNTRY_NAME` (VARCHAR(200))  
+- `CRYPTO_STATUS` (VARCHAR(20)) CHECK  
+- Socioeconomic metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with 3 related tables  
+**Real-Time Usage:** Regulatory compliance mapping
+
+## 11. ACCEPTED_COUNTRY
+**Description:** Crypto-friendly nations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `RESTRICTIONS` (VARCHAR(200))  
+- `CRYPTO_ATMS` (INT) NOT NULL  
+- `ACCEPTED_YEAR` (INT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with COUNTRY  
+**Real-Time Usage:** ATM deployment planning
+
+## 12. BANNED_COUNTRY
+**Description:** Crypto-restricted nations  
+**Attributes:**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `RESTRICTIONS` (VARCHAR(200))  
+- `CRYPTO_ATMS` (INT) NOT NULL  
+- `BANNED_YEAR` (INT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with COUNTRY  
+**Real-Time Usage:** Regulatory risk assessment
+
+## 13. USER_AMOUNT_IN_BANNED_COUNTRY
+**Description:** Illicit usage tracking  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `USER_AMOUNT` (DECIMAL(38,20))  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with COUNTRY  
+**Real-Time Usage:** Compliance monitoring
+
+## 14. ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO
+**Description:** Regional crypto popularity  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `COUNTRY_CODE` (VARCHAR(50)) **PK** FK  
+- `CRYPTO_SYMBOL` (VARCHAR(10)) **PK** FK  
+- `USER_PERCENTAGE` (DECIMAL(10,5)) CHECK(<=100)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with COUNTRY/CRYPTO  
+**Real-Time Usage:** Regional marketing strategies
+
+## 15. BLOCK_REWARD_EMISSION_TYPE
+**Description:** Reward distribution models  
+**Attributes:**  
+- `TYPE` (VARCHAR(50)) **PK**  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with REWARD_DETAILS  
+**Real-Time Usage:** Supply schedule analysis
+
+## 16. REWARD_DETAILS
+**Description:** Mining reward specifics  
+**Attributes:**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- `EMISSION_TYPE` (VARCHAR(50)) FK  
+- Emission metrics (4 columns)  
+**Normalization:** 3NF  
+**Cardinality:** 1:1 with CRYPTO  
+**Real-Time Usage:** Miner incentive tracking
+
+## 17. BLOCK_REWARD_EMISSION
+**Description:** Historical reward changes  
+**Attributes:**  
+- `SYMBOL` (VARCHAR(10)) **PK** FK  
+- `YEAR` (INT) **PK**  
+- `DATE` (DATE)  
+- Market/hash metrics (4 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with CRYPTO  
+**Real-Time Usage:** Halving event analysis
+
+## 18. HFT_AMF_FIRMS
+**Description:** Trading firms data  
+**Attributes:**  
+- `COMPANY_NAME` (VARCHAR(200)) **PK**  
+- `HEAD_QUARTER` (VARCHAR(200))  
+- `ESTABLISHED_YEAR` (INT)  
+- `WORK_TYPE` (VARCHAR(500))  
+- `FAMOUS_FOR` (VARCHAR(500))  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO_ETF  
+**Real-Time Usage:** Market influence tracking
+
+## 19. ETF_INVESTMENT_TYPE
+**Description:** ETF classification  
+**Attributes:**  
+- `TYPE` (VARCHAR(200)) **PK**  
+- `DESCRIPTION` (TEXT)  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with CRYPTO_ETF  
+**Real-Time Usage:** ETF risk categorization
+
+## 20. CRYPTO_ETF
+**Description:** ETF details  
+**Attributes:**  
+- `ETF_NAME` (VARCHAR(300))  
+- `ETF_CODE` (VARCHAR(200)) **PK**  
+- `COMPANY_NAME` (VARCHAR(200)) FK  
+- `LAUNCH_DATE` (DATE)  
+- `YEAR` (INT)  
+- `TOTAL_AUM_UNDER_ETF` (DECIMAL(38,20))  
+- `CRYPTO_SYMBOL` (VARCHAR(10)) **PK** FK  
+- `ETF_INVESTMENT_TYPE` (VARCHAR(200)) FK  
+- `EXPENSE_RATIO` (DECIMAL(10,5)) CHECK(<100)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with 3 related tables  
+**Real-Time Usage:** ETF performance comparison
+
+## 21. BROKERAGE
+**Description:** Exchange platforms  
+**Attributes:**  
+- `NAME` (VARCHAR(200)) **PK**  
+- `HEADQUARTER` (VARCHAR(200))  
+- `ESTABLISHED_YEAR` (INT)  
+- `OWN_CRYPTO_CURRENCY` (VARCHAR(10))  
+- `FOUNDER_NAME` (VARCHAR(200))  
+**Normalization:** 3NF  
+**Cardinality:** 1:N with 2 related tables  
+**Real-Time Usage:** Exchange reliability assessment
+
+## 22. TOP_BROKERAGE
+**Description:** Leading exchanges  
+**Attributes:**  
+- `YEAR` (INT) **PK**  
+- `BROKERAGE_NAME` (VARCHAR(200)) **PK** FK  
+- Market metrics (3 columns)  
+**Normalization:** 3NF  
+**Cardinality:** N:1 with BROKERAGE  
+**Real-Time Usage:** Market leadership tracking
+
+## 23. CONTROVERSY
+**Description:** Brokerage incidents  
+**Attributes:**  
+- `YEAR` (INT)  
+- `BROKERAGE_NAME` (VARCHAR(200)) FK  
+- `CONTROVERSY_DETAIL` (VARCHAR(400))  
+- `AFFECTED_CRYPTO` (VARCHAR(10)) FK  
+- `AFFECTED_AMOUNT_IN_BILLION` (DECIMAL(38,10))  
+**Normalization:** 2NF (Recommended PK: YEAR+BROKERAGE_NAME)  
+**Cardinality:** N:1 with BROKERAGE  
+**Real-Time Usage:** Risk management database
+
 ## ⚠️ Caution
 > **Note:**  
 > The data used in this project was collected from various public sources for educational and analytical purposes only.  
