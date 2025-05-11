@@ -115,7 +115,7 @@ or CONSENSUS_ALGORITHM_TYPE='PoS' or CONSENSUS_ALGORITHM_TYPE='AuxPoW';
 
 <li>
 
-`Write a query to display (Combine the list of cryptocurrency symbols from countries where cryptocurrencies are accepted(ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO) and those from banned countries (USER_AMOUNT_IN_BANNED_COUNTRY) for the year 2024.`
+`Query For Which cryptocurrencies were either the most used in various countries or involved in any controversy in the year 2024?`
 
 ```sql
 --UNION
