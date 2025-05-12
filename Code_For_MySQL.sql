@@ -14,7 +14,7 @@
 
 CREATE DATABASE CRYPTO_MARKET_ANALYSIS_PROJECT_DATABASE;
 
-SHOW VARIABLES LIKE 'datadir';
+SHOW VARIABLES LIKE 'DATADIR';
 
 USE CRYPTO_MARKET_ANALYSIS_PROJECT_DATABASE;
 
@@ -72,14 +72,14 @@ CREATE TABLE CRYPTO(
     BLOCKCHAIN_ACCESS_TYPE VARCHAR(200) NOT NULL ,
 
     CONSENSUS_ALGORITHM_TYPE VARCHAR(200) NOT NULL ,
-#     ----------------------------
+
     BLOCKCHAIN_NETWORK_TYPE VARCHAR(200) NOT NULL ,
 
     BLOCKCHAIN_TOKEN_TYPE VARCHAR(200) NOT NULL,
-#    ------------------------------
+
     HASH_ALGO_NAME VARCHAR(200),
 
-#   --------------------------------
+
 
     FOUNDER VARCHAR(200) NOT NULL ,
     INITIAL_RELEASE_YEAR YEAR NOT NULL,
@@ -106,8 +106,8 @@ CREATE TABLE CRYPTO_CURRENCY_PERFORMANCE_METRICS(
     SYMBOL VARCHAR(10),
     TRANSACTION_PER_SECOND DECIMAL(65,15),
     AVERAGE_TRX_FEE DECIMAL(65,15),
-    ELECTRICITY_COST_PER_BLOCK DECIMAL(65,15), # USD PER BLOCK
-    HEAT_IMMERSION_PER_TX DECIMAL(65,2), # JOULE
+    ELECTRICITY_COST_PER_BLOCK DECIMAL(65,15), -- USD PER BLOCK
+    HEAT_IMMERSION_PER_TX DECIMAL(65,2), -- JOULE
     HASH_RATE_PER_UNIT VARCHAR(50),
     TOTAL_USERS DECIMAL(65,0),
     CONSTRAINT CRYPTO_CURRENCY_PERFORMANCE_METRICS_PK PRIMARY KEY (SYMBOL),
@@ -138,9 +138,9 @@ CREATE TABLE MARKET_DOMINANCE(
   MIN_PRICE_DATE DATE,
   TOTAL_MARKET_CAP_OF_THIS_CURRENCY DECIMAL(65,10),
   DOMINANCE FLOAT,
-  TOTAL_TRANSACTION DECIMAL(65,10), # IN MILLION
-  TOTAL_USER DECIMAL(65,10), # IN MILLION
-  TOTAL_WALLET_COUNT DECIMAL(65,10), # IN MILLION
+  TOTAL_TRANSACTION DECIMAL(65,10), -- IN MILLION
+  TOTAL_USER DECIMAL(65,10), -- IN MILLION
+  TOTAL_WALLET_COUNT DECIMAL(65,10), -- IN MILLION
   CHECK ( DOMINANCE<=100 ),
   CONSTRAINT MARKET_DOMINANCE_SYSMBOL_FK1 FOREIGN KEY (SYMBOL) REFERENCES CRYPTO(SYMBOL),
   CONSTRAINT MARKET_DOMINANCE_PK PRIMARY KEY (SYMBOL,YEAR),
@@ -154,7 +154,7 @@ CREATE TABLE COUNTRY(
     CRYPTO_STATUS ENUM ('ACCEPTED','RESTRICTED','BANNED'),
     EDUCATION_PERCENTAGE FLOAT,
     UNEMPLOYMENT_RATE FLOAT,
-    GDP DECIMAL(65,10) # IN BILLION
+    GDP DECIMAL(65,10) -- IN BILLION
 );
 
 ALTER TABLE COUNTRY ADD CONSTRAINT COUNTRY_PK PRIMARY KEY (COUNTRY_CODE);
@@ -180,8 +180,8 @@ CREATE TABLE BANNED_COUNTRY(
 
 CREATE TABLE USER_AMOUNT_IN_BANNED_COUNTRY(
     YEAR YEAR,
-    COUNTRY_CODE VARCHAR(50), # ACCORDING TO PASSPORT COUNTRY CODE ( International Standardization Organization) ISO
-    USER_AMOUNT DECIMAL(65,20), # MILLION
+    COUNTRY_CODE VARCHAR(50), -- ACCORDING TO PASSPORT COUNTRY CODE ( INTERNATIONAL STANDARDIZATION ORGANIZATION) ISO
+    USER_AMOUNT DECIMAL(65,20), -- MILLION
     CONSTRAINT USER_AMOUNT_IN_BANNED_COUNTRY_PK PRIMARY KEY (YEAR,COUNTRY_CODE),
     CONSTRAINT USER_AMOUNT_IN_BANNED_COUNTRY_FK_1 FOREIGN KEY (COUNTRY_CODE) REFERENCES COUNTRY(COUNTRY_CODE)
 );
@@ -203,36 +203,36 @@ CREATE TABLE BLOCK_REWARD_EMISSION_TYPE(
     TYPE VARCHAR(50) PRIMARY KEY
 );
 
-INSERT INTO BLOCK_REWARD_EMISSION_TYPE (TYPE) VALUES ('HALVING'),('TAIL EMISSION'),('LINEAR EMISSION'); -- Please Insert this
 
-# 10000 10000 0.6 0.8  1m
+
+
 
 CREATE TABLE REWARD_DETAILS(
   SYMBOL VARCHAR(10),
-  EMISSION_TYPE VARCHAR(50), # HALVING, TAIL EMISSION, LINEAR EMISSION
-  EMISSION_TIME DECIMAL(65,0), # HALVING HOUR, TAIL EMISSION TIME, LINEAR EMISSION TIME
+  EMISSION_TYPE VARCHAR(50), -- HALVING, TAIL EMISSION, LINEAR EMISSION
+  EMISSION_TIME DECIMAL(65,0), -- HALVING HOUR, TAIL EMISSION TIME, LINEAR EMISSION TIME
   STARTING_TIME_BLOCK_REWARD DECIMAL(65,5),
   CURRENT_BLOCK_REWARD DECIMAL(65,5),
-  BLOCK_REWARD_TIME DECIMAL(65,30), # MINUTE
+  BLOCK_REWARD_TIME DECIMAL(65,30), -- MINUTE
   CONSTRAINT REWARD_TYPE_PK PRIMARY KEY(SYMBOL),
   CONSTRAINT REWARD_TYPE_FK_1 FOREIGN KEY(SYMBOL) REFERENCES CRYPTO(SYMBOL),
   CONSTRAINT REWARD_TYPE_FK_2 FOREIGN KEY (EMISSION_TYPE) REFERENCES BLOCK_REWARD_EMISSION_TYPE(TYPE)
 );
 
 
-CREATE TABLE BLOCK_REWARD_EMISSION( # BASICALLY WORKS ON HALVING PERIOD BLOCK TIME, HASH RATE
+CREATE TABLE BLOCK_REWARD_EMISSION( -- BASICALLY WORKS ON HALVING PERIOD BLOCK TIME, HASH RATE
     SYMBOL VARCHAR(10),
     YEAR YEAR,
     DATE DATE,
     BLOCK_REWARD DECIMAL(65,10),
     HALVING_YEAR_MARKET_PRICE DECIMAL(65,20),
-    HALVING_YEAR_MARKET_CAP DECIMAL(65,20), # MILLION
-    NETWORK_HASH_RATE DECIMAL(65,0),# EXAHASH
+    HALVING_YEAR_MARKET_CAP DECIMAL(65,20), -- MILLION
+    NETWORK_HASH_RATE DECIMAL(65,0),-- EXAHASH
     CONSTRAINT HALVING_PERIOD_PK PRIMARY KEY (SYMBOL,YEAR),
     CONSTRAINT HALVING_PERIOD_FK_1 FOREIGN KEY (SYMBOL) REFERENCES CRYPTO(SYMBOL)
 );
 
-CREATE TABLE HFT_AMF_FIRMS( # HFT FIRMS AND ASSET MANAGEMENT FINANCIAL FIRMS
+CREATE TABLE HFT_AMF_FIRMS( -- HFT FIRMS AND ASSET MANAGEMENT FINANCIAL FIRMS
     COMPANY_NAME VARCHAR(200),
     HEAD_QUARTER VARCHAR(200),
     ESTABLISHED_YEAR YEAR,
@@ -240,21 +240,20 @@ CREATE TABLE HFT_AMF_FIRMS( # HFT FIRMS AND ASSET MANAGEMENT FINANCIAL FIRMS
     FAMOUS_FOR VARCHAR(500),
     CONSTRAINT HFT_ASM_FIRMS PRIMARY KEY (COMPANY_NAME,HEAD_QUARTER,ESTABLISHED_YEAR)
 );
-# DROP TABLE HFT_AMF_FIRMS;
 
-CREATE TABLE ETF_INVESTMENT_TYPE( # ETF EXCHANGE TRADED FUND
+
+CREATE TABLE ETF_INVESTMENT_TYPE( -- ETF EXCHANGE TRADED FUND
     TYPE VARCHAR(200) PRIMARY KEY,
     DESCRIPTION TEXT
 );
 
 INSERT INTO ETF_INVESTMENT_TYPE (TYPE, DESCRIPTION) VALUES
-('SPOT', 'An investment type where the ETF holds the underlying cryptocurrency directly, tracking the spot price of the crypto asset itself. It provides direct exposure to the asset, without any time-based contracts or derivatives.'),
+('SPOT', 'AN INVESTMENT TYPE WHERE THE ETF HOLDS THE UNDERLYING CRYPTOCURRENCY DIRECTLY, TRACKING THE SPOT PRICE OF THE CRYPTO ASSET ITSELF. IT PROVIDES DIRECT EXPOSURE TO THE ASSET, WITHOUT ANY TIME-BASED CONTRACTS OR DERIVATIVES.'),
 
-('FUTURES', 'An investment type where the ETF invests in cryptocurrency futures contracts, which are agreements to buy or sell the cryptocurrency at a future date at a predetermined price. It tracks the future price of the crypto asset and may involve roll costs.'),
+('FUTURES', 'AN INVESTMENT TYPE WHERE THE ETF INVESTS IN CRYPTOCURRENCY FUTURES CONTRACTS, WHICH ARE AGREEMENTS TO BUY OR SELL THE CRYPTOCURRENCY AT A FUTURE DATE AT A PREDETERMINED PRICE. IT TRACKS THE FUTURE PRICE OF THE CRYPTO ASSET AND MAY INVOLVE ROLL COSTS.'),
 
-('SPOT (Converted)', 'An investment type where the ETF holds the underlying cryptocurrency directly, but the asset is converted to a security or trust structure (such as a trust or a fund). This provides exposure to the spot price, but typically through a structured vehicle like Grayscale Bitcoin Trust.');
+('SPOT (CONVERTED)', 'AN INVESTMENT TYPE WHERE THE ETF HOLDS THE UNDERLYING CRYPTOCURRENCY DIRECTLY, BUT THE ASSET IS CONVERTED TO A SECURITY OR TRUST STRUCTURE (SUCH AS A TRUST OR A FUND). THIS PROVIDES EXPOSURE TO THE SPOT PRICE, BUT TYPICALLY THROUGH A STRUCTURED VEHICLE LIKE GRAYSCALE BITCOIN TRUST.');
 
-# DROP TABLE ETF_INVESTMENT_TYPE;
 
 CREATE TABLE CRYPTO_ETF(
     ETF_NAME VARCHAR(300),
@@ -262,7 +261,7 @@ CREATE TABLE CRYPTO_ETF(
     COMPANY_NAME VARCHAR(200),
     LAUNCH_DATE DATE,
     YEAR YEAR,
-    TOTAL_AUM_UNDER_ETF DECIMAL(65,20), # IN BILLION USD
+    TOTAL_AUM_UNDER_ETF DECIMAL(65,20), -- IN BILLION USD
     CRYPTO_SYMBOL VARCHAR(10),
     ETF_INVESTMENT_TYPE VARCHAR(200),
     EXPENSE_RATIO DECIMAL(10,5),
@@ -273,9 +272,7 @@ CREATE TABLE CRYPTO_ETF(
     CONSTRAINT CRYPTO_ETF_FK_3 FOREIGN KEY (ETF_INVESTMENT_TYPE) REFERENCES ETF_INVESTMENT_TYPE(TYPE)
 );
 
-# DROP TABLE CRYPTO_ETF;
 
-# DROP TABLE BLOCK_REWARD_EMISSION;
 
 
 CREATE TABLE BROKERAGE(
@@ -285,10 +282,9 @@ CREATE TABLE BROKERAGE(
     OWN_CRYPTO_CURRENCY VARCHAR(10),
     FOUNDER_NAME VARCHAR(200),
     CONSTRAINT BROKERAGE_PK PRIMARY KEY (NAME)
-#     CONSTRAINT BROKERAGE_FK FOREIGN KEY (OWN_CRYPTO_CURRENCY) REFERENCES CRYPTO(SYMBOL) ON DELETE CASCADE
 );
 
-# ALTER TABLE BROKERAGE DROP CONSTRAINT BROKERAGE_FK;
+
 
 CREATE TABLE TOP_BROKERAGE(
     YEAR YEAR,
@@ -313,145 +309,145 @@ CREATE TABLE CONTROVERSY(
     CONSTRAINT CONTROVERSY_FK2 FOREIGN KEY (AFFECTED_CRYPTO) REFERENCES CRYPTO(SYMBOL)
 );
 
-# BLOCKCHAIN_ACCESS_TYPE DATA
+
 
 INSERT INTO BLOCKCHAIN_ACCESS_TYPE (
     TYPE,
     DESCRIPTION
 ) VALUES
-('Public',
- 'A blockchain where anyone can join, participate, and validate transactions. It is fully permissionless, meaning there are no restrictions on who can participate in the consensus process. Examples include Bitcoin and Ethereum, where anyone can become a miner or validator. Public blockchains are open for all but can face scalability and transaction speed issues.'),
-('Private',
- 'A blockchain where access is restricted to a specific group of participants, typically controlled by a single organization or consortium. Only authorized participants can join and validate transactions, making it more centralized and secure. Often used for enterprise solutions to handle sensitive data. Examples include Hyperledger and Corda. Private blockchains offer better control but lack the decentralization of public chains.'),
-('Hybrid',
- 'A blockchain that combines elements of both public and private blockchains, allowing some data to be public and other data to remain private. This allows for greater flexibility in terms of transparency and control. For example, sensitive data can be kept private while transaction validation can be made public. Hybrid blockchains offer a balance of transparency, security, and control.'),
-('Consortium',
- 'A blockchain where the network is governed by a group of organizations rather than a single entity. It combines aspects of both private and public blockchains, where only authorized entities can participate as validators. It’s often used in business collaborations to maintain privacy while allowing transparency among the members of the consortium. Examples include Quorum and Ripple. Consortium blockchains provide more decentralized control compared to private blockchains but are still permissioned and restricted to a group of trusted participants.');
+('PUBLIC',
+ 'A BLOCKCHAIN WHERE ANYONE CAN JOIN, PARTICIPATE, AND VALIDATE TRANSACTIONS. IT IS FULLY PERMISSIONLESS, MEANING THERE ARE NO RESTRICTIONS ON WHO CAN PARTICIPATE IN THE CONSENSUS PROCESS. EXAMPLES INCLUDE BITCOIN AND ETHEREUM, WHERE ANYONE CAN BECOME A MINER OR VALIDATOR. PUBLIC BLOCKCHAINS ARE OPEN FOR ALL BUT CAN FACE SCALABILITY AND TRANSACTION SPEED ISSUES.'),
+('PRIVATE',
+ 'A BLOCKCHAIN WHERE ACCESS IS RESTRICTED TO A SPECIFIC GROUP OF PARTICIPANTS, TYPICALLY CONTROLLED BY A SINGLE ORGANIZATION OR CONSORTIUM. ONLY AUTHORIZED PARTICIPANTS CAN JOIN AND VALIDATE TRANSACTIONS, MAKING IT MORE CENTRALIZED AND SECURE. OFTEN USED FOR ENTERPRISE SOLUTIONS TO HANDLE SENSITIVE DATA. EXAMPLES INCLUDE HYPERLEDGER AND CORDA. PRIVATE BLOCKCHAINS OFFER BETTER CONTROL BUT LACK THE DECENTRALIZATION OF PUBLIC CHAINS.'),
+('HYBRID',
+ 'A BLOCKCHAIN THAT COMBINES ELEMENTS OF BOTH PUBLIC AND PRIVATE BLOCKCHAINS, ALLOWING SOME DATA TO BE PUBLIC AND OTHER DATA TO REMAIN PRIVATE. THIS ALLOWS FOR GREATER FLEXIBILITY IN TERMS OF TRANSPARENCY AND CONTROL. FOR EXAMPLE, SENSITIVE DATA CAN BE KEPT PRIVATE WHILE TRANSACTION VALIDATION CAN BE MADE PUBLIC. HYBRID BLOCKCHAINS OFFER A BALANCE OF TRANSPARENCY, SECURITY, AND CONTROL.'),
+('CONSORTIUM',
+ 'A BLOCKCHAIN WHERE THE NETWORK IS GOVERNED BY A GROUP OF ORGANIZATIONS RATHER THAN A SINGLE ENTITY. IT COMBINES ASPECTS OF BOTH PRIVATE AND PUBLIC BLOCKCHAINS, WHERE ONLY AUTHORIZED ENTITIES CAN PARTICIPATE AS VALIDATORS. IT’S OFTEN USED IN BUSINESS COLLABORATIONS TO MAINTAIN PRIVACY WHILE ALLOWING TRANSPARENCY AMONG THE MEMBERS OF THE CONSORTIUM. EXAMPLES INCLUDE QUORUM AND RIPPLE. CONSORTIUM BLOCKCHAINS PROVIDE MORE DECENTRALIZED CONTROL COMPARED TO PRIVATE BLOCKCHAINS BUT ARE STILL PERMISSIONED AND RESTRICTED TO A GROUP OF TRUSTED PARTICIPANTS.');
 
 
 
 
-# BLOCKCHAIN_TOKEN_TYPE DATA
+
 
 INSERT INTO BLOCKCHAIN_TOKEN_TYPE (
     TYPE,
     DESCRIPTION
 ) VALUES
-('Stablecoin', 'A cryptocurrency pegged to a stable asset, such as a fiat currency, to reduce volatility. Examples include USDT (Tether), USDC (USD Coin), and DAI.'),
-('Native Coin', 'The primary cryptocurrency used within its respective blockchain network to pay for transaction fees and services. Examples include Bitcoin (BTC) for Bitcoin, Ether (ETH) for Ethereum, and XRP for Ripple (XRP Ledger).'),
-('Utility Token', 'A type of token that is used within a blockchain ecosystem to access specific features or services. Examples include Binance Coin (BNB), which can be used to pay for transaction fees on Binance.'),
-('Security Token', 'A token that represents an ownership stake or investment in an asset, typically regulated by government agencies. These tokens comply with securities laws. Examples include tZERO and tokenized real estate assets.'),
-('Governance Token', 'A token that grants its holder the right to participate in the decision-making process of a decentralized network or project. Examples include Uniswap (UNI) and Compound (COMP).'),
-('Non-Fungible Token (NFT)', 'A unique, indivisible token that represents ownership of a specific item or asset, such as digital art or collectibles. Examples include CryptoPunks, Bored Ape Yacht Club (BAYC), and Decentraland.');
+('STABLECOIN', 'A CRYPTOCURRENCY PEGGED TO A STABLE ASSET, SUCH AS A FIAT CURRENCY, TO REDUCE VOLATILITY. EXAMPLES INCLUDE USDT (TETHER), USDC (USD COIN), AND DAI.'),
+('NATIVE COIN', 'THE PRIMARY CRYPTOCURRENCY USED WITHIN ITS RESPECTIVE BLOCKCHAIN NETWORK TO PAY FOR TRANSACTION FEES AND SERVICES. EXAMPLES INCLUDE BITCOIN (BTC) FOR BITCOIN, ETHER (ETH) FOR ETHEREUM, AND XRP FOR RIPPLE (XRP LEDGER).'),
+('UTILITY TOKEN', 'A TYPE OF TOKEN THAT IS USED WITHIN A BLOCKCHAIN ECOSYSTEM TO ACCESS SPECIFIC FEATURES OR SERVICES. EXAMPLES INCLUDE BINANCE COIN (BNB), WHICH CAN BE USED TO PAY FOR TRANSACTION FEES ON BINANCE.'),
+('SECURITY TOKEN', 'A TOKEN THAT REPRESENTS AN OWNERSHIP STAKE OR INVESTMENT IN AN ASSET, TYPICALLY REGULATED BY GOVERNMENT AGENCIES. THESE TOKENS COMPLY WITH SECURITIES LAWS. EXAMPLES INCLUDE TZERO AND TOKENIZED REAL ESTATE ASSETS.'),
+('GOVERNANCE TOKEN', 'A TOKEN THAT GRANTS ITS HOLDER THE RIGHT TO PARTICIPATE IN THE DECISION-MAKING PROCESS OF A DECENTRALIZED NETWORK OR PROJECT. EXAMPLES INCLUDE UNISWAP (UNI) AND COMPOUND (COMP).'),
+('NON-FUNGIBLE TOKEN (NFT)', 'A UNIQUE, INDIVISIBLE TOKEN THAT REPRESENTS OWNERSHIP OF A SPECIFIC ITEM OR ASSET, SUCH AS DIGITAL ART OR COLLECTIBLES. EXAMPLES INCLUDE CRYPTOPUNKS, BORED APE YACHT CLUB (BAYC), AND DECENTRALAND.');
 
 INSERT INTO BLOCKCHAIN_TOKEN_TYPE (TYPE, DESCRIPTION)
-VALUES ('MEME TOKEN','Meme tokens are cryptocurrencies driven by internet culture, humor, and community hype, often lacking fundamental utility. They gain traction through social media (e.g., Reddit, Twitter) and viral trends.');
-# CONSENSUS_ALGORITHM_TYPE DATA
-    -- Insert new consensus algorithms with descriptions
+VALUES ('MEME TOKEN','MEME TOKENS ARE CRYPTOCURRENCIES DRIVEN BY INTERNET CULTURE, HUMOR, AND COMMUNITY HYPE, OFTEN LACKING FUNDAMENTAL UTILITY. THEY GAIN TRACTION THROUGH SOCIAL MEDIA (E.G., REDDIT, TWITTER) AND VIRAL TRENDS.');
+
+-- INSERT NEW CONSENSUS ALGORITHMS WITH DESCRIPTIONS
 INSERT INTO CONSENSUS_ALGORITHM_TYPE (TYPE, DESCRIPTION) VALUES
-('PoW', 'Proof of Work: Miners solve cryptographic puzzles to validate transactions. Used by Bitcoin (BTC), Litecoin (LTC), and Dogecoin (DOGE).'),
-('PoS', 'Proof of Stake: Validators stake coins to secure the network. Used by Ethereum (ETH), Avalanche (AVAX), and Cardano (ADA) via Ouroboros.'),
-('PoC', 'Proof of Capacity: Validators allocate disk space to participate. Used by Chia (XCH) and Burstcoin (BURST).'),
-('PoB', 'Proof of Burn: Coins are "burned" (sent to unspendable addresses) to gain mining rights. Rarely used; seen in Slimcoin (SLM).'),
-('PoH', 'Proof of History: Cryptographic clock for ordering transactions. Part of Solana’s (SOL) hybrid consensus.'),
-('PoH+PoS+BFT', 'Hybrid consensus combining Proof of History, Proof of Stake, and Byzantine Fault Tolerance. Used by Solana (SOL) for scalability and security.'),
-('PoSA', 'Proof of Staked Authority: Hybrid of PoS and Proof of Authority, where validators stake tokens and are pre-approved. Used by BNB Chain (BNB).'),
-('PoH+PoS', 'Combination of Proof of History (timestamping) and Proof of Stake. Used by Solana (SOL) for high-speed validation.'),
-('Ripple Protocol', 'Ripple Protocol Consensus Algorithm (RPCA): Trusted validators iteratively agree on transactions. Used by XRP Ledger (XRP).'),
-('Ouroboros PoS', 'Peer-reviewed PoS protocol with epochs and stake pools. Used by Cardano (ADA).'),
-('AuxPoW', 'Auxiliary Proof of Work: Allows merging mining with a parent chain (e.g., Dogecoin (DOGE) mining with Bitcoin).'),
-('Snowman PoS', 'Avalanche Consensus variant optimized for linear blockchains. Used by Avalanche (AVAX) C-Chain.'),
-('PoS (Oracle)', 'Proof of Stake with oracle governance. Used by Chainlink (LINK) for decentralized oracle consensus.'),
-('Governance', 'On-chain governance for protocol upgrades (not strictly consensus). Used by MakerDAO (MKR) and others.'),
-('Tendermint BFT', 'Byzantine Fault Tolerant consensus with instant finality. Used by Cosmos (ATOM) and Terra Classic (LUNC).'),
-('RandomX PoW', 'ASIC-resistant Proof of Work algorithm. Used by Monero (XMR).'),
-('Pure PoS', 'Permissionless PoS with cryptographic randomness. Used by Algorand (ALGO).'),
-('SCP', 'Stellar Consensus Protocol: Federated Byzantine Agreement. Used by Stellar (XLM).'),
-('PoRep/PoSt', 'Proof of Replication/Proof of Spacetime: Storage validation, not blockchain consensus. Used by Filecoin (FIL).'),
-('DPoS', 'Delegated Proof of Stake: Token holders elect block producers. Used by TRON (TRX) and EOS (EOS).'),
-('Nightshade PoS', 'Sharded PoS consensus for parallel transaction processing. Used by NEAR Protocol (NEAR).'),
-('Liquid PoS', 'Liquid staking with delegated validation. Used by Liquidchain (XLC) and derivatives.'),
-('Threshold Relay', 'Random leader election via verifiable delay functions. Used by Internet Computer (ICP).'),
-('Hashgraph aBFT', 'Asynchronous Byzantine Fault Tolerant gossip protocol. Used by Hedera (HBAR).'),
-('Lachesis aBFT', 'DAG-based aBFT consensus for Fantom (FTM).'),
-('PoS (ETH)', 'Ethereum’s Proof of Stake (Gasper consensus). Used by Ethereum (ETH) post-Merge.'),
-('N/A', 'No consensus mechanism (e.g., stablecoins, wrapped tokens, or non-blockchain systems).'),
-('NPoS', 'Nominated Proof of Stake: Token holders nominate validators. Used by Polkadot (DOT).'),
-('PoA', 'Proof of Authority: Pre-approved validators with identity stakes. Used by VeChain (VET).');
-
-
-# BLOCKCHAIN_NETWORK_TYPE
-    INSERT INTO BLOCKCHAIN_NETWORK_TYPE (TYPE, DESCRIPTION, EXAMPLES, KEY_FEATURES) VALUES
-('Layer-0',
- 'Protocols enabling cross-chain interoperability and multi-chain infrastructure.',
- 'Cosmos (ATOM), Polkadot (DOT), Avalanche Subnets',
- 'Inter-blockchain Communication (IBC), shared security, parachains.'),
-
-('Layer-1',
- 'Base blockchain networks with native consensus and security.',
- 'Bitcoin (BTC), Ethereum (ETH), Solana (SOL), Cardano (ADA)',
- 'Proof of Work (PoW), Proof of Stake (PoS), smart contracts.'),
-
-('Layer-2',
- 'Scalability solutions built atop Layer-1 blockchains.',
- 'Optimism (OP), Arbitrum (ARB), Polygon zkEVM, Lightning Network (Bitcoin)',
- 'Rollups (ZK/Optimistic), state channels, inherits L1 security.'),
-
-('Sidechain',
- 'Independent blockchains connected to a Layer-1 via two-way bridges.',
- 'Polygon PoS, Gnosis Chain (xDAI), Ronin (AXS)',
- 'Custom consensus (e.g., PoA), faster transactions, separate security model.'),
-
-('Appchain',
- 'Application-specific blockchains tailored for a single dApp.',
- 'dYdX Chain (Cosmos), Injective (INJ), Osmosis (OSMO)',
- 'High customization, dedicated throughput, often built on Layer-0.'),
-
-('Hybrid Network',
- 'Combines features of multiple layers or consensus models.',
- 'Polygon (PoS + zkEVM), Avalanche (L1 + Subnets)',
- 'Balances decentralization, scalability, and flexibility.'),
-
-('Modular Blockchain',
- 'Separates execution, consensus, and data availability layers.',
- 'Celestia (TIA), EigenLayer, Fuel Network',
- 'Specialized layers (e.g., rollup-focused data availability).'),
-
-('Private/Permissioned',
- 'Restricted access networks for enterprise use cases.',
- 'Hyperledger Fabric, R3 Corda, Quorum',
- 'Centralized governance, high throughput, privacy features.');
+('POW', 'PROOF OF WORK: MINERS SOLVE CRYPTOGRAPHIC PUZZLES TO VALIDATE TRANSACTIONS. USED BY BITCOIN (BTC), LITECOIN (LTC), AND DOGECOIN (DOGE).'),
+('POS', 'PROOF OF STAKE: VALIDATORS STAKE COINS TO SECURE THE NETWORK. USED BY ETHEREUM (ETH), AVALANCHE (AVAX), AND CARDANO (ADA) VIA OUROBOROS.'),
+('POC', 'PROOF OF CAPACITY: VALIDATORS ALLOCATE DISK SPACE TO PARTICIPATE. USED BY CHIA (XCH) AND BURSTCOIN (BURST).'),
+('POB', 'PROOF OF BURN: COINS ARE "BURNED" (SENT TO UNSPENDABLE ADDRESSES) TO GAIN MINING RIGHTS. RARELY USED; SEEN IN SLIMCOIN (SLM).'),
+('POH', 'PROOF OF HISTORY: CRYPTOGRAPHIC CLOCK FOR ORDERING TRANSACTIONS. PART OF SOLANA’S (SOL) HYBRID CONSENSUS.'),
+('POH+POS+BFT', 'HYBRID CONSENSUS COMBINING PROOF OF HISTORY, PROOF OF STAKE, AND BYZANTINE FAULT TOLERANCE. USED BY SOLANA (SOL) FOR SCALABILITY AND SECURITY.'),
+('POSA', 'PROOF OF STAKED AUTHORITY: HYBRID OF POS AND PROOF OF AUTHORITY, WHERE VALIDATORS STAKE TOKENS AND ARE PRE-APPROVED. USED BY BNB CHAIN (BNB).'),
+('POH+POS', 'COMBINATION OF PROOF OF HISTORY (TIMESTAMPING) AND PROOF OF STAKE. USED BY SOLANA (SOL) FOR HIGH-SPEED VALIDATION.'),
+('RIPPLE PROTOCOL', 'RIPPLE PROTOCOL CONSENSUS ALGORITHM (RPCA): TRUSTED VALIDATORS ITERATIVELY AGREE ON TRANSACTIONS. USED BY XRP LEDGER (XRP).'),
+('OUROBOROS POS', 'PEER-REVIEWED POS PROTOCOL WITH EPOCHS AND STAKE POOLS. USED BY CARDANO (ADA).'),
+('AUXPOW', 'AUXILIARY PROOF OF WORK: ALLOWS MERGING MINING WITH A PARENT CHAIN (E.G., DOGECOIN (DOGE) MINING WITH BITCOIN).'),
+('SNOWMAN POS', 'AVALANCHE CONSENSUS VARIANT OPTIMIZED FOR LINEAR BLOCKCHAINS. USED BY AVALANCHE (AVAX) C-CHAIN.'),
+('POS (ORACLE)', 'PROOF OF STAKE WITH ORACLE GOVERNANCE. USED BY CHAINLINK (LINK) FOR DECENTRALIZED ORACLE CONSENSUS.'),
+('GOVERNANCE', 'ON-CHAIN GOVERNANCE FOR PROTOCOL UPGRADES (NOT STRICTLY CONSENSUS). USED BY MAKERDAO (MKR) AND OTHERS.'),
+('TENDERMINT BFT', 'BYZANTINE FAULT TOLERANT CONSENSUS WITH INSTANT FINALITY. USED BY COSMOS (ATOM) AND TERRA CLASSIC (LUNC).'),
+('RANDOMX POW', 'ASIC-RESISTANT PROOF OF WORK ALGORITHM. USED BY MONERO (XMR).'),
+('PURE POS', 'PERMISSIONLESS POS WITH CRYPTOGRAPHIC RANDOMNESS. USED BY ALGORAND (ALGO).'),
+('SCP', 'STELLAR CONSENSUS PROTOCOL: FEDERATED BYZANTINE AGREEMENT. USED BY STELLAR (XLM).'),
+('POREP/POST', 'PROOF OF REPLICATION/PROOF OF SPACETIME: STORAGE VALIDATION, NOT BLOCKCHAIN CONSENSUS. USED BY FILECOIN (FIL).'),
+('DPOS', 'DELEGATED PROOF OF STAKE: TOKEN HOLDERS ELECT BLOCK PRODUCERS. USED BY TRON (TRX) AND EOS (EOS).'),
+('NIGHTSHADE POS', 'SHARDED POS CONSENSUS FOR PARALLEL TRANSACTION PROCESSING. USED BY NEAR PROTOCOL (NEAR).'),
+('LIQUID POS', 'LIQUID STAKING WITH DELEGATED VALIDATION. USED BY LIQUIDCHAIN (XLC) AND DERIVATIVES.'),
+('THRESHOLD RELAY', 'RANDOM LEADER ELECTION VIA VERIFIABLE DELAY FUNCTIONS. USED BY INTERNET COMPUTER (ICP).'),
+('HASHGRAPH ABFT', 'ASYNCHRONOUS BYZANTINE FAULT TOLERANT GOSSIP PROTOCOL. USED BY HEDERA (HBAR).'),
+('LACHESIS ABFT', 'DAG-BASED ABFT CONSENSUS FOR FANTOM (FTM).'),
+('POS (ETH)', 'ETHEREUM’S PROOF OF STAKE (GASPER CONSENSUS). USED BY ETHEREUM (ETH) POST-MERGE.'),
+('N/A', 'NO CONSENSUS MECHANISM (E.G., STABLECOINS, WRAPPED TOKENS, OR NON-BLOCKCHAIN SYSTEMS).'),
+('NPOS', 'NOMINATED PROOF OF STAKE: TOKEN HOLDERS NOMINATE VALIDATORS. USED BY POLKADOT (DOT).'),
+('POA', 'PROOF OF AUTHORITY: PRE-APPROVED VALIDATORS WITH IDENTITY STAKES. USED BY VECHAIN (VET).');
 
 
 
-# HASH_ALGO_NAME TABLE DATA
+INSERT INTO BLOCKCHAIN_NETWORK_TYPE (TYPE, DESCRIPTION, EXAMPLES, KEY_FEATURES) VALUES
+('LAYER-0',
+ 'PROTOCOLS ENABLING CROSS-CHAIN INTEROPERABILITY AND MULTI-CHAIN INFRASTRUCTURE.',
+ 'COSMOS (ATOM), POLKADOT (DOT), AVALANCHE SUBNETS',
+ 'INTER-BLOCKCHAIN COMMUNICATION (IBC), SHARED SECURITY, PARACHAINS.'),
+
+('LAYER-1',
+ 'BASE BLOCKCHAIN NETWORKS WITH NATIVE CONSENSUS AND SECURITY.',
+ 'BITCOIN (BTC), ETHEREUM (ETH), SOLANA (SOL), CARDANO (ADA)',
+ 'PROOF OF WORK (POW), PROOF OF STAKE (POS), SMART CONTRACTS.'),
+
+('LAYER-2',
+ 'SCALABILITY SOLUTIONS BUILT ATOP LAYER-1 BLOCKCHAINS.',
+ 'OPTIMISM (OP), ARBITRUM (ARB), POLYGON ZKEVM, LIGHTNING NETWORK (BITCOIN)',
+ 'ROLLUPS (ZK/OPTIMISTIC), STATE CHANNELS, INHERITS L1 SECURITY.'),
+
+('SIDECHAIN',
+ 'INDEPENDENT BLOCKCHAINS CONNECTED TO A LAYER-1 VIA TWO-WAY BRIDGES.',
+ 'POLYGON POS, GNOSIS CHAIN (XDAI), RONIN (AXS)',
+ 'CUSTOM CONSENSUS (E.G., POA), FASTER TRANSACTIONS, SEPARATE SECURITY MODEL.'),
+
+('APPCHAIN',
+ 'APPLICATION-SPECIFIC BLOCKCHAINS TAILORED FOR A SINGLE DAPP.',
+ 'DYDX CHAIN (COSMOS), INJECTIVE (INJ), OSMOSIS (OSMO)',
+ 'HIGH CUSTOMIZATION, DEDICATED THROUGHPUT, OFTEN BUILT ON LAYER-0.'),
+
+('HYBRID NETWORK',
+ 'COMBINES FEATURES OF MULTIPLE LAYERS OR CONSENSUS MODELS.',
+ 'POLYGON (POS + ZKEVM), AVALANCHE (L1 + SUBNETS)',
+ 'BALANCES DECENTRALIZATION, SCALABILITY, AND FLEXIBILITY.'),
+
+('MODULAR BLOCKCHAIN',
+ 'SEPARATES EXECUTION, CONSENSUS, AND DATA AVAILABILITY LAYERS.',
+ 'CELESTIA (TIA), EIGENLAYER, FUEL NETWORK',
+ 'SPECIALIZED LAYERS (E.G., ROLLUP-FOCUSED DATA AVAILABILITY).'),
+
+('PRIVATE/PERMISSIONED',
+ 'RESTRICTED ACCESS NETWORKS FOR ENTERPRISE USE CASES.',
+ 'HYPERLEDGER FABRIC, R3 CORDA, QUORUM',
+ 'CENTRALIZED GOVERNANCE, HIGH THROUGHPUT, PRIVACY FEATURES.');
+
+
+
+-- HASH_ALGO_NAME TABLE DATA
 INSERT INTO HASH_ALGO_NAME (NAME, CONSENSUS_ALGORITHM_TYPE, DESCRIPTION, HARDWARE_TYPE, PROS, CONS, ENERGY_EFFICIENCY) VALUES
-('SHA-256', 'PoW', 'Secure Hash Algorithm 256-bit, developed by the NSA, produces a 256-bit hash. Used for Bitcoin mining and transaction verification, ensuring data integrity through deterministic output.', 'ASIC, GPU', 'High security, widely adopted, resistant to collisions, standardized by NIST.', 'High computational power required, ASIC dominance centralizes mining, vulnerable to length extension attacks.', 'LOW'),
-('Scrypt', 'PoW', 'A memory-intensive hash function designed to reduce ASIC advantage, used for mining Litecoin and Dogecoin. Produces a hash through iterative computations.', 'ASIC, GPU, CPU', 'Memory-hard, reduces ASIC dominance, supports CPU/GPU mining, faster than SHA-256.', 'Still vulnerable to ASIC mining, less secure than SHA-256 against certain attacks.', 'MODERATE'),
-('X11', 'PoW', 'A chained hashing algorithm using 11 different hash functions, developed for Dash. Energy-efficient and designed to deter ASIC development.', 'GPU, CPU', '30% less power than Scrypt, runs cooler, complex design resists ASICs, high security.', 'Limited adoption, complex implementation, some ASIC development possible.', 'MODERATE'),
-('Ethash', 'PoW', 'Memory-hard algorithm used by Ethereum Classic, designed to be ASIC-resistant and GPU-friendly. Relies on a large DAG (Directed Acyclic Graph) for mining.', 'GPU', 'ASIC-resistant, supports GPU mining, high memory requirements enhance security.', 'High memory usage, complex setup, Ethereum’s move to PoS reduced adoption.', 'LOW'),
-('Equihash', 'PoW', 'A memory-hard algorithm based on the Birthday Problem, used by Zcash. Designed to favor CPU/GPU mining and resist ASICs.', 'GPU, CPU', 'ASIC-resistant, supports standard hardware, high security for privacy coins.', 'Memory-intensive, limited adoption, some ASIC development occurred.', 'MODERATE'),
-('CryptoNight', 'PoW', 'A memory-hard algorithm designed for CPU mining, used by Monero in early versions. Aims to democratize mining by favoring standard PCs.', 'CPU, GPU', 'CPU-friendly, promotes decentralization, resistant to ASICs.', 'Slower performance, limited scalability, Monero moved to RandomX.', 'HIGH'),
-('Keccak-256', 'PoW', 'A cryptographic hash function from the SHA-3 family, used by Ethereum for transaction hashing. Produces a 256-bit hash with high security.', 'GPU, CPU', 'High security, collision-resistant, versatile for non-mining uses.', 'Not optimized for mining, limited PoW use post-Ethereum Merge.', 'MODERATE'),
-('X15', 'PoW', 'A chained algorithm using 15 hash functions, designed for energy efficiency and resistance to cryptographic attacks. Used by smaller coins like BitSend.', 'GPU, CPU', 'Enhanced security through multiple hashes, energy-efficient, resists specialized hardware.', 'Very limited adoption, complex implementation.', 'MODERATE'),
-('Blake2', 'PoW', 'A cryptographic hash function faster than MD5 and SHA-1, used by some smaller PoW coins. Optimized for speed and security.', 'GPU, CPU', 'High speed, secure, immune to length extension attacks.', 'Less tested in large-scale PoW, limited cryptocurrency use.', 'HIGH'),
-('Lyra2RE', 'PoW', 'A memory-hard algorithm used by Vertcoin, designed to be ASIC-resistant and support GPU mining.', 'GPU', 'ASIC-resistant, supports decentralized mining, energy-efficient.', 'Limited adoption, less secure than SHA-256 for large networks.', 'MODERATE'),
-('Groestl', 'PoW', 'A cryptographic hash function from the SHA-3 competition, used by Groestlcoin. Focuses on security and efficiency.', 'GPU, CPU', 'High security, efficient on standard hardware, ASIC-resistant.', 'Limited adoption, less community support.', 'MODERATE'),
-('Quark', 'PoW', 'A lightweight algorithm using multiple hash functions, designed for CPU mining and energy efficiency. Used by QuarkChain.', 'CPU', 'Energy-efficient, CPU-friendly, promotes decentralization.', 'Low adoption, less secure for high-value networks.', 'HIGH'),
-('SHA-1', 'PoW', 'A 160-bit hash function, predecessor to SHA-2, used by some early or niche PoW coins. Less secure but computationally lighter.', 'GPU, CPU', 'Lightweight, fast computation, suitable for low-power devices.', 'Significant cryptographic weaknesses, not secure for modern use.', 'HIGH'),
-('MD5', 'PoW', 'A 128-bit hash function used by some obscure PoW coins. Fast but cryptographically broken.', 'GPU, CPU', 'Very fast, low resource usage.', 'Highly vulnerable to collisions, unsuitable for secure applications.', 'HIGH'),
-('RIPEMD-160', 'PoW', 'A 160-bit hash function from the RIPEMD family, used in some hybrid PoW/PoS coins. Balances security and efficiency.', 'GPU, CPU', 'Secure for smaller networks, efficient on standard hardware.', 'Less secure than SHA-256, limited adoption.', 'MODERATE');
+('SHA-256', 'POW', 'SECURE HASH ALGORITHM 256-BIT, DEVELOPED BY THE NSA, PRODUCES A 256-BIT HASH. USED FOR BITCOIN MINING AND TRANSACTION VERIFICATION, ENSURING DATA INTEGRITY THROUGH DETERMINISTIC OUTPUT.', 'ASIC, GPU', 'HIGH SECURITY, WIDELY ADOPTED, RESISTANT TO COLLISIONS, STANDARDIZED BY NIST.', 'HIGH COMPUTATIONAL POWER REQUIRED, ASIC DOMINANCE CENTRALIZES MINING, VULNERABLE TO LENGTH EXTENSION ATTACKS.', 'LOW'),
+('SCRYPT', 'POW', 'A MEMORY-INTENSIVE HASH FUNCTION DESIGNED TO REDUCE ASIC ADVANTAGE, USED FOR MINING LITECOIN AND DOGECOIN. PRODUCES A HASH THROUGH ITERATIVE COMPUTATIONS.', 'ASIC, GPU, CPU', 'MEMORY-HARD, REDUCES ASIC DOMINANCE, SUPPORTS CPU/GPU MINING, FASTER THAN SHA-256.', 'STILL VULNERABLE TO ASIC MINING, LESS SECURE THAN SHA-256 AGAINST CERTAIN ATTACKS.', 'MODERATE'),
+('X11', 'POW', 'A CHAINED HASHING ALGORITHM USING 11 DIFFERENT HASH FUNCTIONS, DEVELOPED FOR DASH. ENERGY-EFFICIENT AND DESIGNED TO DETER ASIC DEVELOPMENT.', 'GPU, CPU', '30% LESS POWER THAN SCRYPT, RUNS COOLER, COMPLEX DESIGN RESISTS ASICS, HIGH SECURITY.', 'LIMITED ADOPTION, COMPLEX IMPLEMENTATION, SOME ASIC DEVELOPMENT POSSIBLE.', 'MODERATE'),
+('ETHASH', 'POW', 'MEMORY-HARD ALGORITHM USED BY ETHEREUM CLASSIC, DESIGNED TO BE ASIC-RESISTANT AND GPU-FRIENDLY. RELIES ON A LARGE DAG (DIRECTED ACYCLIC GRAPH) FOR MINING.', 'GPU', 'ASIC-RESISTANT, SUPPORTS GPU MINING, HIGH MEMORY REQUIREMENTS ENHANCE SECURITY.', 'HIGH MEMORY USAGE, COMPLEX SETUP, ETHEREUM’S MOVE TO POS REDUCED ADOPTION.', 'LOW'),
+('EQUIHASH', 'POW', 'A MEMORY-HARD ALGORITHM BASED ON THE BIRTHDAY PROBLEM, USED BY ZCASH. DESIGNED TO FAVOR CPU/GPU MINING AND RESIST ASICS.', 'GPU, CPU', 'ASIC-RESISTANT, SUPPORTS STANDARD HARDWARE, HIGH SECURITY FOR PRIVACY COINS.', 'MEMORY-INTENSIVE, LIMITED ADOPTION, SOME ASIC DEVELOPMENT OCCURRED.', 'MODERATE'),
+('CRYPTONIGHT', 'POW', 'A MEMORY-HARD ALGORITHM DESIGNED FOR CPU MINING, USED BY MONERO IN EARLY VERSIONS. AIMS TO DEMOCRATIZE MINING BY FAVORING STANDARD PCS.', 'CPU, GPU', 'CPU-FRIENDLY, PROMOTES DECENTRALIZATION, RESISTANT TO ASICS.', 'SLOWER PERFORMANCE, LIMITED SCALABILITY, MONERO MOVED TO RANDOMX.', 'HIGH'),
+('KECCAK-256', 'POW', 'A CRYPTOGRAPHIC HASH FUNCTION FROM THE SHA-3 FAMILY, USED BY ETHEREUM FOR TRANSACTION HASHING. PRODUCES A 256-BIT HASH WITH HIGH SECURITY.', 'GPU, CPU', 'HIGH SECURITY, COLLISION-RESISTANT, VERSATILE FOR NON-MINING USES.', 'NOT OPTIMIZED FOR MINING, LIMITED POW USE POST-ETHEREUM MERGE.', 'MODERATE'),
+('X15', 'POW', 'A CHAINED ALGORITHM USING 15 HASH FUNCTIONS, DESIGNED FOR ENERGY EFFICIENCY AND RESISTANCE TO CRYPTOGRAPHIC ATTACKS. USED BY SMALLER COINS LIKE BITSEND.', 'GPU, CPU', 'ENHANCED SECURITY THROUGH MULTIPLE HASHES, ENERGY-EFFICIENT, RESISTS SPECIALIZED HARDWARE.', 'VERY LIMITED ADOPTION, COMPLEX IMPLEMENTATION.', 'MODERATE'),
+('BLAKE2', 'POW', 'A CRYPTOGRAPHIC HASH FUNCTION FASTER THAN MD5 AND SHA-1, USED BY SOME SMALLER POW COINS. OPTIMIZED FOR SPEED AND SECURITY.', 'GPU, CPU', 'HIGH SPEED, SECURE, IMMUNE TO LENGTH EXTENSION ATTACKS.', 'LESS TESTED IN LARGE-SCALE POW, LIMITED CRYPTOCURRENCY USE.', 'HIGH'),
+('LYRA2RE', 'POW', 'A MEMORY-HARD ALGORITHM USED BY VERTCOIN, DESIGNED TO BE ASIC-RESISTANT AND SUPPORT GPU MINING.', 'GPU', 'ASIC-RESISTANT, SUPPORTS DECENTRALIZED MINING, ENERGY-EFFICIENT.', 'LIMITED ADOPTION, LESS SECURE THAN SHA-256 FOR LARGE NETWORKS.', 'MODERATE'),
+('GROESTL', 'POW', 'A CRYPTOGRAPHIC HASH FUNCTION FROM THE SHA-3 COMPETITION, USED BY GROESTLCOIN. FOCUSES ON SECURITY AND EFFICIENCY.', 'GPU, CPU', 'HIGH SECURITY, EFFICIENT ON STANDARD HARDWARE, ASIC-RESISTANT.', 'LIMITED ADOPTION, LESS COMMUNITY SUPPORT.', 'MODERATE'),
+('QUARK', 'POW', 'A LIGHTWEIGHT ALGORITHM USING MULTIPLE HASH FUNCTIONS, DESIGNED FOR CPU MINING AND ENERGY EFFICIENCY. USED BY QUARKCHAIN.', 'CPU', 'ENERGY-EFFICIENT, CPU-FRIENDLY, PROMOTES DECENTRALIZATION.', 'LOW ADOPTION, LESS SECURE FOR HIGH-VALUE NETWORKS.', 'HIGH'),
+('SHA-1', 'POW', 'A 160-BIT HASH FUNCTION, PREDECESSOR TO SHA-2, USED BY SOME EARLY OR NICHE POW COINS. LESS SECURE BUT COMPUTATIONALLY LIGHTER.', 'GPU, CPU', 'LIGHTWEIGHT, FAST COMPUTATION, SUITABLE FOR LOW-POWER DEVICES.', 'SIGNIFICANT CRYPTOGRAPHIC WEAKNESSES, NOT SECURE FOR MODERN USE.', 'HIGH'),
+('MD5', 'POW', 'A 128-BIT HASH FUNCTION USED BY SOME OBSCURE POW COINS. FAST BUT CRYPTOGRAPHICALLY BROKEN.', 'GPU, CPU', 'VERY FAST, LOW RESOURCE USAGE.', 'HIGHLY VULNERABLE TO COLLISIONS, UNSUITABLE FOR SECURE APPLICATIONS.', 'HIGH'),
+('RIPEMD-160', 'POW', 'A 160-BIT HASH FUNCTION FROM THE RIPEMD FAMILY, USED IN SOME HYBRID POW/POS COINS. BALANCES SECURITY AND EFFICIENCY.', 'GPU, CPU', 'SECURE FOR SMALLER NETWORKS, EFFICIENT ON STANDARD HARDWARE.', 'LESS SECURE THAN SHA-256, LIMITED ADOPTION.', 'MODERATE');
 
 INSERT INTO HASH_ALGO_NAME (NAME, CONSENSUS_ALGORITHM_TYPE, DESCRIPTION, HARDWARE_TYPE, PROS, CONS, ENERGY_EFFICIENCY) VALUES
-('RandomX', 'PoW', 'A Proof-of-Work algorithm designed for Monero, optimized for general-purpose CPUs and GPUs. Uses random code execution and memory-hard techniques via a virtual machine, producing a 256-bit hash with Blake2b. Aims to resist ASICs and promote decentralized mining.', 'CPU, GPU', 'ASIC-resistant, efficient on consumer hardware, promotes decentralization, audited for security.', 'Complex implementation, requires 64-bit CPU and large cache, slower in light mode for verification.', 'HIGH'),
-('SHA-256', 'PoS', 'Secure Hash Algorithm 256-bit, used in Solana’s Proof of History for sequential hashing to timestamp transactions. Generates a 256-bit hash, ensuring data integrity and order in a high-throughput PoS blockchain.', 'CPU', 'High security, widely adopted, efficient for non-mining tasks, supports Solana’s 50,000 TPS.', 'Not ASIC-resistant in PoW contexts, limited to timestamping in PoS, computationally intensive for sequential tasks.', 'MODERATE');
+('RANDOMX', 'POW', 'A PROOF-OF-WORK ALGORITHM DESIGNED FOR MONERO, OPTIMIZED FOR GENERAL-PURPOSE CPUS AND GPUS. USES RANDOM CODE EXECUTION AND MEMORY-HARD TECHNIQUES VIA A VIRTUAL MACHINE, PRODUCING A 256-BIT HASH WITH BLAKE2B. AIMS TO RESIST ASICS AND PROMOTE DECENTRALIZED MINING.', 'CPU, GPU', 'ASIC-RESISTANT, EFFICIENT ON CONSUMER HARDWARE, PROMOTES DECENTRALIZATION, AUDITED FOR SECURITY.', 'COMPLEX IMPLEMENTATION, REQUIRES 64-BIT CPU AND LARGE CACHE, SLOWER IN LIGHT MODE FOR VERIFICATION.', 'HIGH'),
+('SHA-256', 'POS', 'SECURE HASH ALGORITHM 256-BIT, USED IN SOLANA’S PROOF OF HISTORY FOR SEQUENTIAL HASHING TO TIMESTAMP TRANSACTIONS. GENERATES A 256-BIT HASH, ENSURING DATA INTEGRITY AND ORDER IN A HIGH-THROUGHPUT POS BLOCKCHAIN.', 'CPU', 'HIGH SECURITY, WIDELY ADOPTED, EFFICIENT FOR NON-MINING TASKS, SUPPORTS SOLANA’S 50,000 TPS.', 'NOT ASIC-RESISTANT IN POW CONTEXTS, LIMITED TO TIMESTAMPING IN POS, COMPUTATIONALLY INTENSIVE FOR SEQUENTIAL TASKS.', 'MODERATE');
 
-INSERT INTO HASH_ALGO_NAME VALUES ('N/A', 'PoS',
-                                   'No specific hash algorithm, used for non-PoW or non-standard consensus mechanisms.'
+INSERT INTO HASH_ALGO_NAME VALUES ('N/A', 'POS',
+                                   'NO SPECIFIC HASH ALGORITHM, USED FOR NON-POW OR NON-STANDARD CONSENSUS MECHANISMS.'
                                   ,'N/A','N/A','N/A','HIGH');
 
 
-# CRYPTO DATA START
+-- CRYPTO DATA START
 
 
 INSERT INTO CRYPTO (
@@ -460,111 +456,111 @@ INSERT INTO CRYPTO (
     BLOCKCHAIN_NETWORK_TYPE, BLOCKCHAIN_TOKEN_TYPE, HASH_ALGO_NAME,
     FOUNDER, INITIAL_RELEASE_YEAR, OFFICIAL_WEBSITE, DESCRIPTION_FOR_MAJOR_CHANGES_LIKE_AS_MERGE
 ) VALUES
--- 1. Bitcoin
-('Bitcoin', 'BTC', 109114.88, '2025-01-25', 0.048650000000000, '2010-07-14', 21000000.000000000000000, 19500000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Satoshi Nakamoto', 2009, 'https://bitcoin.org', 'Taproot upgrade (2021), ETF approvals (2024)'),
--- 2. Ethereum
-('Ethereum', 'ETH', 6000.000000000000000, '2025-12-31', 0.432979000000000, '2015-10-20', NULL, 120000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'Keccak-256', 'Vitalik Buterin', 2015, 'https://ethereum.org', 'The Merge to PoS (2022), Dencun upgrade (2024)'),
--- 3. Tether
-('Tether', 'USDT', 1.320000000000000, '2018-07-24', 0.572521000000000, '2015-03-02', NULL, 83000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Brock Pierce', 2014, 'https://tether.to', 'Reserve attestation changes (2022), multi-chain expansion'),
+-- 1. BITCOIN
+('BITCOIN', 'BTC', 109114.88, '2025-01-25', 0.048650000000000, '2010-07-14', 21000000.000000000000000, 19500000.000000000000000, 'PUBLIC', 'POW', 'LAYER-1', 'NATIVE COIN', 'SHA-256', 'SATOSHI NAKAMOTO', 2009, 'HTTPS://BITCOIN.ORG', 'TAPROOT UPGRADE (2021), ETF APPROVALS (2024)'),
+-- 2. ETHEREUM
+('ETHEREUM', 'ETH', 6000.000000000000000, '2025-12-31', 0.432979000000000, '2015-10-20', NULL, 120000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-1', 'NATIVE COIN', 'KECCAK-256', 'VITALIK BUTERIN', 2015, 'HTTPS://ETHEREUM.ORG', 'THE MERGE TO POS (2022), DENCUN UPGRADE (2024)'),
+-- 3. TETHER
+('TETHER', 'USDT', 1.320000000000000, '2018-07-24', 0.572521000000000, '2015-03-02', NULL, 83000000000.000000000000000, 'HYBRID', 'N/A', 'LAYER-1', 'STABLECOIN', 'N/A', 'BROCK PIERCE', 2014, 'HTTPS://TETHER.TO', 'RESERVE ATTESTATION CHANGES (2022), MULTI-CHAIN EXPANSION'),
 -- 4. XRP
-('XRP', 'XRP', 3.400000000000000, '2018-01-07', 0.002686000000000, '2014-05-22', 100000000000.000000000000000, 54000000000.000000000000000, 'Public', 'Ripple Protocol', 'Layer-1', 'Native Coin', 'N/A', 'Chris Larsen', 2013, 'https://ripple.com', 'SEC lawsuit resolution (2023)'),
--- 5. Binance Coin
-('Binance Coin', 'BNB', 717.480000000000000, '2024-06-06', 0.096109000000000, '2017-08-02', 200000000.000000000000000, 157000000.000000000000000, 'Public', 'PoSA', 'Layer-1', 'Utility Token', 'N/A', 'Changpeng Zhao', 2017, 'https://bnbchain.org', 'BNB Chain rebrand (2022)'),
--- 6. USD Coin
-('USD Coin', 'USDC', 1.170000000000000, '2019-05-08', 0.877647000000000, '2023-03-11', NULL, 56000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Circle', 2018, 'https://circle.com', 'CCTP cross-chain protocol (2023)'),
--- 7. Solana
-('Solana', 'SOL', 259.960000000000000, '2021-11-06', 0.500801000000000, '2020-05-11', 511000000.000000000000000, 400000000.000000000000000, 'Public', 'PoH+PoS', 'Layer-1', 'Native Coin', 'SHA-256', 'Anatoly Yakovenko', 2020, 'https://solana.com', 'Network outages (2022-2023), Firedancer upgrade (2024)'),
--- 8. Cardano
-('Cardano', 'ADA', 3.090000000000000, '2021-09-02', 0.019252000000000, '2020-03-13', 45000000000.000000000000000, 35000000000.000000000000000, 'Public', 'Ouroboros PoS', 'Layer-1', 'Native Coin', 'N/A', 'Charles Hoskinson', 2017, 'https://cardano.org', 'Alonzo hard fork (2021), Chang upgrade (2024)'),
--- 9. Dogecoin
-('Dogecoin', 'DOGE', 0.731578000000000, '2021-05-08', 0.000086900000000, '2015-05-06', NULL, 142000000000.000000000000000, 'Public', 'AuxPoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Billy Markus', 2013, 'https://dogecoin.com', 'Merge mining with Litecoin, Elon Musk endorsements'),
+('XRP', 'XRP', 3.400000000000000, '2018-01-07', 0.002686000000000, '2014-05-22', 100000000000.000000000000000, 54000000000.000000000000000, 'PUBLIC', 'RIPPLE PROTOCOL', 'LAYER-1', 'NATIVE COIN', 'N/A', 'CHRIS LARSEN', 2013, 'HTTPS://RIPPLE.COM', 'SEC LAWSUIT RESOLUTION (2023)'),
+-- 5. BINANCE COIN
+('BINANCE COIN', 'BNB', 717.480000000000000, '2024-06-06', 0.096109000000000, '2017-08-02', 200000000.000000000000000, 157000000.000000000000000, 'PUBLIC', 'POSA', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'CHANGPENG ZHAO', 2017, 'HTTPS://BNBCHAIN.ORG', 'BNB CHAIN REBRAND (2022)'),
+-- 6. USD COIN
+('USD COIN', 'USDC', 1.170000000000000, '2019-05-08', 0.877647000000000, '2023-03-11', NULL, 56000000000.000000000000000, 'HYBRID', 'N/A', 'LAYER-1', 'STABLECOIN', 'N/A', 'CIRCLE', 2018, 'HTTPS://CIRCLE.COM', 'CCTP CROSS-CHAIN PROTOCOL (2023)'),
+-- 7. SOLANA
+('SOLANA', 'SOL', 259.960000000000000, '2021-11-06', 0.500801000000000, '2020-05-11', 511000000.000000000000000, 400000000.000000000000000, 'PUBLIC', 'POH+POS', 'LAYER-1', 'NATIVE COIN', 'SHA-256', 'ANATOLY YAKOVENKO', 2020, 'HTTPS://SOLANA.COM', 'NETWORK OUTAGES (2022-2023), FIREDANCER UPGRADE (2024)'),
+-- 8. CARDANO
+('CARDANO', 'ADA', 3.090000000000000, '2021-09-02', 0.019252000000000, '2020-03-13', 45000000000.000000000000000, 35000000000.000000000000000, 'PUBLIC', 'OUROBOROS POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'CHARLES HOSKINSON', 2017, 'HTTPS://CARDANO.ORG', 'ALONZO HARD FORK (2021), CHANG UPGRADE (2024)'),
+-- 9. DOGECOIN
+('DOGECOIN', 'DOGE', 0.731578000000000, '2021-05-08', 0.000086900000000, '2015-05-06', NULL, 142000000000.000000000000000, 'PUBLIC', 'AUXPOW', 'LAYER-1', 'NATIVE COIN', 'SCRYPT', 'BILLY MARKUS', 2013, 'HTTPS://DOGECOIN.COM', 'MERGE MINING WITH LITECOIN, ELON MUSK ENDORSEMENTS'),
 -- 10. TRON
-('TRON', 'TRX', 0.231673000000000, '2018-01-05', 0.001804000000000, '2017-11-12', 100000000000.000000000000000, 92000000000.000000000000000, 'Public', 'DPoS', 'Layer-1', 'Native Coin', 'N/A', 'Justin Sun', 2017, 'https://tron.network', 'USDD stablecoin launch (2022)'),
--- 11. Avalanche
-('Avalanche', 'AVAX', 144.960000000000000, '2021-11-21', 2.800000000000000, '2020-12-31', 720000000.000000000000000, 400000000.000000000000000, 'Public', 'Snowman PoS', 'Layer-1', 'Native Coin', 'N/A', 'Emin Gün Sirer', 2020, 'https://avax.network', 'Apricot upgrade (2021), Subnet expansion'),
--- 12. Shiba Inu
-('Shiba Inu', 'SHIB', 0.000086160000000, '2021-10-28', 0.000000000081000, '2020-09-01', 1000000000000000.000000000000000, 549000000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Meme Token', 'Keccak-256', 'Ryoshi', 2020, 'https://shibatoken.com', 'Shibarium launch (2023)'),
--- 13. Polkadot
-('Polkadot', 'DOT', 54.980000000000000, '2021-11-04', 2.700000000000000, '2020-08-20', 1200000000.000000000000000, 1100000000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2020, 'https://polkadot.network', 'Parachain launches (2021)'),
--- 14. Chainlink
-('Chainlink', 'LINK', 52.700000000000000, '2021-05-10', 0.148183000000000, '2017-11-29', 1000000000.000000000000000, 550000000.000000000000000, 'Hybrid', 'PoS (Oracle)', 'Layer-1', 'Utility Token', 'Keccak-256', 'Sergey Nazarov', 2017, 'https://chain.link', 'CCIP launch (2023)'),
--- 15. Bitcoin Cash
-('Bitcoin Cash', 'BCH', 3785.820000000000000, '2017-12-20', 76.930000000000000, '2018-12-16', 21000000.000000000000000, 19400000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Roger Ver', 2017, 'https://bitcoincash.org', 'Hard fork from Bitcoin (2017)'),
--- 16. Dai
-('Dai', 'DAI', 1.220000000000000, '2020-03-13', 0.903243000000000, '2018-03-31', NULL, 10000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Stablecoin', 'Keccak-256', 'MakerDAO', 2017, 'https://makerdao.com', 'Multi-Chain DAI (2023)'),
--- 17. Litecoin
-('Litecoin', 'LTC', 410.260000000000000, '2021-05-10', 1.150000000000000, '2015-01-14', 84000000.000000000000000, 73000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Charlie Lee', 2011, 'https://litecoin.org', 'MimbleWimble upgrade (2022)'),
--- 18. NEAR Protocol
-('NEAR Protocol', 'NEAR', 20.440000000000000, '2022-01-16', 0.526762000000000, '2020-11-04', 1000000000.000000000000000, 850000000.000000000000000, 'Public', 'Nightshade PoS', 'Layer-1', 'Native Coin', 'N/A', 'Illia Polosukhin', 2020, 'https://near.org', 'Sharding Phase 1 (2023)'),
--- 19. Polygon
-('Polygon', 'MATIC', 2.920000000000000, '2021-12-27', 0.003143000000000, '2019-05-10', 10000000000.000000000000000, 9300000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Sandeep Nailwal', 2017, 'https://polygon.technology', 'zkEVM launch (2023)'),
--- 20. Internet Computer
-('Internet Computer', 'ICP', 700.650000000000000, '2021-05-10', 2.870000000000000, '2023-09-22', 469000000.000000000000000, 450000000.000000000000000, 'Public', 'Threshold Relay', 'Layer-1', 'Native Coin', 'N/A', 'Dominic Williams', 2021, 'https://internetcomputer.org', 'Bitcoin integration (2023)'),
--- 21. Fetch.ai
-('Fetch.ai', 'FET', 3.330000000000000, '2024-03-31', 0.008300000000000, '2019-03-02', 1152997575.000000000000000, 1040000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Humayun Sheikh', 2019, 'https://fetch.ai', 'AI agent ecosystem expansion (2024)'),
--- 22. Stellar
-('Stellar', 'XLM', 0.875563000000000, '2018-01-03', 0.000476000000000, '2014-11-18', 50000000000.000000000000000, 28000000000.000000000000000, 'Public', 'SCP', 'Layer-1', 'Native Coin', 'N/A', 'Jed McCaleb', 2014, 'https://stellar.org', 'Protocol 19 upgrade (2023)'),
--- 23. Ethereum Classic
-('Ethereum Classic', 'ETC', 167.090000000000000, '2021-05-06', 0.615038000000000, '2016-07-25', 210700000.000000000000000, 140000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Ethash', 'Ethereum Foundation', 2016, 'https://ethereumclassic.org', 'Thanos upgrade (2020)'),
--- 24. Cosmos
-('Cosmos', 'ATOM', 44.450000000000000, '2022-01-17', 1.160000000000000, '2020-03-13', NULL, 350000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-0', 'Native Coin', 'N/A', 'Jae Kwon', 2019, 'https://cosmos.network', 'Interchain Security (2023)'),
--- 25. Filecoin
-('Filecoin', 'FIL', 236.840000000000000, '2021-04-01', 2.640000000000000, '2022-12-16', 2000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoRep/PoSt', 'Layer-1', 'Utility Token', 'N/A', 'Juan Benet', 2017, 'https://filecoin.io', 'FVM launch (2023)'),
--- 26. Arbitrum
-('Arbitrum', 'ARB', 2.750000000000000, '2023-03-23', 0.360000000000000, '2023-09-11', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Offchain Labs', 2023, 'https://arbitrum.io', 'Mainnet launch (2023)'),
--- 27. Cronos
-('Cronos', 'CRO', 0.965407000000000, '2021-11-24', 0.012119000000000, '2019-02-08', 30000000000.000000000000000, 25000000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Kris Marszalek', 2018, 'https://cronos.org', 'Cronos Chain launch (2021)'),
--- 28. Hedera
-('Hedera', 'HBAR', 0.569229000000000, '2021-09-15', 0.009861000000000, '2020-01-02', 50000000000.000000000000000, 33000000000.000000000000000, 'Public', 'Hashgraph aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Leemon Baird', 2019, 'https://hedera.com', 'Consensus Service 2.0 (2023)'),
--- 29. Fantom
-('Fantom', 'FTM', 3.460000000000000, '2021-10-28', 0.001902000000000, '2020-03-13', 3175000000.000000000000000, 2800000000.000000000000000, 'Public', 'Lachesis aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Dr. Ahn Byung Ik', 2019, 'https://fantom.foundation', 'Gas monetization (2023)'),
--- 30. The Graph
-('The Graph', 'GRT', 0.667000000000000, '2021-04-16', 0.021000000000000, '2020-12-17', 10788004317.000000000000000, 8000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Yaniv Tal', 2020, 'https://thegraph.com', 'Decentralized indexing (2023)'),
--- 31. Algorand
-('Algorand', 'ALGO', 3.560000000000000, '2019-06-20', 0.087513000000000, '2023-09-11', 10000000000.000000000000000, 7500000000.000000000000000, 'Public', 'Pure PoS', 'Layer-1', 'Native Coin', 'N/A', 'Silvio Micali', 2019, 'https://algorand.com', 'State proofs (2022)'),
--- 32. VeChain
-('VeChain', 'VET', 0.280991000000000, '2021-04-17', 0.001678000000000, '2020-03-13', 86700000000.000000000000000, 72500000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Sunny Lu', 2017, 'https://vechain.org', 'VeChainThor 2.0 (2022)'),
--- 33. Tezos
-('Tezos', 'XTZ', 9.120000000000000, '2021-10-04', 0.350476000000000, '2018-12-07', NULL, 950000000.000000000000000, 'Public', 'Liquid PoS', 'Layer-1', 'Native Coin', 'N/A', 'Arthur Breitman', 2018, 'https://tezos.com', 'Mumbai upgrade (2023)'),
--- 34. The Sandbox
-('The Sandbox', 'SAND', 8.400000000000000, '2021-11-25', 0.028972000000000, '2020-11-04', 3000000000.000000000000000, 2300000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Arthur Madrid', 2020, 'https://sandbox.game', 'LAND staking (2023)'),
--- 35. Decentraland
-('Decentraland', 'MANA', 5.850000000000000, '2021-11-25', 0.009317000000000, '2017-10-31', 2200000000.000000000000000, 1900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Ari Meilich', 2017, 'https://decentraland.org', 'DAO governance overhaul (2022)'),
--- 36. Axie Infinity
-('Axie Infinity', 'AXS', 164.900000000000000, '2021-11-06', 0.123718000000000, '2020-11-06', 270000000.000000000000000, 120000000.000000000000000, 'Public', 'PoS', 'Sidechain', 'Governance Token', 'Keccak-256', 'Trung Nguyen', 2020, 'https://axieinfinity.com', 'Ronin Bridge relaunch (2023)'),
--- 37. Aave
-('Aave', 'AAVE', 661.690000000000000, '2021-05-18', 26.020000000000000, '2020-11-05', 16000000.000000000000000, 14000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Stani Kulechov', 2017, 'https://aave.com', 'V3 protocol (2022)'),
--- 38. Monero
-('Monero', 'XMR', 542.330000000000000, '2018-01-09', 0.216177000000000, '2015-01-14', 18400000.000000000000000, 18200000.000000000000000, 'Public', 'RandomX PoW', 'Layer-1', 'Native Coin', 'RandomX', 'Ricardo Spagni', 2014, 'https://getmonero.org', 'Tail emission activation (2022)'),
--- 39. Kusama
-('Kusama', 'KSM', 621.710000000000000, '2021-05-18', 0.876743000000000, '2020-01-14', 10000000.000000000000000, 8500000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2019, 'https://kusama.network', 'Parachain auctions (2021)'),
--- 40. Zcash
-('Zcash', 'ZEC', 5941.800000000000000, '2016-10-29', 18.940000000000000, '2020-03-13', 21000000.000000000000000, 16000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Equihash', 'Zooko Wilcox', 2016, 'https://z.cash', 'Halo 2 upgrade (2022)'),
--- 41. Chiliz
-('Chiliz', 'CHZ', 0.878633000000000, '2021-03-13', 0.004001000000000, '2019-09-28', 8888888888.000000000000000, 6000000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Alexandre Dreyfus', 2019, 'https://chiliz.com', 'Socios.com expansion (2023)'),
--- 42. Helium
-('Helium', 'HNT', 54.880000000000000, '2021-11-12', 0.113248000000000, '2020-04-18', 223000000.000000000000000, 160000000.000000000000000, 'Public', 'PoC', 'Layer-1', 'Native Coin', 'N/A', 'Amir Haleem', 2019, 'https://helium.com', 'Solana migration (2023)'),
--- 43. Optimism
-('Optimism', 'OP', 4.850000000000000, '2022-05-31', 0.400000000000000, '2022-12-07', 4294967296.000000000000000, 1000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Optimism Foundation', 2022, 'https://optimism.io', 'Bedrock upgrade (2023)'),
--- 44. Maker
-('Maker', 'MKR', 4095.000000000000000, '2021-05-03', 97.960000000000000, '2017-01-29', 1005577.000000000000000, 950000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Rune Christensen', 2017, 'https://makerdao.com', 'Endgame plan (2024)'),
--- 45. Injective
-('Injective', 'INJ', 44.950000000000000, '2024-03-14', 0.657000000000000, '2020-11-04', 100000000.000000000000000, 85000000.000000000000000, 'Public', 'Tendermint BFT', 'Appchain', 'Native Coin', 'N/A', 'Eric Chen', 2020, 'https://injective.com', 'Cosmos SDK integration'),
--- 46. Immutable X
-('Immutable X', 'IMX', 3.760000000000000, '2021-11-26', 0.110000000000000, '2021-06-11', 2000000000.000000000000000, 1500000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'James Ferguson', 2021, 'https://immutable.com', 'Immutable zkEVM launch (2024)'),
--- 47. Aptos
-('Aptos', 'APT', 20.250000000000000, '2023-01-26', 3.080000000000000, '2022-12-07', 1000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'N/A', 'Mo Shaikh', 2022, 'https://aptoslabs.com', 'Mainnet launch (2022)'),
--- 48. Sei
-('Sei', 'SEI', 0.880000000000000, '2023-08-15', 0.095000000000000, '2023-09-11', 10000000000.000000000000000, 3000000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-1', 'Native Coin', 'N/A', 'Jayendra Jog', 2023, 'https://sei.network', 'Mainnet launch (2023)'),
--- 49. Lido DAO
-('Lido DAO', 'LDO', 3.330000000000000, '2021-11-16', 0.404000000000000, '2020-12-17', 1000000000.000000000000000, 900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Konstantin Lomashuk', 2020, 'https://lido.fi', 'Liquid staking expansion (2023)'),
--- 50. Ondo
-('Ondo', 'ONDO', 3.330000000000000, '2024-03-31', 0.810000000000000, '2024-01-18', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Nathan Allman', 2024, 'https://ondo.finance', 'RWA tokenization launch (2024)');
+('TRON', 'TRX', 0.231673000000000, '2018-01-05', 0.001804000000000, '2017-11-12', 100000000000.000000000000000, 92000000000.000000000000000, 'PUBLIC', 'DPOS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'JUSTIN SUN', 2017, 'HTTPS://TRON.NETWORK', 'USDD STABLECOIN LAUNCH (2022)'),
+-- 11. AVALANCHE
+('AVALANCHE', 'AVAX', 144.960000000000000, '2021-11-21', 2.800000000000000, '2020-12-31', 720000000.000000000000000, 400000000.000000000000000, 'PUBLIC', 'SNOWMAN POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'EMIN GÜN SIRER', 2020, 'HTTPS://AVAX.NETWORK', 'APRICOT UPGRADE (2021), SUBNET EXPANSION'),
+-- 12. SHIBA INU
+('SHIBA INU', 'SHIB', 0.000086160000000, '2021-10-28', 0.000000000081000, '2020-09-01', 1000000000000000.000000000000000, 549000000000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'MEME TOKEN', 'KECCAK-256', 'RYOSHI', 2020, 'HTTPS://SHIBATOKEN.COM', 'SHIBARIUM LAUNCH (2023)'),
+-- 13. POLKADOT
+('POLKADOT', 'DOT', 54.980000000000000, '2021-11-04', 2.700000000000000, '2020-08-20', 1200000000.000000000000000, 1100000000.000000000000000, 'PUBLIC', 'NPOS', 'LAYER-0', 'NATIVE COIN', 'N/A', 'GAVIN WOOD', 2020, 'HTTPS://POLKADOT.NETWORK', 'PARACHAIN LAUNCHES (2021)'),
+-- 14. CHAINLINK
+('CHAINLINK', 'LINK', 52.700000000000000, '2021-05-10', 0.148183000000000, '2017-11-29', 1000000000.000000000000000, 550000000.000000000000000, 'HYBRID', 'POS (ORACLE)', 'LAYER-1', 'UTILITY TOKEN', 'KECCAK-256', 'SERGEY NAZAROV', 2017, 'HTTPS://CHAIN.LINK', 'CCIP LAUNCH (2023)'),
+-- 15. BITCOIN CASH
+('BITCOIN CASH', 'BCH', 3785.820000000000000, '2017-12-20', 76.930000000000000, '2018-12-16', 21000000.000000000000000, 19400000.000000000000000, 'PUBLIC', 'POW', 'LAYER-1', 'NATIVE COIN', 'SHA-256', 'ROGER VER', 2017, 'HTTPS://BITCOINCASH.ORG', 'HARD FORK FROM BITCOIN (2017)'),
+-- 16. DAI
+('DAI', 'DAI', 1.220000000000000, '2020-03-13', 0.903243000000000, '2018-03-31', NULL, 10000000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'STABLECOIN', 'KECCAK-256', 'MAKERDAO', 2017, 'HTTPS://MAKERDAO.COM', 'MULTI-CHAIN DAI (2023)'),
+-- 17. LITECOIN
+('LITECOIN', 'LTC', 410.260000000000000, '2021-05-10', 1.150000000000000, '2015-01-14', 84000000.000000000000000, 73000000.000000000000000, 'PUBLIC', 'POW', 'LAYER-1', 'NATIVE COIN', 'SCRYPT', 'CHARLIE LEE', 2011, 'HTTPS://LITECOIN.ORG', 'MIMBLEWIMBLE UPGRADE (2022)'),
+-- 18. NEAR PROTOCOL
+('NEAR PROTOCOL', 'NEAR', 20.440000000000000, '2022-01-16', 0.526762000000000, '2020-11-04', 1000000000.000000000000000, 850000000.000000000000000, 'PUBLIC', 'NIGHTSHADE POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'ILLIA POLOSUKHIN', 2020, 'HTTPS://NEAR.ORG', 'SHARDING PHASE 1 (2023)'),
+-- 19. POLYGON
+('POLYGON', 'MATIC', 2.920000000000000, '2021-12-27', 0.003143000000000, '2019-05-10', 10000000000.000000000000000, 9300000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'SANDEEP NAILWAL', 2017, 'HTTPS://POLYGON.TECHNOLOGY', 'ZKEVM LAUNCH (2023)'),
+-- 20. INTERNET COMPUTER
+('INTERNET COMPUTER', 'ICP', 700.650000000000000, '2021-05-10', 2.870000000000000, '2023-09-22', 469000000.000000000000000, 450000000.000000000000000, 'PUBLIC', 'THRESHOLD RELAY', 'LAYER-1', 'NATIVE COIN', 'N/A', 'DOMINIC WILLIAMS', 2021, 'HTTPS://INTERNETCOMPUTER.ORG', 'BITCOIN INTEGRATION (2023)'),
+-- 21. FETCH.AI
+('FETCH.AI', 'FET', 3.330000000000000, '2024-03-31', 0.008300000000000, '2019-03-02', 1152997575.000000000000000, 1040000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'HUMAYUN SHEIKH', 2019, 'HTTPS://FETCH.AI', 'AI AGENT ECOSYSTEM EXPANSION (2024)'),
+-- 22. STELLAR
+('STELLAR', 'XLM', 0.875563000000000, '2018-01-03', 0.000476000000000, '2014-11-18', 50000000000.000000000000000, 28000000000.000000000000000, 'PUBLIC', 'SCP', 'LAYER-1', 'NATIVE COIN', 'N/A', 'JED MCCALEB', 2014, 'HTTPS://STELLAR.ORG', 'PROTOCOL 19 UPGRADE (2023)'),
+-- 23. ETHEREUM CLASSIC
+('ETHEREUM CLASSIC', 'ETC', 167.090000000000000, '2021-05-06', 0.615038000000000, '2016-07-25', 210700000.000000000000000, 140000000.000000000000000, 'PUBLIC', 'POW', 'LAYER-1', 'NATIVE COIN', 'ETHASH', 'ETHEREUM FOUNDATION', 2016, 'HTTPS://ETHEREUMCLASSIC.ORG', 'THANOS UPGRADE (2020)'),
+-- 24. COSMOS
+('COSMOS', 'ATOM', 44.450000000000000, '2022-01-17', 1.160000000000000, '2020-03-13', NULL, 350000000.000000000000000, 'PUBLIC', 'TENDERMINT BFT', 'LAYER-0', 'NATIVE COIN', 'N/A', 'JAE KWON', 2019, 'HTTPS://COSMOS.NETWORK', 'INTERCHAIN SECURITY (2023)'),
+-- 25. FILECOIN
+('FILECOIN', 'FIL', 236.840000000000000, '2021-04-01', 2.640000000000000, '2022-12-16', 2000000000.000000000000000, 400000000.000000000000000, 'PUBLIC', 'POREP/POST', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'JUAN BENET', 2017, 'HTTPS://FILECOIN.IO', 'FVM LAUNCH (2023)'),
+-- 26. ARBITRUM
+('ARBITRUM', 'ARB', 2.750000000000000, '2023-03-23', 0.360000000000000, '2023-09-11', 10000000000.000000000000000, 2000000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'GOVERNANCE TOKEN', 'KECCAK-256', 'OFFCHAIN LABS', 2023, 'HTTPS://ARBITRUM.IO', 'MAINNET LAUNCH (2023)'),
+-- 27. CRONOS
+('CRONOS', 'CRO', 0.965407000000000, '2021-11-24', 0.012119000000000, '2019-02-08', 30000000000.000000000000000, 25000000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'KRIS MARSZALEK', 2018, 'HTTPS://CRONOS.ORG', 'CRONOS CHAIN LAUNCH (2021)'),
+-- 28. HEDERA
+('HEDERA', 'HBAR', 0.569229000000000, '2021-09-15', 0.009861000000000, '2020-01-02', 50000000000.000000000000000, 33000000000.000000000000000, 'PUBLIC', 'HASHGRAPH ABFT', 'LAYER-1', 'NATIVE COIN', 'N/A', 'LEEMON BAIRD', 2019, 'HTTPS://HEDERA.COM', 'CONSENSUS SERVICE 2.0 (2023)'),
+-- 29. FANTOM
+('FANTOM', 'FTM', 3.460000000000000, '2021-10-28', 0.001902000000000, '2020-03-13', 3175000000.000000000000000, 2800000000.000000000000000, 'PUBLIC', 'LACHESIS ABFT', 'LAYER-1', 'NATIVE COIN', 'N/A', 'DR. AHN BYUNG IK', 2019, 'HTTPS://FANTOM.FOUNDATION', 'GAS MONETIZATION (2023)'),
+-- 30. THE GRAPH
+('THE GRAPH', 'GRT', 0.667000000000000, '2021-04-16', 0.021000000000000, '2020-12-17', 10788004317.000000000000000, 8000000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'YANIV TAL', 2020, 'HTTPS://THEGRAPH.COM', 'DECENTRALIZED INDEXING (2023)'),
+-- 31. ALGORAND
+('ALGORAND', 'ALGO', 3.560000000000000, '2019-06-20', 0.087513000000000, '2023-09-11', 10000000000.000000000000000, 7500000000.000000000000000, 'PUBLIC', 'PURE POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'SILVIO MICALI', 2019, 'HTTPS://ALGORAND.COM', 'STATE PROOFS (2022)'),
+-- 32. VECHAIN
+('VECHAIN', 'VET', 0.280991000000000, '2021-04-17', 0.001678000000000, '2020-03-13', 86700000000.000000000000000, 72500000000.000000000000000, 'PUBLIC', 'POA', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'SUNNY LU', 2017, 'HTTPS://VECHAIN.ORG', 'VECHAINTHOR 2.0 (2022)'),
+-- 33. TEZOS
+('TEZOS', 'XTZ', 9.120000000000000, '2021-10-04', 0.350476000000000, '2018-12-07', NULL, 950000000.000000000000000, 'PUBLIC', 'LIQUID POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'ARTHUR BREITMAN', 2018, 'HTTPS://TEZOS.COM', 'MUMBAI UPGRADE (2023)'),
+-- 34. THE SANDBOX
+('THE SANDBOX', 'SAND', 8.400000000000000, '2021-11-25', 0.028972000000000, '2020-11-04', 3000000000.000000000000000, 2300000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'ARTHUR MADRID', 2020, 'HTTPS://SANDBOX.GAME', 'LAND STAKING (2023)'),
+-- 35. DECENTRALAND
+('DECENTRALAND', 'MANA', 5.850000000000000, '2021-11-25', 0.009317000000000, '2017-10-31', 2200000000.000000000000000, 1900000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'ARI MEILICH', 2017, 'HTTPS://DECENTRALAND.ORG', 'DAO GOVERNANCE OVERHAUL (2022)'),
+-- 36. AXIE INFINITY
+('AXIE INFINITY', 'AXS', 164.900000000000000, '2021-11-06', 0.123718000000000, '2020-11-06', 270000000.000000000000000, 120000000.000000000000000, 'PUBLIC', 'POS', 'SIDECHAIN', 'GOVERNANCE TOKEN', 'KECCAK-256', 'TRUNG NGUYEN', 2020, 'HTTPS://AXIEINFINITY.COM', 'RONIN BRIDGE RELAUNCH (2023)'),
+-- 37. AAVE
+('AAVE', 'AAVE', 661.690000000000000, '2021-05-18', 26.020000000000000, '2020-11-05', 16000000.000000000000000, 14000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'GOVERNANCE TOKEN', 'KECCAK-256', 'STANI KULECHOV', 2017, 'HTTPS://AAVE.COM', 'V3 PROTOCOL (2022)'),
+-- 38. MONERO
+('MONERO', 'XMR', 542.330000000000000, '2018-01-09', 0.216177000000000, '2015-01-14', 18400000.000000000000000, 18200000.000000000000000, 'PUBLIC', 'RANDOMX POW', 'LAYER-1', 'NATIVE COIN', 'RANDOMX', 'RICARDO SPAGNI', 2014, 'HTTPS://GETMONERO.ORG', 'TAIL EMISSION ACTIVATION (2022)'),
+-- 39. KUSAMA
+('KUSAMA', 'KSM', 621.710000000000000, '2021-05-18', 0.876743000000000, '2020-01-14', 10000000.000000000000000, 8500000.000000000000000, 'PUBLIC', 'NPOS', 'LAYER-0', 'NATIVE COIN', 'N/A', 'GAVIN WOOD', 2019, 'HTTPS://KUSAMA.NETWORK', 'PARACHAIN AUCTIONS (2021)'),
+-- 40. ZCASH
+('ZCASH', 'ZEC', 5941.800000000000000, '2016-10-29', 18.940000000000000, '2020-03-13', 21000000.000000000000000, 16000000.000000000000000, 'PUBLIC', 'POW', 'LAYER-1', 'NATIVE COIN', 'EQUIHASH', 'ZOOKO WILCOX', 2016, 'HTTPS://Z.CASH', 'HALO 2 UPGRADE (2022)'),
+-- 41. CHILIZ
+('CHILIZ', 'CHZ', 0.878633000000000, '2021-03-13', 0.004001000000000, '2019-09-28', 8888888888.000000000000000, 6000000000.000000000000000, 'PUBLIC', 'POA', 'LAYER-1', 'UTILITY TOKEN', 'N/A', 'ALEXANDRE DREYFUS', 2019, 'HTTPS://CHILIZ.COM', 'SOCIOS.COM EXPANSION (2023)'),
+-- 42. HELIUM
+('HELIUM', 'HNT', 54.880000000000000, '2021-11-12', 0.113248000000000, '2020-04-18', 223000000.000000000000000, 160000000.000000000000000, 'PUBLIC', 'POC', 'LAYER-1', 'NATIVE COIN', 'N/A', 'AMIR HALEEM', 2019, 'HTTPS://HELIUM.COM', 'SOLANA MIGRATION (2023)'),
+-- 43. OPTIMISM
+('OPTIMISM', 'OP', 4.850000000000000, '2022-05-31', 0.400000000000000, '2022-12-07', 4294967296.000000000000000, 1000000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'GOVERNANCE TOKEN', 'KECCAK-256', 'OPTIMISM FOUNDATION', 2022, 'HTTPS://OPTIMISM.IO', 'BEDROCK UPGRADE (2023)'),
+-- 44. MAKER
+('MAKER', 'MKR', 4095.000000000000000, '2021-05-03', 97.960000000000000, '2017-01-29', 1005577.000000000000000, 950000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'GOVERNANCE TOKEN', 'KECCAK-256', 'RUNE CHRISTENSEN', 2017, 'HTTPS://MAKERDAO.COM', 'ENDGAME PLAN (2024)'),
+-- 45. INJECTIVE
+('INJECTIVE', 'INJ', 44.950000000000000, '2024-03-14', 0.657000000000000, '2020-11-04', 100000000.000000000000000, 85000000.000000000000000, 'PUBLIC', 'TENDERMINT BFT', 'APPCHAIN', 'NATIVE COIN', 'N/A', 'ERIC CHEN', 2020, 'HTTPS://INJECTIVE.COM', 'COSMOS SDK INTEGRATION'),
+-- 46. IMMUTABLE X
+('IMMUTABLE X', 'IMX', 3.760000000000000, '2021-11-26', 0.110000000000000, '2021-06-11', 2000000000.000000000000000, 1500000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'JAMES FERGUSON', 2021, 'HTTPS://IMMUTABLE.COM', 'IMMUTABLE ZKEVM LAUNCH (2024)'),
+-- 47. APTOS
+('APTOS', 'APT', 20.250000000000000, '2023-01-26', 3.080000000000000, '2022-12-07', 1000000000.000000000000000, 400000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-1', 'NATIVE COIN', 'N/A', 'MO SHAIKH', 2022, 'HTTPS://APTOSLABS.COM', 'MAINNET LAUNCH (2022)'),
+-- 48. SEI
+('SEI', 'SEI', 0.880000000000000, '2023-08-15', 0.095000000000000, '2023-09-11', 10000000000.000000000000000, 3000000000.000000000000000, 'PUBLIC', 'TENDERMINT BFT', 'LAYER-1', 'NATIVE COIN', 'N/A', 'JAYENDRA JOG', 2023, 'HTTPS://SEI.NETWORK', 'MAINNET LAUNCH (2023)'),
+-- 49. LIDO DAO
+('LIDO DAO', 'LDO', 3.330000000000000, '2021-11-16', 0.404000000000000, '2020-12-17', 1000000000.000000000000000, 900000000.000000000000000, 'PUBLIC', 'POS (ETH)', 'LAYER-2', 'GOVERNANCE TOKEN', 'KECCAK-256', 'KONSTANTIN LOMASHUK', 2020, 'HTTPS://LIDO.FI', 'LIQUID STAKING EXPANSION (2023)'),
+-- 50. ONDO
+('ONDO', 'ONDO', 3.330000000000000, '2024-03-31', 0.810000000000000, '2024-01-18', 10000000000.000000000000000, 2000000000.000000000000000, 'PUBLIC', 'POS', 'LAYER-2', 'UTILITY TOKEN', 'KECCAK-256', 'NATHAN ALLMAN', 2024, 'HTTPS://ONDO.FINANCE', 'RWA TOKENIZATION LAUNCH (2024)');
 
-# CRYPTO DATA END
+-- CRYPTO DATA END
 
 
-# CRYPTO_PERFORMANCE_METRICS_START
+-- CRYPTO_PERFORMANCE_METRICS_START
 INSERT INTO CRYPTO_CURRENCY_PERFORMANCE_METRICS (SYMBOL, TRANSACTION_PER_SECOND,
                                                  AVERAGE_TRX_FEE
                                                 , ELECTRICITY_COST_PER_BLOCK, HEAT_IMMERSION_PER_TX,
@@ -622,9 +618,9 @@ INSERT INTO CRYPTO_CURRENCY_PERFORMANCE_METRICS (SYMBOL, TRANSACTION_PER_SECOND,
 ('LDO', 15.00, 1.2000, 0.005000, 0.018000, 'N/A', 300000),
 ('ONDO', 15.00, 1.2000, 0.005000, 0.018000, 'N/A', 200000);
 
-# CRYPTO_PERFORMANCE_METRICS_START
+-- CRYPTO_PERFORMANCE_METRICS_START
 
-# TOTAL_USER_DISTRIBUTION DATA START
+-- TOTAL_USER_DISTRIBUTION DATA START
 INSERT INTO TOTAL_USER_DISTRIBUTION (YEAR, ASIA_USER, NORTH_AMERICA_USER, AMERICA_USER, AFRICA_USER, EUROPE_USER, OCEANIA_USER,TOTAL_MARKET_CAP) VALUES
 (2009, 0.001, 0.002, 0.003, 0.0001, 0.001, 0.0001, 0.00001),
 (2010, 0.005, 0.005, 0.010, 0.0005, 0.003, 0.0005, 0.0003),
@@ -643,34 +639,34 @@ INSERT INTO TOTAL_USER_DISTRIBUTION (YEAR, ASIA_USER, NORTH_AMERICA_USER, AMERIC
 (2023, 200.000, 50.000, 230.000, 30.000, 28.000, 3.000, 1750),
 (2024, 263.000, 57.000, 186.600, 38.000, 31.000, 5.000, 3800),
 (2025, 265.100, 65.700, 186.600, 53.900, 35.000, 5.000, 2970);
-# TOTAL_USER_DISTRIBUTION DATA END
+-- TOTAL_USER_DISTRIBUTION DATA END
 
-# MARKET_DOMINANCE DATA START
--- 2009: Bitcoin Genesis Block
+-- MARKET_DOMINANCE DATA START
+-- 2009: BITCOIN GENESIS BLOCK
 INSERT INTO MARKET_DOMINANCE VALUES
 (2009,'BTC',0.100000000000000,0.000100000000000000000000000000000,'2009-10-05','2009-01-03',
 100000,100.00,0.0001,0.0001,0.0001);
 
--- 2010: Early Mining Era
+-- 2010: EARLY MINING ERA
 INSERT INTO MARKET_DOMINANCE VALUES
 (2010,'BTC',0.500000000000000,0.100000000000000000000000000000,'2010-07-17','2010-01-01',
 1000000,100.00,0.012,0.005,0.008);
 
--- 2011: First Altcoin (Litecoin)
+-- 2011: FIRST ALTCOIN (LITECOIN)
 INSERT INTO MARKET_DOMINANCE VALUES
 (2011,'BTC',31.900000000000000,0.300000000000000000000000000000,'2011-06-08','2011-01-01',
 50000000,98.04,2.5,0.3,0.36),
 (2011,'LTC',0.050000000000000,0.010000000000000000000000000000,'2011-10-07','2011-10-07',
 500000,0.98,0.01,0.005,0.006);
 
--- 2012: Market Infrastructure Development
+-- 2012: MARKET INFRASTRUCTURE DEVELOPMENT
 INSERT INTO MARKET_DOMINANCE VALUES
 (2012,'BTC',13.700000000000000,4.200000000000000000000000000000,'2012-04-01','2012-06-01',
 100000000,95.24,5.2,1.1,1.32),
 (2012,'LTC',0.100000000000000,0.020000000000000000000000000000,'2012-12-31','2012-01-01',
 2000000,1.90,0.15,0.08,0.096);
 
--- 2013: First Retail Boom
+-- 2013: FIRST RETAIL BOOM
 INSERT INTO MARKET_DOMINANCE VALUES
 (2013,'BTC',1157.000000000000000,13.300000000000000000000000000000,'2013-12-04','2013-01-01',
 14000000000,93.33,12.8,3.5,4.2),
@@ -679,7 +675,7 @@ INSERT INTO MARKET_DOMINANCE VALUES
 (2013,'LTC',31.500000000000000,1.400000000000000000000000000000,'2013-11-28','2013-01-01',
 1000000000,0.67,0.8,0.25,0.3);
 
--- 2014: Post-MtGox Recovery
+-- 2014: POST-MTGOX RECOVERY
 INSERT INTO MARKET_DOMINANCE VALUES
 (2014,'BTC',1000.000000000000000,300.000000000000000000000000000000,'2014-01-01','2014-12-31',
 5130000000,85.50,18.3,4.8,5.76),
@@ -690,7 +686,7 @@ INSERT INTO MARKET_DOMINANCE VALUES
 (2014,'DOGE',0.000400000000000,0.000100000000000000000000000000000,'2014-01-01','2014-12-31',
 5000000,0.08,0.15,0.05,0.06);
 
--- 2015: Ethereum Launch
+-- 2015: ETHEREUM LAUNCH
 INSERT INTO MARKET_DOMINANCE VALUES
 (2015,'BTC',500.000000000000000,200.000000000000000000000000000000,'2015-01-01','2015-12-31',
 7000000000,87.50,23.4,5.6,6.72),
@@ -703,7 +699,7 @@ INSERT INTO MARKET_DOMINANCE VALUES
 (2015,'DOGE',0.000200000000000,0.000100000000000000000000000000000,'2015-01-01','2015-12-31',
 10000000,0.13,0.25,0.08,0.096);
 
--- 2016: DAO Hack & Recovery
+-- 2016: DAO HACK & RECOVERY
 INSERT INTO MARKET_DOMINANCE VALUES
 (2016,'BTC',900.000000000000000,350.000000000000000000000000000000,'2016-12-31','2016-01-01',
 14000000000,87.50,35.6,7.2,8.64),
@@ -716,9 +712,9 @@ INSERT INTO MARKET_DOMINANCE VALUES
 (2016,'XMR',2.500000000000000,0.500000000000000000000000000000,'2016-12-31','2016-01-01',
 50000000,0.31,0.4,0.1,0.12);
 
--- ... [Continued through 2025 following same pattern]
+-- ... [CONTINUED THROUGH 2025 FOLLOWING SAME PATTERN]
 
--- 2025: Mature Market Projections
+-- 2025: MATURE MARKET PROJECTIONS
 INSERT INTO MARKET_DOMINANCE VALUES
 (2025,'BTC',97973.340000000000000,60000.000000000000000000000000000000,'2025-02-05','2025-01-01',
 1940000000000,55.43,450.2,350.5,420.6),
@@ -730,74 +726,75 @@ INSERT INTO MARKET_DOMINANCE VALUES
 144200000000,4.12,320.5,85.3,102.4),
 (2025,'USDT',1.010000000000000,0.990000000000000000000000000000,'2025-01-01','2025-01-01',
 140400000000,4.01,2450.8,180.5,216.6);
-# MARKET_DOMINANCE DATA END
+-- MARKET_DOMINANCE DATA END
 
-# REWARD_DETAILS DATA START
+INSERT INTO BLOCK_REWARD_EMISSION_TYPE (TYPE) VALUES ('HALVING'),('TAIL EMISSION'),('LINEAR EMISSION'); -- PLEASE INSERT THIS
+-- REWARD_DETAILS DATA START
 INSERT INTO REWARD_DETAILS (
     SYMBOL, EMISSION_TYPE, EMISSION_TIME,
     STARTING_TIME_BLOCK_REWARD, CURRENT_BLOCK_REWARD, BLOCK_REWARD_TIME
 ) VALUES
--- Halving-Based Emission (PoW)
-('BTC', 'HALVING', 35040, 50.00000, 6.25000, 10.000000000000000000000000000000), -- Bitcoin (4-year halving)
-('BCH', 'HALVING', 35040, 12.50000, 6.25000, 10.000000000000000000000000000000), -- Bitcoin Cash
-('LTC', 'HALVING', 35040, 50.00000, 12.50000, 2.500000000000000000000000000000), -- Litecoin (2.5min blocks)
-('ZEC', 'HALVING', 35040, 12.50000, 3.12500, 2.500000000000000000000000000000), -- Zcash
-('ETC', 'HALVING', 35040, 5.00000, 2.56000, 13.000000000000000000000000000000), -- Ethereum Classic
+-- HALVING-BASED EMISSION (POW)
+('BTC', 'HALVING', 35040, 50.00000, 6.25000, 10.000000000000000000000000000000), -- BITCOIN (4-YEAR HALVING)
+('BCH', 'HALVING', 35040, 12.50000, 6.25000, 10.000000000000000000000000000000), -- BITCOIN CASH
+('LTC', 'HALVING', 35040, 50.00000, 12.50000, 2.500000000000000000000000000000), -- LITECOIN (2.5MIN BLOCKS)
+('ZEC', 'HALVING', 35040, 12.50000, 3.12500, 2.500000000000000000000000000000), -- ZCASH
+('ETC', 'HALVING', 35040, 5.00000, 2.56000, 13.000000000000000000000000000000), -- ETHEREUM CLASSIC
 
--- Tail Emission (Fixed Post-Halving)
-('XMR', 'TAIL EMISSION', 71112, 15.00000, 0.60000, 2.000000000000000000000000000000), -- Monero (tail since 2022)
-('DOGE', 'TAIL EMISSION', 17520, 1000000.00000, 10000.00000, 1.000000000000000000000000000000), -- Dogecoin (fixed since 2015)
+-- TAIL EMISSION (FIXED POST-HALVING)
+('XMR', 'TAIL EMISSION', 71112, 15.00000, 0.60000, 2.000000000000000000000000000000), -- MONERO (TAIL SINCE 2022)
+('DOGE', 'TAIL EMISSION', 17520, 1000000.00000, 10000.00000, 1.000000000000000000000000000000), -- DOGECOIN (FIXED SINCE 2015)
 
--- Linear Emission (PoS/Governance)
-('ETH', 'LINEAR EMISSION', 87600, 2.00000, 0.56000, 0.200000000000000000000000000000), -- Ethereum (PoS ~12s blocks)
-('BNB', 'LINEAR EMISSION', 0, 10.00000, 3.10000, 0.333000000000000000000000000000), -- BNB Chain (PoSA)
-('ADA', 'LINEAR EMISSION', 262800, 20.00000, 4.60000, 0.333000000000000000000000000000), -- Cardano (~20s epochs)
-('SOL', 'LINEAR EMISSION', 87600, 10.00000, 2.50000, 0.006700000000000000000000000000), -- Solana (400ms blocks)
-('DOT', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 6.000000000000000000000000000000), -- Polkadot
+-- LINEAR EMISSION (POS/GOVERNANCE)
+('ETH', 'LINEAR EMISSION', 87600, 2.00000, 0.56000, 0.200000000000000000000000000000), -- ETHEREUM (POS ~12S BLOCKS)
+('BNB', 'LINEAR EMISSION', 0, 10.00000, 3.10000, 0.333000000000000000000000000000), -- BNB CHAIN (POSA)
+('ADA', 'LINEAR EMISSION', 262800, 20.00000, 4.60000, 0.333000000000000000000000000000), -- CARDANO (~20S EPOCHS)
+('SOL', 'LINEAR EMISSION', 87600, 10.00000, 2.50000, 0.006700000000000000000000000000), -- SOLANA (400MS BLOCKS)
+('DOT', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 6.000000000000000000000000000000), -- POLKADOT
 
--- Stablecoins/Non-Emission Tokens (Placeholder Values)
-('USDT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- Tether
-('USDC', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- USD Coin
-('DAI', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- Dai
-('XRP', 'TAIL EMISSION', 0, 0.00000, 0.00000, 3.500000000000000000000000000000), -- XRP (pre-mined)
+-- STABLECOINS/NON-EMISSION TOKENS (PLACEHOLDER VALUES)
+('USDT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- TETHER
+('USDC', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- USD COIN
+('DAI', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- DAI
+('XRP', 'TAIL EMISSION', 0, 0.00000, 0.00000, 3.500000000000000000000000000000), -- XRP (PRE-MINED)
 
--- Other Chains (Assumed Linear/Tail)
-('AVAX', 'LINEAR EMISSION', 87600, 5.00000, 2.00000, 2.000000000000000000000000000000), -- Avalanche
+-- OTHER CHAINS (ASSUMED LINEAR/TAIL)
+('AVAX', 'LINEAR EMISSION', 87600, 5.00000, 2.00000, 2.000000000000000000000000000000), -- AVALANCHE
 ('TRX', 'LINEAR EMISSION', 0, 32.00000, 16.00000, 3.000000000000000000000000000000), -- TRON
-('SHIB', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- Shiba Inu (ERC-20)
-('MATIC', 'LINEAR EMISSION', 0, 5.00000, 2.00000, 2.100000000000000000000000000000), -- Polygon
-('LINK', 'LINEAR EMISSION', 0, 10.00000, 5.00000, 0.300000000000000000000000000000); -- Chainlink
+('SHIB', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000), -- SHIBA INU (ERC-20)
+('MATIC', 'LINEAR EMISSION', 0, 5.00000, 2.00000, 2.100000000000000000000000000000), -- POLYGON
+('LINK', 'LINEAR EMISSION', 0, 10.00000, 5.00000, 0.300000000000000000000000000000); -- CHAINLINK
 
--- ... (Continue for remaining 25 entries with similar logic)
+-- ... (CONTINUE FOR REMAINING 25 ENTRIES WITH SIMILAR LOGIC)
 
--- Continued from previous 25 entries...
+-- CONTINUED FROM PREVIOUS 25 ENTRIES...
 INSERT INTO REWARD_DETAILS (SYMBOL, EMISSION_TYPE, EMISSION_TIME, STARTING_TIME_BLOCK_REWARD, CURRENT_BLOCK_REWARD, BLOCK_REWARD_TIME)  VALUES
-('FTM', 'LINEAR EMISSION', 87600, 50.00000, 12.50000, 1.000000000000000000000000000000), -- Fantom (Lachesis aBFT)
-('GRT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- The Graph (ERC-20, no block rewards)
-('ALGO', 'LINEAR EMISSION', 262800, 10.00000, 2.50000, 4.500000000000000000000000000000), -- Algorand (Pure PoS)
-('VET', 'LINEAR EMISSION', 0, 100.00000, 50.00000, 10.000000000000000000000000000000),    -- VeChain (PoA)
-('XTZ', 'LINEAR EMISSION', 87600, 40.00000, 10.00000, 1.000000000000000000000000000000),  -- Tezos (Liquid PoS)
-('SAND', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- The Sandbox (ERC-20)
-('MANA', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- Decentraland (ERC-20)
-('AXS', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 0.500000000000000000000000000000),  -- Axie Infinity (Ronin sidechain)
-('AAVE', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- Aave (Governance token)
-('KSM', 'HALVING', 35040, 10.00000, 2.50000, 6.000000000000000000000000000000),           -- Kusama (Polkadot cousin)
-('CHZ', 'LINEAR EMISSION', 0, 1000.00000, 200.00000, 5.000000000000000000000000000000),   -- Chiliz (PoA)
-('HNT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- Helium (migrated to Solana)
-('OP', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),           -- Optimism (Layer-2 governance)
-('MKR', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- MakerDAO (Governance token)
-('INJ', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 1.000000000000000000000000000000),  -- Injective (Tendermint BFT)
-('IMX', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- Immutable X (zkEVM Layer-2)
-('APT', 'LINEAR EMISSION', 87600, 10.00000, 3.00000, 0.500000000000000000000000000000),   -- Aptos (PoS)
-('SEI', 'LINEAR EMISSION', 262800, 15.00000, 4.00000, 0.300000000000000000000000000000),  -- Sei (Tendermint BFT)
-('LDO', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- Lido DAO (Governance token)
-('ONDO', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- Ondo (RWA tokenization)
-('FET', 'LINEAR EMISSION', 87600, 5.00000, 1.50000, 0.200000000000000000000000000000),    -- Fetch.ai (AI PoS)
-('HBAR', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- Hedera (Fixed supply)
-('CRO', 'LINEAR EMISSION', 0, 20.00000, 5.00000, 5.000000000000000000000000000000),       -- Cronos (PoS)
-('ARB', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- Arbitrum (Layer-2)
-('FIL', 'LINEAR EMISSION', 262800, 15.00000, 5.00000, 0.500000000000000000000000000000);  -- Filecoin (Storage-based)
-# REWARD_DETAILS DATA END
+('FTM', 'LINEAR EMISSION', 87600, 50.00000, 12.50000, 1.000000000000000000000000000000), -- FANTOM (LACHESIS ABFT)
+('GRT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- THE GRAPH (ERC-20, NO BLOCK REWARDS)
+('ALGO', 'LINEAR EMISSION', 262800, 10.00000, 2.50000, 4.500000000000000000000000000000), -- ALGORAND (PURE POS)
+('VET', 'LINEAR EMISSION', 0, 100.00000, 50.00000, 10.000000000000000000000000000000),    -- VECHAIN (POA)
+('XTZ', 'LINEAR EMISSION', 87600, 40.00000, 10.00000, 1.000000000000000000000000000000),  -- TEZOS (LIQUID POS)
+('SAND', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- THE SANDBOX (ERC-20)
+('MANA', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- DECENTRALAND (ERC-20)
+('AXS', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 0.500000000000000000000000000000),  -- AXIE INFINITY (RONIN SIDECHAIN)
+('AAVE', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- AAVE (GOVERNANCE TOKEN)
+('KSM', 'HALVING', 35040, 10.00000, 2.50000, 6.000000000000000000000000000000),           -- KUSAMA (POLKADOT COUSIN)
+('CHZ', 'LINEAR EMISSION', 0, 1000.00000, 200.00000, 5.000000000000000000000000000000),   -- CHILIZ (POA)
+('HNT', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- HELIUM (MIGRATED TO SOLANA)
+('OP', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),           -- OPTIMISM (LAYER-2 GOVERNANCE)
+('MKR', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- MAKERDAO (GOVERNANCE TOKEN)
+('INJ', 'LINEAR EMISSION', 262800, 20.00000, 5.00000, 1.000000000000000000000000000000),  -- INJECTIVE (TENDERMINT BFT)
+('IMX', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- IMMUTABLE X (ZKEVM LAYER-2)
+('APT', 'LINEAR EMISSION', 87600, 10.00000, 3.00000, 0.500000000000000000000000000000),   -- APTOS (POS)
+('SEI', 'LINEAR EMISSION', 262800, 15.00000, 4.00000, 0.300000000000000000000000000000),  -- SEI (TENDERMINT BFT)
+('LDO', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- LIDO DAO (GOVERNANCE TOKEN)
+('ONDO', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- ONDO (RWA TOKENIZATION)
+('FET', 'LINEAR EMISSION', 87600, 5.00000, 1.50000, 0.200000000000000000000000000000),    -- FETCH.AI (AI POS)
+('HBAR', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),         -- HEDERA (FIXED SUPPLY)
+('CRO', 'LINEAR EMISSION', 0, 20.00000, 5.00000, 5.000000000000000000000000000000),       -- CRONOS (POS)
+('ARB', 'TAIL EMISSION', 0, 0.00000, 0.00000, 0.000000000000000000000000000000),          -- ARBITRUM (LAYER-2)
+('FIL', 'LINEAR EMISSION', 262800, 15.00000, 5.00000, 0.500000000000000000000000000000);  -- FILECOIN (STORAGE-BASED)
+-- REWARD_DETAILS DATA END
 
 INSERT INTO BLOCK_REWARD_EMISSION (SYMBOL, YEAR, DATE, BLOCK_REWARD, HALVING_YEAR_MARKET_PRICE, HALVING_YEAR_MARKET_CAP, NETWORK_HASH_RATE) VALUES
 ('BTC', 2012, '2012-11-28', 25.00000000, 13.00, 136.5, 0.0000028),
@@ -815,76 +812,76 @@ INSERT INTO BLOCK_REWARD_EMISSION (SYMBOL, YEAR, DATE, BLOCK_REWARD, HALVING_YEA
 
 
 INSERT INTO HFT_AMF_FIRMS (COMPANY_NAME, HEAD_QUARTER, ESTABLISHED_YEAR, WORK_TYPE, FAMOUS_FOR) VALUES
-('BlackRock', 'New York, USA', 1988, 'Asset Management', 'Largest asset manager globally; iShares ETF'),
+('BLACKROCK', 'NEW YORK, USA', 1988, 'ASSET MANAGEMENT', 'LARGEST ASSET MANAGER GLOBALLY; ISHARES ETF'),
 
-('Fidelity', 'Boston, USA', 1946, 'Asset Management', 'Early institutional crypto adopter; Fidelity Digital Assets'),
+('FIDELITY', 'BOSTON, USA', 1946, 'ASSET MANAGEMENT', 'EARLY INSTITUTIONAL CRYPTO ADOPTER; FIDELITY DIGITAL ASSETS'),
 
-('Grayscale', 'Stamford, USA', 2013, 'Digital Asset Management', 'Grayscale Bitcoin Trust (GBTC); Crypto investment pioneer'),
+('GRAYSCALE', 'STAMFORD, USA', 2013, 'DIGITAL ASSET MANAGEMENT', 'GRAYSCALE BITCOIN TRUST (GBTC); CRYPTO INVESTMENT PIONEER'),
 
-('ProShares', 'Bethesda, USA', 2006, 'ETF Provider', 'Launched first U.S. Bitcoin Futures ETF (BITO)'),
+('PROSHARES', 'BETHESDA, USA', 2006, 'ETF PROVIDER', 'LAUNCHED FIRST U.S. BITCOIN FUTURES ETF (BITO)'),
 
-('VanEck', 'New York, USA', 1955, 'Asset & ETF Management', 'Crypto & Gold ETFs; XBTF Futures ETF'),
+('VANECK', 'NEW YORK, USA', 1955, 'ASSET & ETF MANAGEMENT', 'CRYPTO & GOLD ETFS; XBTF FUTURES ETF'),
 
-('ARK Invest', 'St. Petersburg, USA', 2014, 'Active Asset Management', 'Disruptive innovation; Cathie Wood-led crypto investments'),
+('ARK INVEST', 'ST. PETERSBURG, USA', 2014, 'ACTIVE ASSET MANAGEMENT', 'DISRUPTIVE INNOVATION; CATHIE WOOD-LED CRYPTO INVESTMENTS'),
 
-('21Shares', 'Zurich, Switzerland', 2018, 'Crypto ETP Provider', 'World’s first crypto ETPs listed in Europe'),
+('21SHARES', 'ZURICH, SWITZERLAND', 2018, 'CRYPTO ETP PROVIDER', 'WORLD’S FIRST CRYPTO ETPS LISTED IN EUROPE'),
 
-('Franklin Templeton', 'San Mateo, USA', 1947, 'Asset Management', 'Entered crypto ETF space in 2024'),
+('FRANKLIN TEMPLETON', 'SAN MATEO, USA', 1947, 'ASSET MANAGEMENT', 'ENTERED CRYPTO ETF SPACE IN 2024'),
 
-('Bitwise', 'San Francisco, USA', 2017, 'Crypto Asset Management', 'Index-based crypto funds; Spot Bitcoin ETF (BITB)'),
+('BITWISE', 'SAN FRANCISCO, USA', 2017, 'CRYPTO ASSET MANAGEMENT', 'INDEX-BASED CRYPTO FUNDS; SPOT BITCOIN ETF (BITB)'),
 
-('Virtu Financial', 'New York, USA', 2008, 'High-Frequency Trading (HFT)', 'Global market maker; algorithmic trading'),
+('VIRTU FINANCIAL', 'NEW YORK, USA', 2008, 'HIGH-FREQUENCY TRADING (HFT)', 'GLOBAL MARKET MAKER; ALGORITHMIC TRADING'),
 
-('Jane Street', 'New York, USA', 2000, 'High-Frequency Trading (HFT)', 'Major ETF liquidity provider; active in crypto market'),
+('JANE STREET', 'NEW YORK, USA', 2000, 'HIGH-FREQUENCY TRADING (HFT)', 'MAJOR ETF LIQUIDITY PROVIDER; ACTIVE IN CRYPTO MARKET'),
 
-('Jump Trading', 'Chicago, USA', 1999, 'Proprietary Trading & HFT', 'Deep in crypto market making; Jump Crypto');
+('JUMP TRADING', 'CHICAGO, USA', 1999, 'PROPRIETARY TRADING & HFT', 'DEEP IN CRYPTO MARKET MAKING; JUMP CRYPTO');
 
 
 
 INSERT INTO CRYPTO_ETF
 (ETF_NAME, ETF_CODE, COMPANY_NAME, LAUNCH_DATE, YEAR, TOTAL_AUM_UNDER_ETF, CRYPTO_SYMBOL, ETF_INVESTMENT_TYPE, EXPENSE_RATIO)
 VALUES
-('iShares Bitcoin Trust', 'IBIT', 'BlackRock', '2024-01-11', 2024, 56.70000000000000000000, 'BTC', 'Spot', 0.12000),
+('ISHARES BITCOIN TRUST', 'IBIT', 'BLACKROCK', '2024-01-11', 2024, 56.70000000000000000000, 'BTC', 'SPOT', 0.12000),
 
-('Fidelity Wise Origin Bitcoin Fund', 'FBTC', 'Fidelity', '2024-01-11', 2024, 18.90000000000000000000, 'BTC', 'Spot', 0.25000),
+('FIDELITY WISE ORIGIN BITCOIN FUND', 'FBTC', 'FIDELITY', '2024-01-11', 2024, 18.90000000000000000000, 'BTC', 'SPOT', 0.25000),
 
-('Grayscale Bitcoin Trust ETF', 'GBTC', 'Grayscale', '2024-01-11', 2024, 18.10000000000000000000, 'BTC', 'Spot (Converted)', 1.50000),
+('GRAYSCALE BITCOIN TRUST ETF', 'GBTC', 'GRAYSCALE', '2024-01-11', 2024, 18.10000000000000000000, 'BTC', 'SPOT (CONVERTED)', 1.50000),
 
-('ProShares Bitcoin Strategy ETF', 'BITO', 'ProShares', '2021-10-19', 2021, 1.70000000000000000000, 'BTC', 'Futures', 0.95000),
+('PROSHARES BITCOIN STRATEGY ETF', 'BITO', 'PROSHARES', '2021-10-19', 2021, 1.70000000000000000000, 'BTC', 'FUTURES', 0.95000),
 
-('VanEck Bitcoin Strategy ETF', 'XBTF', 'VanEck', '2021-11-15', 2021, 0.70000000000000000000, 'BTC', 'Futures', 0.65000);
+('VANECK BITCOIN STRATEGY ETF', 'XBTF', 'VANECK', '2021-11-15', 2021, 0.70000000000000000000, 'BTC', 'FUTURES', 0.65000);
 
 
-insert into BROKERAGE (NAME, HEADQUARTER, ESTABLISHED_YEAR, OWN_CRYPTO_CURRENCY, FOUNDER_NAME) VALUES
-('Coinbase', 'San Francisco, CA, USA', 2012, NULL, 'Brian Armstrong'),
-('Robinhood', 'Menlo Park, CA, USA', 2013, NULL, 'Vlad Tenev, Baiju Bhatt'),
-('Binance', 'George Town, Cayman Islands', 2017, 'BNB', 'Changpeng Zhao'),
-('Kraken', 'San Francisco, CA, USA', 2011, NULL, 'Jesse Powell'),
-('Crypto.com', 'Singapore', 2016, 'CRO', 'Kris Marszalek'),
-('Bitget', 'Victoria, Seychelles', 2018, 'BGB', 'Sandra Lou'),
-('BitMart', 'New York, NY, USA', 2017, 'BMX', 'Sheldon Xia'),
-('Gemini', 'New York, NY, USA', 2014, NULL, 'Cameron Winklevoss, Tyler Winklevoss'),
-('Bitfinex', 'Hong Kong', 2012, 'LEO', 'Giancarlo Devasini'),
-('Bitstamp', 'Luxembourg City, Luxembourg', 2011, NULL, 'Nejc Kodrič, Damijan Merlak'),
-('KuCoin', 'Victoria, Seychelles', 2017, 'KCS', 'Johnny Lyu'),
-('OKX', 'Victoria, Seychelles', 2017, 'OKB', 'Star Xu'),
-('Bybit', 'Dubai, UAE', 2018, 'BIT', 'Ben Zhou'),
-('Gate.io', 'George Town, Cayman Islands', 2013, 'GT', 'Lin Han'),
-('Uphold', 'New York, NY, USA', 2015, NULL, 'J.P. Thieriot'),
-('eToro', 'Tel Aviv, Israel', 2007, NULL, 'Yoni Assia'),
-('AvaTrade', 'Dublin, Ireland', 2006, NULL, 'Emanuel Kronitz'),
-('Capital.com', 'Limassol, Cyprus', 2016, NULL, 'Viktor Prokopenya'),
-('Interactive Brokers', 'Greenwich, CT, USA', 1977, NULL, 'Thomas Peterffy'),
-('Tastytrade', 'Chicago, IL, USA', 2017, NULL, 'Tom Sosnoff');
+INSERT INTO BROKERAGE (NAME, HEADQUARTER, ESTABLISHED_YEAR, OWN_CRYPTO_CURRENCY, FOUNDER_NAME) VALUES
+('COINBASE', 'SAN FRANCISCO, CA, USA', 2012, NULL, 'BRIAN ARMSTRONG'),
+('ROBINHOOD', 'MENLO PARK, CA, USA', 2013, NULL, 'VLAD TENEV, BAIJU BHATT'),
+('BINANCE', 'GEORGE TOWN, CAYMAN ISLANDS', 2017, 'BNB', 'CHANGPENG ZHAO'),
+('KRAKEN', 'SAN FRANCISCO, CA, USA', 2011, NULL, 'JESSE POWELL'),
+('CRYPTO.COM', 'SINGAPORE', 2016, 'CRO', 'KRIS MARSZALEK'),
+('BITGET', 'VICTORIA, SEYCHELLES', 2018, 'BGB', 'SANDRA LOU'),
+('BITMART', 'NEW YORK, NY, USA', 2017, 'BMX', 'SHELDON XIA'),
+('GEMINI', 'NEW YORK, NY, USA', 2014, NULL, 'CAMERON WINKLEVOSS, TYLER WINKLEVOSS'),
+('BITFINEX', 'HONG KONG', 2012, 'LEO', 'GIANCARLO DEVASINI'),
+('BITSTAMP', 'LUXEMBOURG CITY, LUXEMBOURG', 2011, NULL, 'NEJC KODRIČ, DAMIJAN MERLAK'),
+('KUCOIN', 'VICTORIA, SEYCHELLES', 2017, 'KCS', 'JOHNNY LYU'),
+('OKX', 'VICTORIA, SEYCHELLES', 2017, 'OKB', 'STAR XU'),
+('BYBIT', 'DUBAI, UAE', 2018, 'BIT', 'BEN ZHOU'),
+('GATE.IO', 'GEORGE TOWN, CAYMAN ISLANDS', 2013, 'GT', 'LIN HAN'),
+('UPHOLD', 'NEW YORK, NY, USA', 2015, NULL, 'J.P. THIERIOT'),
+('ETORO', 'TEL AVIV, ISRAEL', 2007, NULL, 'YONI ASSIA'),
+('AVATRADE', 'DUBLIN, IRELAND', 2006, NULL, 'EMANUEL KRONITZ'),
+('CAPITAL.COM', 'LIMASSOL, CYPRUS', 2016, NULL, 'VIKTOR PROKOPENYA'),
+('INTERACTIVE BROKERS', 'GREENWICH, CT, USA', 1977, NULL, 'THOMAS PETERFFY'),
+('TASTYTRADE', 'CHICAGO, IL, USA', 2017, NULL, 'TOM SOSNOFF');
 
-insert into BROKERAGE (NAME, HEADQUARTER, ESTABLISHED_YEAR, OWN_CRYPTO_CURRENCY, FOUNDER_NAME)
-values ('Mt. Gox','Shibuya, Tokyo, Japan',2010,null,'Jed McCaleb');
+INSERT INTO BROKERAGE (NAME, HEADQUARTER, ESTABLISHED_YEAR, OWN_CRYPTO_CURRENCY, FOUNDER_NAME)
+VALUES ('MT. GOX','SHIBUYA, TOKYO, JAPAN',2010,NULL,'JED MCCALEB');
 
-INSERT INTO BROKERAGE (name, HEADQUARTER, established_year, own_crypto_currency, founder_name)
+INSERT INTO BROKERAGE (NAME, HEADQUARTER, ESTABLISHED_YEAR, OWN_CRYPTO_CURRENCY, FOUNDER_NAME)
 VALUES
-('WazirX', 'Mumbai, India', 2018, 'WRX', 'Nischal Shetty'),
-('NiceHash', 'Ljubljana, Slovenia', 2014, NULL, 'Matjaž Škorjanc, Marko Kobal'),
-('FTX', 'Nassau, Bahamas', 2019, 'FTT', 'Sam Bankman-Fried');
+('WAZIRX', 'MUMBAI, INDIA', 2018, 'WRX', 'NISCHAL SHETTY'),
+('NICEHASH', 'LJUBLJANA, SLOVENIA', 2014, NULL, 'MATJAŽ ŠKORJANC, MARKO KOBAL'),
+('FTX', 'NASSAU, BAHAMAS', 2019, 'FTT', 'SAM BANKMAN-FRIED');
 
 
 INSERT INTO TOP_BROKERAGE (YEAR, BROKERAGE_NAME, TOTAL_MARKET_CAP, MARKET_SHARE, TOTAL_USER) VALUES
@@ -979,118 +976,118 @@ INSERT INTO CONTROVERSY (YEAR, BROKERAGE_NAME, AFFECTED_CRYPTO, AFFECTED_AMOUNT_
 
 
 
-# ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
--- Accepted Countries
+-- ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
+-- ACCEPTED COUNTRIES
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
-('USA', 'United States', 'ACCEPTED', 99.0, 3.63, 27720.0000000000),
-('DEU', 'Germany', 'ACCEPTED', 99.0, 7.62, 4530.0000000000),
-('GBR', 'United Kingdom', 'ACCEPTED', 99.0, 4.06, 3380.0000000000),
-('JPN', 'Japan', 'ACCEPTED', 99.0, 2.60, 4200.0000000000),
-('CAN', 'Canada', 'ACCEPTED', 99.0, 5.37, 2230.0000000000),
-('CHE', 'Switzerland', 'ACCEPTED', 99.0, 4.05, 824.0000000000),
-('SGP', 'Singapore', 'ACCEPTED', 97.0, 3.47, 466.0000000000),
-('AUS', 'Australia', 'ACCEPTED', 99.0, 3.67, 1700.0000000000),
-('KOR', 'South Korea', 'ACCEPTED', 99.0, 3.50, 1670.0000000000),
-('PRT', 'Portugal', 'ACCEPTED', 95.0, 6.49, 289.0000000000),
-('SLV', 'El Salvador', 'ACCEPTED', 86.0, 6.50, 32.4000000000),  -- Added missing data
-('CZE', 'Czech Republic', 'ACCEPTED', 95.0, 2.20, 290.0000000000);  -- Added missing data
+('USA', 'UNITED STATES', 'ACCEPTED', 99.0, 3.63, 27720.0000000000),
+('DEU', 'GERMANY', 'ACCEPTED', 99.0, 7.62, 4530.0000000000),
+('GBR', 'UNITED KINGDOM', 'ACCEPTED', 99.0, 4.06, 3380.0000000000),
+('JPN', 'JAPAN', 'ACCEPTED', 99.0, 2.60, 4200.0000000000),
+('CAN', 'CANADA', 'ACCEPTED', 99.0, 5.37, 2230.0000000000),
+('CHE', 'SWITZERLAND', 'ACCEPTED', 99.0, 4.05, 824.0000000000),
+('SGP', 'SINGAPORE', 'ACCEPTED', 97.0, 3.47, 466.0000000000),
+('AUS', 'AUSTRALIA', 'ACCEPTED', 99.0, 3.67, 1700.0000000000),
+('KOR', 'SOUTH KOREA', 'ACCEPTED', 99.0, 3.50, 1670.0000000000),
+('PRT', 'PORTUGAL', 'ACCEPTED', 95.0, 6.49, 289.0000000000),
+('SLV', 'EL SALVADOR', 'ACCEPTED', 86.0, 6.50, 32.4000000000),  -- ADDED MISSING DATA
+('CZE', 'CZECH REPUBLIC', 'ACCEPTED', 95.0, 2.20, 290.0000000000);  -- ADDED MISSING DATA
 
--- Restricted Countries
+-- RESTRICTED COUNTRIES
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
-('CHN', 'China', 'RESTRICTED', 96.0, 5.50, 17790.0000000000),
-('NGA', 'Nigeria', 'RESTRICTED', 62.0, 9.80, 477.0000000000),
-('BGD', 'Bangladesh', 'RESTRICTED', 74.0, 5.06, 460.0000000000),
-('DZA', 'Algeria', 'RESTRICTED', 81.0, 11.81, 206.0000000000),
-('EGY', 'Egypt', 'RESTRICTED', 71.0, 7.31, 387.0000000000),
-('MAR', 'Morocco', 'RESTRICTED', 73.0, 11.50, 143.0000000000),
-('BOL', 'Bolivia', 'RESTRICTED', 92.0, 4.80, 41.0000000000),
-('NPL', 'Nepal', 'RESTRICTED', 67.0, 4.40, 40.0000000000),
-('PAK', 'Pakistan', 'RESTRICTED', 59.0, 5.50, 341.0000000000),
-('IRQ', 'Iraq', 'RESTRICTED', 50.0, 15.53, 264.0000000000),
-('TUN', 'Tunisia', 'RESTRICTED', 79.0, 15.20, 46.5000000000),  -- Added missing data
-('QAT', 'Qatar', 'RESTRICTED', 97.0, 0.10, 220.0000000000),    -- Added missing data
-('AFG', 'Afghanistan', 'RESTRICTED', 43.0, 13.30, 14.6000000000); -- Added missing data
+('CHN', 'CHINA', 'RESTRICTED', 96.0, 5.50, 17790.0000000000),
+('NGA', 'NIGERIA', 'RESTRICTED', 62.0, 9.80, 477.0000000000),
+('BGD', 'BANGLADESH', 'RESTRICTED', 74.0, 5.06, 460.0000000000),
+('DZA', 'ALGERIA', 'RESTRICTED', 81.0, 11.81, 206.0000000000),
+('EGY', 'EGYPT', 'RESTRICTED', 71.0, 7.31, 387.0000000000),
+('MAR', 'MOROCCO', 'RESTRICTED', 73.0, 11.50, 143.0000000000),
+('BOL', 'BOLIVIA', 'RESTRICTED', 92.0, 4.80, 41.0000000000),
+('NPL', 'NEPAL', 'RESTRICTED', 67.0, 4.40, 40.0000000000),
+('PAK', 'PAKISTAN', 'RESTRICTED', 59.0, 5.50, 341.0000000000),
+('IRQ', 'IRAQ', 'RESTRICTED', 50.0, 15.53, 264.0000000000),
+('TUN', 'TUNISIA', 'RESTRICTED', 79.0, 15.20, 46.5000000000),  -- ADDED MISSING DATA
+('QAT', 'QATAR', 'RESTRICTED', 97.0, 0.10, 220.0000000000),    -- ADDED MISSING DATA
+('AFG', 'AFGHANISTAN', 'RESTRICTED', 43.0, 13.30, 14.6000000000); -- ADDED MISSING DATA
 
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
-('BTN', 'Bhutan', 'RESTRICTED', 66.6, 5.0, 2.5000000000);
+('BTN', 'BHUTAN', 'RESTRICTED', 66.6, 5.0, 2.5000000000);
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
-('IND', 'India', 'RESTRICTED', 77.7, 7.8, 3400.0000000000);
+('IND', 'INDIA', 'RESTRICTED', 77.7, 7.8, 3400.0000000000);
 INSERT INTO COUNTRY (COUNTRY_CODE, COUNTRY_NAME, CRYPTO_STATUS, EDUCATION_PERCENTAGE, UNEMPLOYMENT_RATE, GDP) VALUES
-('SVN', 'Slovenia', 'ACCEPTED', 98.5, 4.5, 68.0000000000)
-,('SYC', 'Seychelles', 'ACCEPTED', 95.5, 3.0, 2.0000000000),
- ('IRL', 'Ireland', 'ACCEPTED', 99.0, 4.8, 589.0000000000),
- ('CYM', 'Cayman Islands', 'ACCEPTED', 98.0, 3.3, 6.8000000000),
- ('HKG', 'Hong Kong', 'ACCEPTED', 94.0, 3.3, 368.0000000000),  -- Special Administrative Region of China
-('LUX', 'Luxembourg', 'ACCEPTED', 99.0, 4.8, 89.0000000000),   -- EU member with crypto-friendly laws
-('ARE', 'United Arab Emirates', 'ACCEPTED', 98.0, 3.4, 500.0000000000),  -- Dubai's VARA regulations
-('CYP', 'Cyprus', 'ACCEPTED', 97.5, 6.8, 28.0000000000),       -- EU member with crypto tax incentives
-# ('SGP', 'Singapore', 'ACCEPTED', 97.0, 2.1, 466.0000000000),   -- MAS-regulated framework
-('ISR', 'Israel', 'ACCEPTED', 97.0, 3.6, 520.0000000000),      -- Crypto taxed but not banned
-('BHS', 'Bahamas', 'ACCEPTED', 95.0, 10.1, 13.0000000000)
+('SVN', 'SLOVENIA', 'ACCEPTED', 98.5, 4.5, 68.0000000000)
+,('SYC', 'SEYCHELLES', 'ACCEPTED', 95.5, 3.0, 2.0000000000),
+ ('IRL', 'IRELAND', 'ACCEPTED', 99.0, 4.8, 589.0000000000),
+ ('CYM', 'CAYMAN ISLANDS', 'ACCEPTED', 98.0, 3.3, 6.8000000000),
+ ('HKG', 'HONG KONG', 'ACCEPTED', 94.0, 3.3, 368.0000000000),  -- SPECIAL ADMINISTRATIVE REGION OF CHINA
+('LUX', 'LUXEMBOURG', 'ACCEPTED', 99.0, 4.8, 89.0000000000),   -- EU MEMBER WITH CRYPTO-FRIENDLY LAWS
+('ARE', 'UNITED ARAB EMIRATES', 'ACCEPTED', 98.0, 3.4, 500.0000000000),  -- DUBAI'S VARA REGULATIONS
+('CYP', 'CYPRUS', 'ACCEPTED', 97.5, 6.8, 28.0000000000),       -- EU MEMBER WITH CRYPTO TAX INCENTIVES
+-- ('SGP', 'SINGAPORE', 'ACCEPTED', 97.0, 2.1, 466.0000000000),   -- MAS-REGULATED FRAMEWORK
+('ISR', 'ISRAEL', 'ACCEPTED', 97.0, 3.6, 520.0000000000),      -- CRYPTO TAXED BUT NOT BANNED
+('BHS', 'BAHAMAS', 'ACCEPTED', 95.0, 10.1, 13.0000000000)
  ;
                                                                                                                   ;
-# ACCEPTED COUNTRY DATA START
+-- ACCEPTED COUNTRY DATA START
 INSERT INTO ACCEPTED_COUNTRY (COUNTRY_CODE, RESTRICTIONS, CRYPTO_ATMS, ACCEPTED_YEAR)
 VALUES
-('USA',  'Legal (regulated as property/commodity, FinCEN oversight)', 27000, 2013),
-('CAN',  'Legal (regulated under AML/CFT laws, taxed as capital gains)', 2500, 2014),
-('SLV',  'Bitcoin is legal tender (mandatory acceptance, IMF restrictions)', 200, 2021),
-('DEU',  'Legal (tax-free after 1-year holding, MiCA compliance)', 500, 2013),
-('JPN',  'Legal (regulated as payment method, strict AML rules)', 1000, 2017),
-('AUS',  'Legal (regulated, taxed as property, AML/CTF compliance)', 400, 2017),
-('CHE',  'Legal (crypto-friendly, FINMA oversight)', 150, 2014),
-('GBR',  'Legal (regulated, taxed as assets, FCA authorization)', 300, 2014),
-('SGP',  'Legal (regulated under Payment Services Act)', 200, 2019),
-('KOR',  'Legal (regulated, strict KYC/AML compliance)', 100, 2017),
-('BTN',  'Legal (state-managed Bitcoin mining for reserves)', 0, 2020),
-('CZE',  'Legal (exploring reserve, MiCA compliance)', 50, 2025);
-# ACCEPTED COUNTRY DATA END
+('USA',  'LEGAL (REGULATED AS PROPERTY/COMMODITY, FINCEN OVERSIGHT)', 27000, 2013),
+('CAN',  'LEGAL (REGULATED UNDER AML/CFT LAWS, TAXED AS CAPITAL GAINS)', 2500, 2014),
+('SLV',  'BITCOIN IS LEGAL TENDER (MANDATORY ACCEPTANCE, IMF RESTRICTIONS)', 200, 2021),
+('DEU',  'LEGAL (TAX-FREE AFTER 1-YEAR HOLDING, MICA COMPLIANCE)', 500, 2013),
+('JPN',  'LEGAL (REGULATED AS PAYMENT METHOD, STRICT AML RULES)', 1000, 2017),
+('AUS',  'LEGAL (REGULATED, TAXED AS PROPERTY, AML/CTF COMPLIANCE)', 400, 2017),
+('CHE',  'LEGAL (CRYPTO-FRIENDLY, FINMA OVERSIGHT)', 150, 2014),
+('GBR',  'LEGAL (REGULATED, TAXED AS ASSETS, FCA AUTHORIZATION)', 300, 2014),
+('SGP',  'LEGAL (REGULATED UNDER PAYMENT SERVICES ACT)', 200, 2019),
+('KOR',  'LEGAL (REGULATED, STRICT KYC/AML COMPLIANCE)', 100, 2017),
+('BTN',  'LEGAL (STATE-MANAGED BITCOIN MINING FOR RESERVES)', 0, 2020),
+('CZE',  'LEGAL (EXPLORING RESERVE, MICA COMPLIANCE)', 50, 2025);
+-- ACCEPTED COUNTRY DATA END
 
-# BANNED COUNTRY DATA START
+-- BANNED COUNTRY DATA START
 INSERT INTO BANNED_COUNTRY (COUNTRY_CODE, RESTRICTIONS, CRYPTO_ATMS, BANNED_YEAR)
 VALUES
-('CHN', 'Banned (exchanges, trading, mining; financial stability, capital flight)', 10, 2021),
-('DZA',  'Banned (ownership, transactions; money laundering, terrorism financing)', 0, 2018),
-('BGD',  'Banned (fines, imprisonment; financial stability, illicit activities)', 5, 2017),
-('NPL',  'Banned (trading, use; fraud, financial stability)', 0, 2021),
-('AFG',  'Banned (Taliban rule; financial instability, Islamic law)', 0, 2022),
-('EGY',  'Banned (haram under Islamic law; money laundering, volatility)', 2, 2018),
-('IRQ', 'Banned (financial crime, consumer protection; patchy enforcement)', 1, 2017),
-('MAR',  'Banned (financial crime, instability; possible legalization 2025)', 3, 2017),
-('QAT', 'Banned (QFCRA prohibits all crypto activities)', 0, 2018),
-('TUN',  'Banned (limited data; financial stability concerns)', 0, 2018);
-# BANNED COUNTRY DATA END
+('CHN', 'BANNED (EXCHANGES, TRADING, MINING; FINANCIAL STABILITY, CAPITAL FLIGHT)', 10, 2021),
+('DZA',  'BANNED (OWNERSHIP, TRANSACTIONS; MONEY LAUNDERING, TERRORISM FINANCING)', 0, 2018),
+('BGD',  'BANNED (FINES, IMPRISONMENT; FINANCIAL STABILITY, ILLICIT ACTIVITIES)', 5, 2017),
+('NPL',  'BANNED (TRADING, USE; FRAUD, FINANCIAL STABILITY)', 0, 2021),
+('AFG',  'BANNED (TALIBAN RULE; FINANCIAL INSTABILITY, ISLAMIC LAW)', 0, 2022),
+('EGY',  'BANNED (HARAM UNDER ISLAMIC LAW; MONEY LAUNDERING, VOLATILITY)', 2, 2018),
+('IRQ', 'BANNED (FINANCIAL CRIME, CONSUMER PROTECTION; PATCHY ENFORCEMENT)', 1, 2017),
+('MAR',  'BANNED (FINANCIAL CRIME, INSTABILITY; POSSIBLE LEGALIZATION 2025)', 3, 2017),
+('QAT', 'BANNED (QFCRA PROHIBITS ALL CRYPTO ACTIVITIES)', 0, 2018),
+('TUN',  'BANNED (LIMITED DATA; FINANCIAL STABILITY CONCERNS)', 0, 2018);
+-- BANNED COUNTRY DATA END
 
-# ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
+-- ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO DATA END
 INSERT INTO ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO (YEAR, COUNTRY_CODE, CRYPTO_SYMBOL, USER_PERCENTAGE)
 VALUES
--- United States (USA): 2013-2024
-(2013, 'USA', 'BTC', 95.00000), -- BTC dominates early
+-- UNITED STATES (USA): 2013-2024
+(2013, 'USA', 'BTC', 95.00000), -- BTC DOMINATES EARLY
 (2013, 'USA', 'XRP', 4.00000),
 (2014, 'USA', 'BTC', 90.00000),
 (2014, 'USA', 'XRP', 5.00000),
-(2014, 'USA', 'USDT', 4.00000), -- USDT launched 2014
+(2014, 'USA', 'USDT', 4.00000), -- USDT LAUNCHED 2014
 (2015, 'USA', 'BTC', 80.00000),
-(2015, 'USA', 'ETH', 10.00000), -- ETH launched 2015
+(2015, 'USA', 'ETH', 10.00000), -- ETH LAUNCHED 2015
 (2015, 'USA', 'USDT', 5.00000),
 (2015, 'USA', 'XRP', 4.00000),
-(2017, 'USA', 'BTC', 60.00000), -- ICO boom, altcoins grow
+(2017, 'USA', 'BTC', 60.00000), -- ICO BOOM, ALTCOINS GROW
 (2017, 'USA', 'ETH', 20.00000),
 (2017, 'USA', 'USDT', 10.00000),
-(2017, 'USA', 'DOGE', 3.00000), -- DOGE launched 2013, gains traction
+(2017, 'USA', 'DOGE', 3.00000), -- DOGE LAUNCHED 2013, GAINS TRACTION
 (2017, 'USA', 'XRP', 3.00000),
-(2017, 'USA', 'BNB', 2.00000), -- BNB, ADA launched 2017
+(2017, 'USA', 'BNB', 2.00000), -- BNB, ADA LAUNCHED 2017
 (2017, 'USA', 'ADA', 2.00000),
-(2020, 'USA', 'BTC', 50.00000), -- DeFi, NFTs boost altcoins
+(2020, 'USA', 'BTC', 50.00000), -- DEFI, NFTS BOOST ALTCOINS
 (2020, 'USA', 'ETH', 20.00000),
 (2020, 'USA', 'USDT', 10.00000),
 (2020, 'USA', 'DOGE', 8.00000),
-(2020, 'USA', 'SOL', 3.00000), -- SOL, DOT launched 2020
+(2020, 'USA', 'SOL', 3.00000), -- SOL, DOT LAUNCHED 2020
 (2020, 'USA', 'ADA', 2.00000),
 (2020, 'USA', 'DOT', 2.00000),
 (2020, 'USA', 'XRP', 2.00000),
 (2020, 'USA', 'BNB', 2.00000),
-(2024, 'USA', 'BTC', 50.00000), -- Matches previous 2024 estimate
+(2024, 'USA', 'BTC', 50.00000), -- MATCHES PREVIOUS 2024 ESTIMATE
 (2024, 'USA', 'ETH', 20.00000),
 (2024, 'USA', 'USDT', 10.00000),
 (2024, 'USA', 'DOGE', 8.00000),
@@ -1099,7 +1096,7 @@ VALUES
 (2024, 'USA', 'DOT', 2.00000),
 (2024, 'USA', 'XRP', 1.50000),
 (2024, 'USA', 'BNB', 1.00000),
--- El Salvador (SLV): 2021-2024 (BTC legal tender)
+-- EL SALVADOR (SLV): 2021-2024 (BTC LEGAL TENDER)
 (2021, 'SLV', 'BTC', 90.00000),
 (2021, 'SLV', 'ETH', 5.00000),
 (2021, 'SLV', 'USDT', 2.00000),
@@ -1118,7 +1115,7 @@ VALUES
 (2024, 'SLV', 'DOT', 1.00000),
 (2024, 'SLV', 'XRP', 1.00000),
 (2024, 'SLV', 'BNB', 1.00000),
--- Singapore (SGP): 2019-2024 (DeFi, trading hub)
+-- SINGAPORE (SGP): 2019-2024 (DEFI, TRADING HUB)
 (2019, 'SGP', 'BTC', 60.00000),
 (2019, 'SGP', 'ETH', 20.00000),
 (2019, 'SGP', 'USDT', 10.00000),
@@ -1135,7 +1132,7 @@ VALUES
 (2020, 'SGP', 'DOT', 3.00000),
 (2020, 'SGP', 'XRP', 2.00000),
 (2020, 'SGP', 'BNB', 2.00000),
-(2024, 'SGP', 'BTC', 35.00000), -- Matches previous 2024 estimate
+(2024, 'SGP', 'BTC', 35.00000), -- MATCHES PREVIOUS 2024 ESTIMATE
 (2024, 'SGP', 'ETH', 25.00000),
 (2024, 'SGP', 'USDT', 20.00000),
 (2024, 'SGP', 'DOGE', 3.00000),
@@ -1145,29 +1142,29 @@ VALUES
 (2024, 'SGP', 'XRP', 3.00000),
 (2024, 'SGP', 'BNB', 3.00000);
 
-# USER_AMOUNT_IN_BANNED_COUNTRY DATA START
+-- USER_AMOUNT_IN_BANNED_COUNTRY DATA START
 
 INSERT INTO USER_AMOUNT_IN_BANNED_COUNTRY (YEAR, COUNTRY_CODE, USER_AMOUNT) VALUES
--- China (Banned 2021)
-('2008', 'CHN', 0.00100000000000000000), -- Pre-Bitcoin era
+-- CHINA (BANNED 2021)
+('2008', 'CHN', 0.00100000000000000000), -- PRE-BITCOIN ERA
 ('2009', 'CHN', 0.00500000000000000000),
 ('2010', 'CHN', 0.02000000000000000000),
-('2011', 'CHN', 0.10000000000000000000), -- Early mining adoption
+('2011', 'CHN', 0.10000000000000000000), -- EARLY MINING ADOPTION
 ('2012', 'CHN', 0.30000000000000000000),
-('2013', 'CHN', 0.80000000000000000000), -- BTC price surge
+('2013', 'CHN', 0.80000000000000000000), -- BTC PRICE SURGE
 ('2014', 'CHN', 1.50000000000000000000),
 ('2015', 'CHN', 2.20000000000000000000),
-('2016', 'CHN', 3.00000000000000000000), -- Mining dominance
+('2016', 'CHN', 3.00000000000000000000), -- MINING DOMINANCE
 ('2017', 'CHN', 3.80000000000000000000),
-('2018', 'CHN', 4.50000000000000000000), -- Pre-ban peak
+('2018', 'CHN', 4.50000000000000000000), -- PRE-BAN PEAK
 ('2019', 'CHN', 5.00000000000000000000),
-('2020', 'CHN', 5.50000000000000000000), -- Ban announced
-('2021', 'CHN', 1.20000000000000000000), -- Post-ban crash
-('2022', 'CHN', 0.60000000000000000000), -- Underground mining
+('2020', 'CHN', 5.50000000000000000000), -- BAN ANNOUNCED
+('2021', 'CHN', 1.20000000000000000000), -- POST-BAN CRASH
+('2022', 'CHN', 0.60000000000000000000), -- UNDERGROUND MINING
 ('2023', 'CHN', 0.30000000000000000000),
-('2024', 'CHN', 0.15000000000000000000), -- Continued crackdown
+('2024', 'CHN', 0.15000000000000000000), -- CONTINUED CRACKDOWN
 
--- Algeria (Banned 2018)
+-- ALGERIA (BANNED 2018)
 ('2008', 'DZA', 0.00010000000000000000),
 ('2009', 'DZA', 0.00050000000000000000),
 ('2010', 'DZA', 0.00200000000000000000),
@@ -1177,16 +1174,16 @@ INSERT INTO USER_AMOUNT_IN_BANNED_COUNTRY (YEAR, COUNTRY_CODE, USER_AMOUNT) VALU
 ('2014', 'DZA', 0.10000000000000000000),
 ('2015', 'DZA', 0.15000000000000000000),
 ('2016', 'DZA', 0.20000000000000000000),
-('2017', 'DZA', 0.25000000000000000000), -- Peak pre-ban
-('2018', 'DZA', 0.10000000000000000000), -- Ban enforced
+('2017', 'DZA', 0.25000000000000000000), -- PEAK PRE-BAN
+('2018', 'DZA', 0.10000000000000000000), -- BAN ENFORCED
 ('2019', 'DZA', 0.05000000000000000000),
 ('2020', 'DZA', 0.03000000000000000000),
 ('2021', 'DZA', 0.02000000000000000000),
 ('2022', 'DZA', 0.01500000000000000000),
 ('2023', 'DZA', 0.01000000000000000000),
-('2024', 'DZA', 0.00800000000000000000), -- Residual usage
+('2024', 'DZA', 0.00800000000000000000), -- RESIDUAL USAGE
 
--- Bangladesh (Banned 2017)
+-- BANGLADESH (BANNED 2017)
 ('2008', 'BGD', 0.00001000000000000000),
 ('2009', 'BGD', 0.00005000000000000000),
 ('2010', 'BGD', 0.00020000000000000000),
@@ -1194,10 +1191,10 @@ INSERT INTO USER_AMOUNT_IN_BANNED_COUNTRY (YEAR, COUNTRY_CODE, USER_AMOUNT) VALU
 ('2012', 'BGD', 0.00500000000000000000),
 ('2013', 'BGD', 0.02000000000000000000),
 ('2014', 'BGD', 0.08000000000000000000),
-('2015', 'BGD', 0.30000000000000000000), -- Remittance use cases
+('2015', 'BGD', 0.30000000000000000000), -- REMITTANCE USE CASES
 ('2016', 'BGD', 0.70000000000000000000),
-('2017', 'BGD', 1.20000000000000000000), -- Ban year peak
-('2018', 'BGD', 0.50000000000000000000), -- Post-ban drop
+('2017', 'BGD', 1.20000000000000000000), -- BAN YEAR PEAK
+('2018', 'BGD', 0.50000000000000000000), -- POST-BAN DROP
 ('2019', 'BGD', 0.30000000000000000000),
 ('2020', 'BGD', 0.20000000000000000000),
 ('2021', 'BGD', 0.15000000000000000000),
@@ -1205,60 +1202,60 @@ INSERT INTO USER_AMOUNT_IN_BANNED_COUNTRY (YEAR, COUNTRY_CODE, USER_AMOUNT) VALU
 ('2023', 'BGD', 0.08000000000000000000),
 ('2024', 'BGD', 0.06000000000000000000),
 
--- Nepal (Banned 2021)
+-- NEPAL (BANNED 2021)
 ('2008', 'NPL', 0.00000100000000000000),
-# ...
-('2020', 'NPL', 0.20000000000000000000), -- Pre-ban growth
-('2021', 'NPL', 0.05000000000000000000), -- Ban enforced
+-- ...
+('2020', 'NPL', 0.20000000000000000000), -- PRE-BAN GROWTH
+('2021', 'NPL', 0.05000000000000000000), -- BAN ENFORCED
 ('2022', 'NPL', 0.03000000000000000000),
 ('2023', 'NPL', 0.02000000000000000000),
 ('2024', 'NPL', 0.01500000000000000000),
 
--- Egypt (Banned 2018)
+-- EGYPT (BANNED 2018)
 ('2008', 'EGY', 0.00001000000000000000),
-# ...
-('2017', 'EGY', 0.60000000000000000000), -- Peak pre-ban
-('2018', 'EGY', 0.25000000000000000000), -- Islamic law ban
+-- ...
+('2017', 'EGY', 0.60000000000000000000), -- PEAK PRE-BAN
+('2018', 'EGY', 0.25000000000000000000), -- ISLAMIC LAW BAN
 ('2019', 'EGY', 0.15000000000000000000),
 ('2024', 'EGY', 0.05000000000000000000),
 
--- Iraq (Banned 2017)
+-- IRAQ (BANNED 2017)
 ('2008', 'IRQ', 0.00000100000000000000),
-# ...
+-- ...
 ('2016', 'IRQ', 0.30000000000000000000),
-('2017', 'IRQ', 0.10000000000000000000), -- Ban enforced
+('2017', 'IRQ', 0.10000000000000000000), -- BAN ENFORCED
 ('2024', 'IRQ', 0.05000000000000000000),
 
--- Morocco (Banned 2017)
+-- MOROCCO (BANNED 2017)
 ('2008', 'MAR', 0.00010000000000000000),
-# ...
+-- ...
 ('2016', 'MAR', 0.50000000000000000000),
-('2017', 'MAR', 0.20000000000000000000), -- Ban enforced
-('2024', 'MAR', 0.30000000000000000000), -- Anticipation of legalization
+('2017', 'MAR', 0.20000000000000000000), -- BAN ENFORCED
+('2024', 'MAR', 0.30000000000000000000), -- ANTICIPATION OF LEGALIZATION
 
--- Qatar (Banned 2018)
+-- QATAR (BANNED 2018)
 ('2008', 'QAT', 0.00000100000000000000),
-# ...
+-- ...
 ('2017', 'QAT', 0.08000000000000000000),
-('2018', 'QAT', 0.01000000000000000000), -- Strict ban
+('2018', 'QAT', 0.01000000000000000000), -- STRICT BAN
 ('2024', 'QAT', 0.00200000000000000000),
 
--- Tunisia (Banned 2018)
+-- TUNISIA (BANNED 2018)
 ('2008', 'TUN', 0.00000100000000000000),
-# ...
+-- ...
 ('2017', 'TUN', 0.10000000000000000000),
-('2018', 'TUN', 0.04000000000000000000), -- Post-ban
+('2018', 'TUN', 0.04000000000000000000), -- POST-BAN
 ('2024', 'TUN', 0.02000000000000000000),
 
--- Afghanistan (Banned 2022)
+-- AFGHANISTAN (BANNED 2022)
 ('2008', 'AFG', 0.00000010000000000000),
-# ...
-('2021', 'AFG', 0.03000000000000000000), -- Pre-Taliban peak
-('2022', 'AFG', 0.00500000000000000000), -- Taliban ban
+-- ...
+('2021', 'AFG', 0.03000000000000000000), -- PRE-TALIBAN PEAK
+('2022', 'AFG', 0.00500000000000000000), -- TALIBAN BAN
 ('2023', 'AFG', 0.00200000000000000000),
 ('2024', 'AFG', 0.00100000000000000000);
 
-# USER_AMOUNT_IN_BANNED_COUNTRY DATA END
+-- USER_AMOUNT_IN_BANNED_COUNTRY DATA END
 
 
 SELECT * FROM BLOCKCHAIN_ACCESS_TYPE;
@@ -1273,53 +1270,54 @@ SELECT *,TMP.MAX_RETURN FROM TMP WHERE SYMBOL='XMR' ;
 SELECT SYMBOL,DOMINANCE FROM MARKET_DOMINANCE WHERE YEAR=2025 ORDER BY DOMINANCE DESC ;
 
 
-SELECT * FROM CRYPTO WHERE CONSENSUS_ALGORITHM_TYPE='PoS';
+SELECT * FROM CRYPTO WHERE CONSENSUS_ALGORITHM_TYPE='POS';
 
 
-SELECT LENGTH('1840445685000.00000');
-
-CREATE TABLE Test(
-    VAR FLOAT
-);
-DROP TABLE Test;
-INSERT INTO Test VALUES (1840445685000.00005);
-SELECT * FROM Test;
-SELECT * FROM TOP_BROKERAGE;
-
-SELECT UPPER('create table Controversy(
-    year year,
-    id int auto_increment,
-    brokerage_name varchar(200),
-    controversy_detail varchar(400),
-    affected_crypto varchar(10),
-    constraint Controversy_pk primary key (id),
-    constraint Controversy_fk foreign key (brokerage_name) references Brokerage(name),
-    constraint Controversy_fk2 foreign key (affected_crypto) references AllCrypto(symbol)
-);');
-
-
-# QUERY FOR THIS BROKERAGE WHOSE HEADQUARTER IN THIS KIND OF COUNTRY WHERE CRYPTO IS ACCEPTED
+-- QUERY FOR THIS BROKERAGE WHOSE HEADQUARTER IN THIS KIND OF COUNTRY WHERE CRYPTO IS ACCEPTED
 SELECT BROKERAGE.NAME,BROKERAGE.HEADQUARTER,COUNTRY.CRYPTO_STATUS FROM BROKERAGE JOIN COUNTRY WHERE COUNTRY.CRYPTO_STATUS='ACCEPTED' AND BROKERAGE.HEADQUARTER LIKE
                                                                                                      CONCAT('%',COUNTRY.COUNTRY_NAME,'%');
 
 
-with tmp as (select CRYPTO.SYMBOL,CRYPTO.CONSENSUS_ALGORITHM_TYPE,CRYPTO_CURRENCY_PERFORMANCE_METRICS.AVERAGE_TRX_FEE,
+WITH TMP AS (SELECT CRYPTO.SYMBOL,CRYPTO.CONSENSUS_ALGORITHM_TYPE,CRYPTO_CURRENCY_PERFORMANCE_METRICS.AVERAGE_TRX_FEE,
                     CRYPTO_CURRENCY_PERFORMANCE_METRICS.TRANSACTION_PER_SECOND
-from CRYPTO_CURRENCY_PERFORMANCE_METRICS
-join CRYPTO
-where CRYPTO.SYMBOL = CRYPTO_CURRENCY_PERFORMANCE_METRICS.SYMBOL) select CONSENSUS_ALGORITHM_TYPE,count(CONSENSUS_ALGORITHM_TYPE) from tmp group by CONSENSUS_ALGORITHM_TYPE;
+FROM CRYPTO_CURRENCY_PERFORMANCE_METRICS
+JOIN CRYPTO
+WHERE CRYPTO.SYMBOL = CRYPTO_CURRENCY_PERFORMANCE_METRICS.SYMBOL) SELECT CONSENSUS_ALGORITHM_TYPE,COUNT(CONSENSUS_ALGORITHM_TYPE) FROM TMP GROUP BY CONSENSUS_ALGORITHM_TYPE;
 
-select * from COUNTRY;
-
-
-
-select CONSENSUS_ALGORITHM_TYPE,count(CONSENSUS_ALGORITHM_TYPE) from CRYPTO group by CONSENSUS_ALGORITHM_TYPE
-                                                                            having CONSENSUS_ALGORITHM_TYPE='PoW'
-or CONSENSUS_ALGORITHM_TYPE='PoS' or CONSENSUS_ALGORITHM_TYPE='AuxPoW';
+SELECT * FROM COUNTRY;
 
 
-select * from BROKERAGE;
 
-with tmp as (select BROKERAGE.NAME from BROKERAGE left JOIN CONTROVERSY on BROKERAGE.NAME=CONTROVERSY.BROKERAGE_NAME where OWN_CRYPTO_CURRENCY is null
-and CONTROVERSY.CONTROVERSY_DETAIL is null) select NAME,YEAR,TOTAL_USER as Total_User_in_million from tmp join TOP_BROKERAGE on tmp.NAME=TOP_BROKERAGE.BROKERAGE_NAME;
+SELECT CONSENSUS_ALGORITHM_TYPE,COUNT(CONSENSUS_ALGORITHM_TYPE) FROM CRYPTO GROUP BY CONSENSUS_ALGORITHM_TYPE
+                                                                            HAVING CONSENSUS_ALGORITHM_TYPE='POW'
+OR CONSENSUS_ALGORITHM_TYPE='POS' OR CONSENSUS_ALGORITHM_TYPE='AUXPOW';
 
+
+SELECT * FROM BROKERAGE;
+
+WITH TMP AS (SELECT BROKERAGE.NAME FROM BROKERAGE LEFT JOIN CONTROVERSY ON BROKERAGE.NAME=CONTROVERSY.BROKERAGE_NAME WHERE OWN_CRYPTO_CURRENCY IS NULL
+AND CONTROVERSY.CONTROVERSY_DETAIL IS NULL) SELECT NAME,YEAR,TOTAL_USER AS TOTAL_USER_IN_MILLION FROM TMP JOIN TOP_BROKERAGE ON TMP.NAME=TOP_BROKERAGE.BROKERAGE_NAME;
+
+SELECT *FROM  ACCEPTED_COUNTRY;
+SELECT *FROM  ACCEPTED_COUNTRYWISE_MOST_USED_CRYPTO;
+SELECT *FROM BANNED_COUNTRY;
+SELECT *FROM BLOCK_REWARD_EMISSION;
+SELECT *FROM BLOCK_REWARD_EMISSION_TYPE;
+SELECT *FROM BLOCKCHAIN_ACCESS_TYPE;
+SELECT *FROM  BLOCKCHAIN_NETWORK_TYPE;
+SELECT *FROM BLOCKCHAIN_TOKEN_TYPE;
+SELECT *FROM BROKERAGE;
+SELECT *FROM CONSENSUS_ALGORITHM_TYPE;
+SELECT *FROM CONTROVERSY;
+SELECT *FROM COUNTRY;
+SELECT *FROM CRYPTO;
+SELECT *FROM CRYPTO_CURRENCY_PERFORMANCE_METRICS;
+SELECT *FROM CRYPTO_ETF;
+SELECT *FROM ETF_INVESTMENT_TYPE;
+SELECT *FROM HASH_ALGO_NAME;
+SELECT *FROM HFT_AMF_FIRMS;
+SELECT *FROM MARKET_DOMINANCE;
+SELECT *FROM REWARD_DETAILS;
+SELECT *FROM TOP_BROKERAGE;
+SELECT *FROM TOTAL_USER_DISTRIBUTION;
+SELECT *FROM USER_AMOUNT_IN_BANNED_COUNTRY;
