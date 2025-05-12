@@ -436,6 +436,114 @@ INSERT INTO HASH_ALGO_NAME VALUES ('N/A', 'PoS',
 
 --CRYPTO DATA START
 
+-- INSERT INTO CRYPTO (
+--     NAME, SYMBOL, MAX_PRICE, MAX_PRICE_DATE, MIN_PRICE, MIN_PRICE_DATE,
+--     TOTAL_SUPPLY, CIRCULATING_SUPPLY, BLOCKCHAIN_ACCESS_TYPE, CONSENSUS_ALGORITHM_TYPE,
+--     BLOCKCHAIN_NETWORK_TYPE, BLOCKCHAIN_TOKEN_TYPE, HASH_ALGO_NAME,
+--     FOUNDER, INITIAL_RELEASE_YEAR, OFFICIAL_WEBSITE, DESCRIPTION_FOR_MAJOR_CHANGES_LIKE_AS_MERGE
+-- ) VALUES
+-- -- 1. Bitcoin
+-- ('Bitcoin', 'BTC', 180000.000000000000000, '2025-03-31', 0.048650000000000, '2010-07-14', 21000000.000000000000000, 19500000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Satoshi Nakamoto', 2009, 'https://bitcoin.org', 'Taproot upgrade (2021), ETF approvals (2024)'),
+-- -- 2. Ethereum
+-- ('Ethereum', 'ETH', 6000.000000000000000, '2025-12-31', 0.432979000000000, '2015-10-20', NULL, 120000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'Keccak-256', 'Vitalik Buterin', 2015, 'https://ethereum.org', 'The Merge to PoS (2022), Dencun upgrade (2024)'),
+-- -- 3. Tether
+-- ('Tether', 'USDT', 1.320000000000000, '2018-07-24', 0.572521000000000, '2015-03-02', NULL, 83000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Brock Pierce', 2014, 'https://tether.to', 'Reserve attestation changes (2022), multi-chain expansion'),
+-- -- 4. XRP
+-- ('XRP', 'XRP', 3.400000000000000, '2018-01-07', 0.002686000000000, '2014-05-22', 100000000000.000000000000000, 54000000000.000000000000000, 'Public', 'Ripple Protocol', 'Layer-1', 'Native Coin', 'N/A', 'Chris Larsen', 2013, 'https://ripple.com', 'SEC lawsuit resolution (2023)'),
+-- -- 5. Binance Coin
+-- ('Binance Coin', 'BNB', 717.480000000000000, '2024-06-06', 0.096109000000000, '2017-08-02', 200000000.000000000000000, 157000000.000000000000000, 'Public', 'PoSA', 'Layer-1', 'Utility Token', 'N/A', 'Changpeng Zhao', 2017, 'https://bnbchain.org', 'BNB Chain rebrand (2022)'),
+-- -- 6. USD Coin
+-- ('USD Coin', 'USDC', 1.170000000000000, '2019-05-08', 0.877647000000000, '2023-03-11', NULL, 56000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Circle', 2018, 'https://circle.com', 'CCTP cross-chain protocol (2023)'),
+-- -- 7. Solana
+-- ('Solana', 'SOL', 259.960000000000000, '2021-11-06', 0.500801000000000, '2020-05-11', 511000000.000000000000000, 400000000.000000000000000, 'Public', 'PoH+PoS', 'Layer-1', 'Native Coin', 'SHA-256', 'Anatoly Yakovenko', 2020, 'https://solana.com', 'Network outages (2022-2023), Firedancer upgrade (2024)'),
+-- -- 8. Cardano
+-- ('Cardano', 'ADA', 3.090000000000000, '2021-09-02', 0.019252000000000, '2020-03-13', 45000000000.000000000000000, 35000000000.000000000000000, 'Public', 'Ouroboros PoS', 'Layer-1', 'Native Coin', 'N/A', 'Charles Hoskinson', 2017, 'https://cardano.org', 'Alonzo hard fork (2021), Chang upgrade (2024)'),
+-- -- 9. Dogecoin
+-- ('Dogecoin', 'DOGE', 0.731578000000000, '2021-05-08', 0.000086900000000, '2015-05-06', NULL, 142000000000.000000000000000, 'Public', 'AuxPoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Billy Markus', 2013, 'https://dogecoin.com', 'Merge mining with Litecoin, Elon Musk endorsements'),
+-- -- 10. TRON
+-- ('TRON', 'TRX', 0.231673000000000, '2018-01-05', 0.001804000000000, '2017-11-12', 100000000000.000000000000000, 92000000000.000000000000000, 'Public', 'DPoS', 'Layer-1', 'Native Coin', 'N/A', 'Justin Sun', 2017, 'https://tron.network', 'USDD stablecoin launch (2022)'),
+-- -- 11. Avalanche
+-- ('Avalanche', 'AVAX', 144.960000000000000, '2021-11-21', 2.800000000000000, '2020-12-31', 720000000.000000000000000, 400000000.000000000000000, 'Public', 'Snowman PoS', 'Layer-1', 'Native Coin', 'N/A', 'Emin Gün Sirer', 2020, 'https://avax.network', 'Apricot upgrade (2021), Subnet expansion'),
+-- -- 12. Shiba Inu
+-- ('Shiba Inu', 'SHIB', 0.000086160000000, '2021-10-28', 0.000000000081000, '2020-09-01', 1000000000000000.000000000000000, 549000000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Meme Token', 'Keccak-256', 'Ryoshi', 2020, 'https://shibatoken.com', 'Shibarium launch (2023)'),
+-- -- 13. Polkadot
+-- ('Polkadot', 'DOT', 54.980000000000000, '2021-11-04', 2.700000000000000, '2020-08-20', 1200000000.000000000000000, 1100000000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2020, 'https://polkadot.network', 'Parachain launches (2021)'),
+-- -- 14. Chainlink
+-- ('Chainlink', 'LINK', 52.700000000000000, '2021-05-10', 0.148183000000000, '2017-11-29', 1000000000.000000000000000, 550000000.000000000000000, 'Hybrid', 'PoS (Oracle)', 'Layer-1', 'Utility Token', 'Keccak-256', 'Sergey Nazarov', 2017, 'https://chain.link', 'CCIP launch (2023)'),
+-- -- 15. Bitcoin Cash
+-- ('Bitcoin Cash', 'BCH', 3785.820000000000000, '2017-12-20', 76.930000000000000, '2018-12-16', 21000000.000000000000000, 19400000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Roger Ver', 2017, 'https://bitcoincash.org', 'Hard fork from Bitcoin (2017)'),
+-- -- 16. Dai
+-- ('Dai', 'DAI', 1.220000000000000, '2020-03-13', 0.903243000000000, '2018-03-31', NULL, 10000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Stablecoin', 'Keccak-256', 'MakerDAO', 2017, 'https://makerdao.com', 'Multi-Chain DAI (2023)'),
+-- -- 17. Litecoin
+-- ('Litecoin', 'LTC', 410.260000000000000, '2021-05-10', 1.150000000000000, '2015-01-14', 84000000.000000000000000, 73000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Charlie Lee', 2011, 'https://litecoin.org', 'MimbleWimble upgrade (2022)'),
+-- -- 18. NEAR Protocol
+-- ('NEAR Protocol', 'NEAR', 20.440000000000000, '2022-01-16', 0.526762000000000, '2020-11-04', 1000000000.000000000000000, 850000000.000000000000000, 'Public', 'Nightshade PoS', 'Layer-1', 'Native Coin', 'N/A', 'Illia Polosukhin', 2020, 'https://near.org', 'Sharding Phase 1 (2023)'),
+-- -- 19. Polygon
+-- ('Polygon', 'MATIC', 2.920000000000000, '2021-12-27', 0.003143000000000, '2019-05-10', 10000000000.000000000000000, 9300000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Sandeep Nailwal', 2017, 'https://polygon.technology', 'zkEVM launch (2023)'),
+-- -- 20. Internet Computer
+-- ('Internet Computer', 'ICP', 700.650000000000000, '2021-05-10', 2.870000000000000, '2023-09-22', 469000000.000000000000000, 450000000.000000000000000, 'Public', 'Threshold Relay', 'Layer-1', 'Native Coin', 'N/A', 'Dominic Williams', 2021, 'https://internetcomputer.org', 'Bitcoin integration (2023)'),
+-- -- 21. Fetch.ai
+-- ('Fetch.ai', 'FET', 3.330000000000000, '2024-03-31', 0.008300000000000, '2019-03-02', 1152997575.000000000000000, 1040000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Humayun Sheikh', 2019, 'https://fetch.ai', 'AI agent ecosystem expansion (2024)'),
+-- -- 22. Stellar
+-- ('Stellar', 'XLM', 0.875563000000000, '2018-01-03', 0.000476000000000, '2014-11-18', 50000000000.000000000000000, 28000000000.000000000000000, 'Public', 'SCP', 'Layer-1', 'Native Coin', 'N/A', 'Jed McCaleb', 2014, 'https://stellar.org', 'Protocol 19 upgrade (2023)'),
+-- -- 23. Ethereum Classic
+-- ('Ethereum Classic', 'ETC', 167.090000000000000, '2021-05-06', 0.615038000000000, '2016-07-25', 210700000.000000000000000, 140000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Ethash', 'Ethereum Foundation', 2016, 'https://ethereumclassic.org', 'Thanos upgrade (2020)'),
+-- -- 24. Cosmos
+-- ('Cosmos', 'ATOM', 44.450000000000000, '2022-01-17', 1.160000000000000, '2020-03-13', NULL, 350000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-0', 'Native Coin', 'N/A', 'Jae Kwon', 2019, 'https://cosmos.network', 'Interchain Security (2023)'),
+-- -- 25. Filecoin
+-- ('Filecoin', 'FIL', 236.840000000000000, '2021-04-01', 2.640000000000000, '2022-12-16', 2000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoRep/PoSt', 'Layer-1', 'Utility Token', 'N/A', 'Juan Benet', 2017, 'https://filecoin.io', 'FVM launch (2023)'),
+-- -- 26. Arbitrum
+-- ('Arbitrum', 'ARB', 2.750000000000000, '2023-03-23', 0.360000000000000, '2023-09-11', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Offchain Labs', 2023, 'https://arbitrum.io', 'Mainnet launch (2023)'),
+-- -- 27. Cronos
+-- ('Cronos', 'CRO', 0.965407000000000, '2021-11-24', 0.012119000000000, '2019-02-08', 30000000000.000000000000000, 25000000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Kris Marszalek', 2018, 'https://cronos.org', 'Cronos Chain launch (2021)'),
+-- -- 28. Hedera
+-- ('Hedera', 'HBAR', 0.569229000000000, '2021-09-15', 0.009861000000000, '2020-01-02', 50000000000.000000000000000, 33000000000.000000000000000, 'Public', 'Hashgraph aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Leemon Baird', 2019, 'https://hedera.com', 'Consensus Service 2.0 (2023)'),
+-- -- 29. Fantom
+-- ('Fantom', 'FTM', 3.460000000000000, '2021-10-28', 0.001902000000000, '2020-03-13', 3175000000.000000000000000, 2800000000.000000000000000, 'Public', 'Lachesis aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Dr. Ahn Byung Ik', 2019, 'https://fantom.foundation', 'Gas monetization (2023)'),
+-- -- 30. The Graph
+-- ('The Graph', 'GRT', 0.667000000000000, '2021-04-16', 0.021000000000000, '2020-12-17', 10788004317.000000000000000, 8000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Yaniv Tal', 2020, 'https://thegraph.com', 'Decentralized indexing (2023)'),
+-- -- 31. Algorand
+-- ('Algorand', 'ALGO', 3.560000000000000, '2019-06-20', 0.087513000000000, '2023-09-11', 10000000000.000000000000000, 7500000000.000000000000000, 'Public', 'Pure PoS', 'Layer-1', 'Native Coin', 'N/A', 'Silvio Micali', 2019, 'https://algorand.com', 'State proofs (2022)'),
+-- -- 32. VeChain
+-- ('VeChain', 'VET', 0.280991000000000, '2021-04-17', 0.001678000000000, '2020-03-13', 86700000000.000000000000000, 72500000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Sunny Lu', 2017, 'https://vechain.org', 'VeChainThor 2.0 (2022)'),
+-- -- 33. Tezos
+-- ('Tezos', 'XTZ', 9.120000000000000, '2021-10-04', 0.350476000000000, '2018-12-07', NULL, 950000000.000000000000000, 'Public', 'Liquid PoS', 'Layer-1', 'Native Coin', 'N/A', 'Arthur Breitman', 2018, 'https://tezos.com', 'Mumbai upgrade (2023)'),
+-- -- 34. The Sandbox
+-- ('The Sandbox', 'SAND', 8.400000000000000, '2021-11-25', 0.028972000000000, '2020-11-04', 3000000000.000000000000000, 2300000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Arthur Madrid', 2020, 'https://sandbox.game', 'LAND staking (2023)'),
+-- -- 35. Decentraland
+-- ('Decentraland', 'MANA', 5.850000000000000, '2021-11-25', 0.009317000000000, '2017-10-31', 2200000000.000000000000000, 1900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Ari Meilich', 2017, 'https://decentraland.org', 'DAO governance overhaul (2022)'),
+-- -- 36. Axie Infinity
+-- ('Axie Infinity', 'AXS', 164.900000000000000, '2021-11-06', 0.123718000000000, '2020-11-06', 270000000.000000000000000, 120000000.000000000000000, 'Public', 'PoS', 'Sidechain', 'Governance Token', 'Keccak-256', 'Trung Nguyen', 2020, 'https://axieinfinity.com', 'Ronin Bridge relaunch (2023)'),
+-- -- 37. Aave
+-- ('Aave', 'AAVE', 661.690000000000000, '2021-05-18', 26.020000000000000, '2020-11-05', 16000000.000000000000000, 14000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Stani Kulechov', 2017, 'https://aave.com', 'V3 protocol (2022)'),
+-- -- 38. Monero
+-- ('Monero', 'XMR', 542.330000000000000, '2018-01-09', 0.216177000000000, '2015-01-14', 18400000.000000000000000, 18200000.000000000000000, 'Public', 'RandomX PoW', 'Layer-1', 'Native Coin', 'RandomX', 'Ricardo Spagni', 2014, 'https://getmonero.org', 'Tail emission activation (2022)'),
+-- -- 39. Kusama
+-- ('Kusama', 'KSM', 621.710000000000000, '2021-05-18', 0.876743000000000, '2020-01-14', 10000000.000000000000000, 8500000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2019, 'https://kusama.network', 'Parachain auctions (2021)'),
+-- -- 40. Zcash
+-- ('Zcash', 'ZEC', 5941.800000000000000, '2016-10-29', 18.940000000000000, '2020-03-13', 21000000.000000000000000, 16000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Equihash', 'Zooko Wilcox', 2016, 'https://z.cash', 'Halo 2 upgrade (2022)'),
+-- -- 41. Chiliz
+-- ('Chiliz', 'CHZ', 0.878633000000000, '2021-03-13', 0.004001000000000, '2019-09-28', 8888888888.000000000000000, 6000000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Alexandre Dreyfus', 2019, 'https://chiliz.com', 'Socios.com expansion (2023)'),
+-- -- 42. Helium
+-- ('Helium', 'HNT', 54.880000000000000, '2021-11-12', 0.113248000000000, '2020-04-18', 223000000.000000000000000, 160000000.000000000000000, 'Public', 'PoC', 'Layer-1', 'Native Coin', 'N/A', 'Amir Haleem', 2019, 'https://helium.com', 'Solana migration (2023)'),
+-- -- 43. Optimism
+-- ('Optimism', 'OP', 4.850000000000000, '2022-05-31', 0.400000000000000, '2022-12-07', 4294967296.000000000000000, 1000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Optimism Foundation', 2022, 'https://optimism.io', 'Bedrock upgrade (2023)'),
+-- -- 44. Maker
+-- ('Maker', 'MKR', 4095.000000000000000, '2021-05-03', 97.960000000000000, '2017-01-29', 1005577.000000000000000, 950000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Rune Christensen', 2017, 'https://makerdao.com', 'Endgame plan (2024)'),
+-- -- 45. Injective
+-- ('Injective', 'INJ', 44.950000000000000, '2024-03-14', 0.657000000000000, '2020-11-04', 100000000.000000000000000, 85000000.000000000000000, 'Public', 'Tendermint BFT', 'Appchain', 'Native Coin', 'N/A', 'Eric Chen', 2020, 'https://injective.com', 'Cosmos SDK integration'),
+-- -- 46. Immutable X
+-- ('Immutable X', 'IMX', 3.760000000000000, '2021-11-26', 0.110000000000000, '2021-06-11', 2000000000.000000000000000, 1500000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'James Ferguson', 2021, 'https://immutable.com', 'Immutable zkEVM launch (2024)'),
+-- -- 47. Aptos
+-- ('Aptos', 'APT', 20.250000000000000, '2023-01-26', 3.080000000000000, '2022-12-07', 1000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'N/A', 'Mo Shaikh', 2022, 'https://aptoslabs.com', 'Mainnet launch (2022)'),
+-- -- 48. Sei
+-- ('Sei', 'SEI', 0.880000000000000, '2023-08-15', 0.095000000000000, '2023-09-11', 10000000000.000000000000000, 3000000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-1', 'Native Coin', 'N/A', 'Jayendra Jog', 2023, 'https://sei.network', 'Mainnet launch (2023)'),
+-- -- 49. Lido DAO
+-- ('Lido DAO', 'LDO', 3.330000000000000, '2021-11-16', 0.404000000000000, '2020-12-17', 1000000000.000000000000000, 900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Konstantin Lomashuk', 2020, 'https://lido.fi', 'Liquid staking expansion (2023)'),
+-- -- 50. Ondo
+-- ('Ondo', 'ONDO', 3.330000000000000, '2024-03-31', 0.810000000000000, '2024-01-18', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Nathan Allman', 2024, 'https://ondo.finance', 'RWA tokenization launch (2024)');
+
+
 INSERT INTO CRYPTO (
     NAME, SYMBOL, MAX_PRICE, MAX_PRICE_DATE, MIN_PRICE, MIN_PRICE_DATE,
     TOTAL_SUPPLY, CIRCULATING_SUPPLY, BLOCKCHAIN_ACCESS_TYPE, CONSENSUS_ALGORITHM_TYPE,
@@ -443,105 +551,106 @@ INSERT INTO CRYPTO (
     FOUNDER, INITIAL_RELEASE_YEAR, OFFICIAL_WEBSITE, DESCRIPTION_FOR_MAJOR_CHANGES_LIKE_AS_MERGE
 ) VALUES
 -- 1. Bitcoin
-('Bitcoin', 'BTC', 180000.000000000000000, '2025-03-31', 0.048650000000000, '2010-07-14', 21000000.000000000000000, 19500000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Satoshi Nakamoto', 2009, 'https://bitcoin.org', 'Taproot upgrade (2021), ETF approvals (2024)'),
+('Bitcoin', 'BTC', 103332.00000000, '2024-12-01', 0.04865000, '2010-07-14', 21000000.00000000, 19500000.00000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Satoshi Nakamoto', 2009, 'https://bitcoin.org', 'Taproot upgrade (2021), ETF approvals (2024), 2025 halving preparations'),
 -- 2. Ethereum
-('Ethereum', 'ETH', 6000.000000000000000, '2025-12-31', 0.432979000000000, '2015-10-20', NULL, 120000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'Keccak-256', 'Vitalik Buterin', 2015, 'https://ethereum.org', 'The Merge to PoS (2022), Dencun upgrade (2024)'),
+('Ethereum', 'ETH', 4878.26000000, '2021-11-10', 0.43297900, '2015-10-20', 120250000.00000000, 120250000.00000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'Keccak-256', 'Vitalik Buterin', 2015, 'https://ethereum.org', 'The Merge to PoS (2022), Dencun upgrade (2024), sharding roadmap progress (2025)'),
 -- 3. Tether
-('Tether', 'USDT', 1.320000000000000, '2018-07-24', 0.572521000000000, '2015-03-02', NULL, 83000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Brock Pierce', 2014, 'https://tether.to', 'Reserve attestation changes (2022), multi-chain expansion'),
+('Tether', 'USDT', 1.01000000, '2018-07-24', 0.99000000, '2015-03-02', NULL, 95000000000.00000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Brock Pierce', 2014, 'https://tether.to', 'Reserve attestation changes (2022), multi-chain expansion, increased adoption (2024)'),
 -- 4. XRP
-('XRP', 'XRP', 3.400000000000000, '2018-01-07', 0.002686000000000, '2014-05-22', 100000000000.000000000000000, 54000000000.000000000000000, 'Public', 'Ripple Protocol', 'Layer-1', 'Native Coin', 'N/A', 'Chris Larsen', 2013, 'https://ripple.com', 'SEC lawsuit resolution (2023)'),
+('XRP', 'XRP', 3.40000000, '2018-01-07', 0.00268600, '2014-05-22', 100000000000.00000000, 55000000000.00000000, 'Public', 'Ripple Protocol', 'Layer-1', 'Native Coin', 'N/A', 'Chris Larsen', 2013, 'https://ripple.com', 'SEC lawsuit resolution (2023), AMM activation (2024)'),
 -- 5. Binance Coin
-('Binance Coin', 'BNB', 717.480000000000000, '2024-06-06', 0.096109000000000, '2017-08-02', 200000000.000000000000000, 157000000.000000000000000, 'Public', 'PoSA', 'Layer-1', 'Utility Token', 'N/A', 'Changpeng Zhao', 2017, 'https://bnbchain.org', 'BNB Chain rebrand (2022)'),
+('Binance Coin', 'BNB', 717.48000000, '2024-06-06', 0.09610900, '2017-08-02', 200000000.00000000, 147000000.00000000, 'Public', 'PoSA', 'Layer-1', 'Utility Token', 'N/A', 'Changpeng Zhao', 2017, 'https://bnbchain.org', 'BNB Chain rebrand (2022), Greenfield launch (2023)'),
 -- 6. USD Coin
-('USD Coin', 'USDC', 1.170000000000000, '2019-05-08', 0.877647000000000, '2023-03-11', NULL, 56000000000.000000000000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Circle', 2018, 'https://circle.com', 'CCTP cross-chain protocol (2023)'),
+('USD Coin', 'USDC', 1.01000000, '2019-05-08', 0.99000000, '2023-03-11', NULL, 25000000000.00000000, 'Hybrid', 'N/A', 'Layer-1', 'Stablecoin', 'N/A', 'Circle', 2018, 'https://www.circle.com', 'CCTP cross-chain protocol (2023), expanded chain support (2024)'),
 -- 7. Solana
-('Solana', 'SOL', 259.960000000000000, '2021-11-06', 0.500801000000000, '2020-05-11', 511000000.000000000000000, 400000000.000000000000000, 'Public', 'PoH+PoS', 'Layer-1', 'Native Coin', 'SHA-256', 'Anatoly Yakovenko', 2020, 'https://solana.com', 'Network outages (2022-2023), Firedancer upgrade (2024)'),
+('Solana', 'SOL', 259.96000000, '2021-11-06', 0.50080100, '2020-05-11', 557000000.00000000, 467000000.00000000, 'Public', 'PoH+PoS', 'Layer-1', 'Native Coin', 'SHA-256', 'Anatoly Yakovenko', 2020, 'https://solana.com', 'Network outages (2022-2023), Firedancer upgrade (2024), improved stability (2025)'),
 -- 8. Cardano
-('Cardano', 'ADA', 3.090000000000000, '2021-09-02', 0.019252000000000, '2020-03-13', 45000000000.000000000000000, 35000000000.000000000000000, 'Public', 'Ouroboros PoS', 'Layer-1', 'Native Coin', 'N/A', 'Charles Hoskinson', 2017, 'https://cardano.org', 'Alonzo hard fork (2021), Chang upgrade (2024)'),
+('Cardano', 'ADA', 3.09000000, '2021-09-02', 0.01925200, '2020-03-13', 45000000000.00000000, 36000000000.00000000, 'Public', 'Ouroboros PoS', 'Layer-1', 'Native Coin', 'N/A', 'Charles Hoskinson', 2017, 'https://cardano.org', 'Alonzo hard fork (2021), Chang upgrade (2024), governance enhancements (2025)'),
 -- 9. Dogecoin
-('Dogecoin', 'DOGE', 0.731578000000000, '2021-05-08', 0.000086900000000, '2015-05-06', NULL, 142000000000.000000000000000, 'Public', 'AuxPoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Billy Markus', 2013, 'https://dogecoin.com', 'Merge mining with Litecoin, Elon Musk endorsements'),
+('Dogecoin', 'DOGE', 0.73157800, '2021-05-08', 0.00008690, '2015-05-06', NULL, 146000000000.00000000, 'Public', 'AuxPoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Billy Markus', 2013, 'https://dogecoin.com', 'Merge mining with Litecoin, Elon Musk endorsements, payment adoption (2024)'),
 -- 10. TRON
-('TRON', 'TRX', 0.231673000000000, '2018-01-05', 0.001804000000000, '2017-11-12', 100000000000.000000000000000, 92000000000.000000000000000, 'Public', 'DPoS', 'Layer-1', 'Native Coin', 'N/A', 'Justin Sun', 2017, 'https://tron.network', 'USDD stablecoin launch (2022)'),
+('TRON', 'TRX', 0.23167300, '2018-01-05', 0.00180400, '2017-11-12', 100000000000.00000000, 87000000000.00000000, 'Public', 'DPoS', 'Layer-1', 'Native Coin', 'N/A', 'Justin Sun', 2017, 'https://tron.network', 'USDD stablecoin launch (2022), DeFi growth (2024)'),
 -- 11. Avalanche
-('Avalanche', 'AVAX', 144.960000000000000, '2021-11-21', 2.800000000000000, '2020-12-31', 720000000.000000000000000, 400000000.000000000000000, 'Public', 'Snowman PoS', 'Layer-1', 'Native Coin', 'N/A', 'Emin Gün Sirer', 2020, 'https://avax.network', 'Apricot upgrade (2021), Subnet expansion'),
+('Avalanche', 'AVAX', 144.96000000, '2021-11-21', 2.80000000, '2020-12-31', 720000000.00000000, 435000000.00000000, 'Public', 'Snowman PoS', 'Layer-1', 'Native Coin', 'N/A', 'Emin Gün Sirer', 2020, 'https://www.avax.network', 'Apricot upgrade (2021), Subnet expansion, HyperSDK launch (2024)'),
 -- 12. Shiba Inu
-('Shiba Inu', 'SHIB', 0.000086160000000, '2021-10-28', 0.000000000081000, '2020-09-01', 1000000000000000.000000000000000, 549000000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Meme Token', 'Keccak-256', 'Ryoshi', 2020, 'https://shibatoken.com', 'Shibarium launch (2023)'),
+('Shiba Inu', 'SHIB', 0.00008800, '2021-10-28', 0.0000000001, '2020-09-01', 589000000000000.00000000, 589000000000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Meme Token', 'Keccak-256', 'Ryoshi', 2020, 'https://shibatoken.com', 'Shibarium launch (2023), token burning initiatives (2024)'),
 -- 13. Polkadot
-('Polkadot', 'DOT', 54.980000000000000, '2021-11-04', 2.700000000000000, '2020-08-20', 1200000000.000000000000000, 1100000000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2020, 'https://polkadot.network', 'Parachain launches (2021)'),
+('Polkadot', 'DOT', 54.98000000, '2021-11-04', 2.70000000, '2020-08-20', 1340000000.00000000, 1230000000.00000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2020, 'https://polkadot.network', 'Parachain launches (2021), JAM upgrade discussions (2024)'),
 -- 14. Chainlink
-('Chainlink', 'LINK', 52.700000000000000, '2021-05-10', 0.148183000000000, '2017-11-29', 1000000000.000000000000000, 550000000.000000000000000, 'Hybrid', 'PoS (Oracle)', 'Layer-1', 'Utility Token', 'Keccak-256', 'Sergey Nazarov', 2017, 'https://chain.link', 'CCIP launch (2023)'),
+('Chainlink', 'LINK', 52.70000000, '2021-05-10', 0.14818300, '2017-11-29', 1000000000.00000000, 608000000.00000000, 'Hybrid', 'PoS (Oracle)', 'Layer-1', 'Utility Token', 'Keccak-256', 'Sergey Nazarov', 2017, 'https://chain.link', 'CCIP launch (2023), cross-chain expansion (2024)'),
 -- 15. Bitcoin Cash
-('Bitcoin Cash', 'BCH', 3785.820000000000000, '2017-12-20', 76.930000000000000, '2018-12-16', 21000000.000000000000000, 19400000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Roger Ver', 2017, 'https://bitcoincash.org', 'Hard fork from Bitcoin (2017)'),
+('Bitcoin Cash', 'BCH', 3785.82000000, '2017-12-20', 76.93000000, '2018-12-16', 21000000.00000000, 19700000.00000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'SHA-256', 'Roger Ver', 2017, 'https://bitcoincash.org', 'Hard fork from Bitcoin (2017), CashTokens (2023)'),
 -- 16. Dai
-('Dai', 'DAI', 1.220000000000000, '2020-03-13', 0.903243000000000, '2018-03-31', NULL, 10000000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Stablecoin', 'Keccak-256', 'MakerDAO', 2017, 'https://makerdao.com', 'Multi-Chain DAI (2023)'),
+('Dai', 'DAI', 1.01000000, '2020-03-13', 0.99000000, '2018-03-31', NULL, 5300000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Stablecoin', 'Keccak-256', 'MakerDAO', 2017, 'https://makerdao.com', 'Multi-Chain DAI (2023), Sky protocol integration (2024)'),
 -- 17. Litecoin
-('Litecoin', 'LTC', 410.260000000000000, '2021-05-10', 1.150000000000000, '2015-01-14', 84000000.000000000000000, 73000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Charlie Lee', 2011, 'https://litecoin.org', 'MimbleWimble upgrade (2022)'),
+('Litecoin', 'LTC', 410.26000000, '2021-05-10', 1.15000000, '2015-01-14', 84000000.00000000, 75000000.00000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Scrypt', 'Charlie Lee', 2011, 'https://litecoin.org', 'MimbleWimble upgrade (2022), payment adoption (2024)'),
 -- 18. NEAR Protocol
-('NEAR Protocol', 'NEAR', 20.440000000000000, '2022-01-16', 0.526762000000000, '2020-11-04', 1000000000.000000000000000, 850000000.000000000000000, 'Public', 'Nightshade PoS', 'Layer-1', 'Native Coin', 'N/A', 'Illia Polosukhin', 2020, 'https://near.org', 'Sharding Phase 1 (2023)'),
+('NEAR Protocol', 'NEAR', 20.44000000, '2022-01-16', 0.52676200, '2020-11-04', 1200000000.00000000, 1100000000.00000000, 'Public', 'Nightshade PoS', 'Layer-1', 'Native Coin', 'N/A', 'Illia Polosukhin', 2020, 'https://near.org', 'Sharding Phase 1 (2023), AI integration (2024)'),
 -- 19. Polygon
-('Polygon', 'MATIC', 2.920000000000000, '2021-12-27', 0.003143000000000, '2019-05-10', 10000000000.000000000000000, 9300000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Sandeep Nailwal', 2017, 'https://polygon.technology', 'zkEVM launch (2023)'),
+('Polygon', 'MATIC', 2.92000000, '2021-12-27', 0.00314300, '2019-05-10', 10000000000.00000000, 9900000000.00000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Sandeep Nailwal', 2017, 'https://polygon.technology', 'zkEVM launch (2023), Polygon 2.0 roadmap (2024)'),
 -- 20. Internet Computer
-('Internet Computer', 'ICP', 700.650000000000000, '2021-05-10', 2.870000000000000, '2023-09-22', 469000000.000000000000000, 450000000.000000000000000, 'Public', 'Threshold Relay', 'Layer-1', 'Native Coin', 'N/A', 'Dominic Williams', 2021, 'https://internetcomputer.org', 'Bitcoin integration (2023)'),
+('Internet Computer', 'ICP', 700.65000000, '2021-05-10', 2.87000000, '2023-09-22', 520000000.00000000, 470000000.00000000, 'Public', 'Threshold Relay', 'Layer-1', 'Native Coin', 'N/A', 'Dominic Williams', 2021, 'https://internetcomputer.org', 'Bitcoin integration (2023), DeFi growth (2024)'),
 -- 21. Fetch.ai
-('Fetch.ai', 'FET', 3.330000000000000, '2024-03-31', 0.008300000000000, '2019-03-02', 1152997575.000000000000000, 1040000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Humayun Sheikh', 2019, 'https://fetch.ai', 'AI agent ecosystem expansion (2024)'),
+('Fetch.ai', 'FET', 3.47000000, '2024-03-31', 0.00830000, '2019-03-02', 2630000000.00000000, 2300000000.00000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Humayun Sheikh', 2019, 'https://fetch.ai', 'AI agent ecosystem expansion (2024), ASI merger (2024)'),
 -- 22. Stellar
-('Stellar', 'XLM', 0.875563000000000, '2018-01-03', 0.000476000000000, '2014-11-18', 50000000000.000000000000000, 28000000000.000000000000000, 'Public', 'SCP', 'Layer-1', 'Native Coin', 'N/A', 'Jed McCaleb', 2014, 'https://stellar.org', 'Protocol 19 upgrade (2023)'),
+('Stellar', 'XLM', 0.87556300, '2018-01-03', 0.00047600, '2014-11-18', 50000000000.00000000, 29000000000.00000000, 'Public', 'SCP', 'Layer-1', 'Native Coin', 'N/A', 'Jed McCaleb', 2014, 'https://stellar.org', 'Protocol 19 upgrade (2023), Soroban smart contracts (2024)'),
 -- 23. Ethereum Classic
-('Ethereum Classic', 'ETC', 167.090000000000000, '2021-05-06', 0.615038000000000, '2016-07-25', 210700000.000000000000000, 140000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Ethash', 'Ethereum Foundation', 2016, 'https://ethereumclassic.org', 'Thanos upgrade (2020)'),
+('Ethereum Classic', 'ETC', 167.09000000, '2021-05-06', 0.61503800, '2016-07-25', 210700000.00000000, 148000000.00000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Ethash', 'Ethereum Foundation', 2016, 'https://ethereumclassic.org', 'Thanos upgrade (2020), Mystique upgrade (2023)'),
 -- 24. Cosmos
-('Cosmos', 'ATOM', 44.450000000000000, '2022-01-17', 1.160000000000000, '2020-03-13', NULL, 350000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-0', 'Native Coin', 'N/A', 'Jae Kwon', 2019, 'https://cosmos.network', 'Interchain Security (2023)'),
+('Cosmos', 'ATOM', 44.45000000, '2022-01-17', 1.16000000, '2020-03-13', NULL, 390000000.00000000, 'Public', 'Tendermint BFT', 'Layer-0', 'Native Coin', 'N/A', 'Jae Kwon', 2019, 'https://cosmos.network', 'Interchain Security (2023), Cosmos Hub upgrades (2024)'),
 -- 25. Filecoin
-('Filecoin', 'FIL', 236.840000000000000, '2021-04-01', 2.640000000000000, '2022-12-16', 2000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoRep/PoSt', 'Layer-1', 'Utility Token', 'N/A', 'Juan Benet', 2017, 'https://filecoin.io', 'FVM launch (2023)'),
+('Filecoin', 'FIL', 236.84000000, '2021-04-01', 2.64000000, '2022-12-16', 2000000000.00000000, 560000000.00000000, 'Public', 'PoRep/PoSt', 'Layer-1', 'Utility Token', 'N/A', 'Juan Benet', 2017, 'https://filecoin.io', 'FVM launch (2023), storage adoption growth (2024)'),
 -- 26. Arbitrum
-('Arbitrum', 'ARB', 2.750000000000000, '2023-03-23', 0.360000000000000, '2023-09-11', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Offchain Labs', 2023, 'https://arbitrum.io', 'Mainnet launch (2023)'),
+('Arbitrum', 'ARB', 2.75000000, '2023-03-23', 0.36000000, '2023-09-11', 10000000000.000 reddit.com/r/CryptoCurrency/comments/1chj5vo/insert_into_crypto_update_data_according_to/l2c3v8p/0000000, 2650000000.00000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Offchain Labs', 2023, 'https://arbitrum.io', 'Mainnet launch (2023), ArbOS upgrades (2024)'),
 -- 27. Cronos
-('Cronos', 'CRO', 0.965407000000000, '2021-11-24', 0.012119000000000, '2019-02-08', 30000000000.000000000000000, 25000000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Kris Marszalek', 2018, 'https://cronos.org', 'Cronos Chain launch (2021)'),
+('Cronos', 'CRO', 0.96540700, '2021-11-24', 0.01211900, '2019-02-08', 30000000000.00000000, 26000000000.00000000, 'Public', 'PoS', 'Layer-1', 'Utility Token', 'N/A', 'Kris Marszalek', 2018, 'https://cronos.org', 'Cronos Chain launch (2021), DeFi ecosystem growth (2024)'),
 -- 28. Hedera
-('Hedera', 'HBAR', 0.569229000000000, '2021-09-15', 0.009861000000000, '2020-01-02', 50000000000.000000000000000, 33000000000.000000000000000, 'Public', 'Hashgraph aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Leemon Baird', 2019, 'https://hedera.com', 'Consensus Service 2.0 (2023)'),
+('Hedera', 'HBAR', 0.56922900, '2021-09-15', 0.00986100, '2020-01-02', 50000000000.00000000, 36000000000.00000000, 'Public', 'Hashgraph aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Leemon Baird', 2019, 'https://hedera.com', 'Consensus Service 2.0 (2023), tokenization growth (2024)'),
 -- 29. Fantom
-('Fantom', 'FTM', 3.460000000000000, '2021-10-28', 0.001902000000000, '2020-03-13', 3175000000.000000000000000, 2800000000.000000000000000, 'Public', 'Lachesis aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Dr. Ahn Byung Ik', 2019, 'https://fantom.foundation', 'Gas monetization (2023)'),
+('Fantom', 'FTM', 3.46000000, '2021-10-28', 0.00190200, '2020-03-13', 3175000000.00000000, 2800000000.00000000, 'Public', 'Lachesis aBFT', 'Layer-1', 'Native Coin', 'N/A', 'Dr. Ahn Byung Ik', 2019, 'https://fantom.foundation', 'Gas monetization (2023), Sonic upgrade (2024)'),
 -- 30. The Graph
-('The Graph', 'GRT', 0.667000000000000, '2021-04-16', 0.021000000000000, '2020-12-17', 10788004317.000000000000000, 8000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Yaniv Tal', 2020, 'https://thegraph.com', 'Decentralized indexing (2023)'),
+('The Graph', 'GRT', 0.66700000, '2021-04-16', 0.02100000, '2020-12-17', 10788004317.00000000, 9500000000.00000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Yaniv Tal', 2020, 'https://thegraph.com', 'Decentralized indexing (2023), subgraph migration (2024)'),
 -- 31. Algorand
-('Algorand', 'ALGO', 3.560000000000000, '2019-06-20', 0.087513000000000, '2023-09-11', 10000000000.000000000000000, 7500000000.000000000000000, 'Public', 'Pure PoS', 'Layer-1', 'Native Coin', 'N/A', 'Silvio Micali', 2019, 'https://algorand.com', 'State proofs (2022)'),
+('Algorand', 'ALGO', 3.56000000, '2019-06-20', 0.08751300, '2023-09-11', 10000000000.00000000, 8100000000.00000000, 'Public', 'Pure PoS', 'Layer-1', 'Native Coin', 'N/A', 'Silvio Micali', 2019, 'https://www.algorand.com', 'State proofs (2022), Python support (2024)'),
 -- 32. VeChain
-('VeChain', 'VET', 0.280991000000000, '2021-04-17', 0.001678000000000, '2020-03-13', 86700000000.000000000000000, 72500000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Sunny Lu', 2017, 'https://vechain.org', 'VeChainThor 2.0 (2022)'),
+('VeChain', 'VET', 0.28099100, '2021-04-17', 0.00167800, '2020-03-13', 86700000000.00000000, 73000000000.00000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Sunny Lu', 2017, 'https://www.vechain.org', 'VeChainThor 2.0 (2022), sustainability initiatives (2024)'),
 -- 33. Tezos
-('Tezos', 'XTZ', 9.120000000000000, '2021-10-04', 0.350476000000000, '2018-12-07', NULL, 950000000.000000000000000, 'Public', 'Liquid PoS', 'Layer-1', 'Native Coin', 'N/A', 'Arthur Breitman', 2018, 'https://tezos.com', 'Mumbai upgrade (2023)'),
+('Tezos', 'XTZ', 9.12000000, '2021-10-04', 0.35047600, '2018-12-07', NULL, 990000000.00000000, 'Public', 'Liquid PoS', 'Layer-1', 'Native Coin', 'N/A', 'Arthur Breitman', 2018, 'https://tezos.com', 'Mumbai upgrade (2023), Oxford upgrade (2024)'),
 -- 34. The Sandbox
-('The Sandbox', 'SAND', 8.400000000000000, '2021-11-25', 0.028972000000000, '2020-11-04', 3000000000.000000000000000, 2300000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Arthur Madrid', 2020, 'https://sandbox.game', 'LAND staking (2023)'),
+('The Sandbox', 'SAND', 8.40000000, '2021-11-25', 0.02897200, '2020-11-04', 3000000000.00000000, 2300000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Arthur Madrid', 2020, 'https://www.sandbox.game', 'LAND staking (2023), metaverse expansion (2024)'),
 -- 35. Decentraland
-('Decentraland', 'MANA', 5.850000000000000, '2021-11-25', 0.009317000000000, '2017-10-31', 2200000000.000000000000000, 1900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Ari Meilich', 2017, 'https://decentraland.org', 'DAO governance overhaul (2022)'),
+('Decentraland', 'MANA', 5.85000000, '2021-11-25', 0.00931700, '2017-10-31', 2200000000.00000000, 1900000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Utility Token', 'Keccak-256', 'Ari Meilich', 2017, 'https://decentraland.org', 'DAO governance overhaul (2022), virtual events growth (2024)'),
 -- 36. Axie Infinity
-('Axie Infinity', 'AXS', 164.900000000000000, '2021-11-06', 0.123718000000000, '2020-11-06', 270000000.000000000000000, 120000000.000000000000000, 'Public', 'PoS', 'Sidechain', 'Governance Token', 'Keccak-256', 'Trung Nguyen', 2020, 'https://axieinfinity.com', 'Ronin Bridge relaunch (2023)'),
+('Axie Infinity', 'AXS', 164.90000000, '2021-11-06', 0.12371800, '2020-11-06', 270000000.00000000, 145000000.00000000, 'Public', 'PoS', 'Sidechain', 'Governance Token', 'Keccak-256', 'Trung Nguyen', 2020, 'https://axieinfinity.com', 'Ronin Bridge relaunch (2023), Origin V3 (2024)'),
 -- 37. Aave
-('Aave', 'AAVE', 661.690000000000000, '2021-05-18', 26.020000000000000, '2020-11-05', 16000000.000000000000000, 14000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Stani Kulechov', 2017, 'https://aave.com', 'V3 protocol (2022)'),
+('Aave', 'AAVE', 661.69000000, '2021-05-18', 26.02000000, '2020-11-05', 16000000.00000000, 14000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Stani Kulechov', 2017, 'https://aave.com', 'V3 protocol (2022), cross-chain lending (2024)'),
 -- 38. Monero
-('Monero', 'XMR', 542.330000000000000, '2018-01-09', 0.216177000000000, '2015-01-14', 18400000.000000000000000, 18200000.000000000000000, 'Public', 'RandomX PoW', 'Layer-1', 'Native Coin', 'RandomX', 'Ricardo Spagni', 2014, 'https://getmonero.org', 'Tail emission activation (2022)'),
+('Monero', 'XMR', 542.33000000, '2018-01-09', 0.21617700, '2015-01-14', 18400000.00000000, 18400000.00000000, 'Public', 'RandomX PoW', 'Layer-1', 'Native Coin', 'RandomX', 'Ricardo Spagni', 2014, 'https://www.getmonero.org', 'Tail emission activation (2022), privacy enhancements (2024)'),
 -- 39. Kusama
-('Kusama', 'KSM', 621.710000000000000, '2021-05-18', 0.876743000000000, '2020-01-14', 10000000.000000000000000, 8500000.000000000000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2019, 'https://kusama.network', 'Parachain auctions (2021)'),
+('Kusama', 'KSM', 621.71000000, '2021-05-18', 0.87674300, '2020-01-14', 10000000.00000000, 9600000.00000000, 'Public', 'NPoS', 'Layer-0', 'Native Coin', 'N/A', 'Gavin Wood', 2019, 'https://kusama.network', 'Parachain auctions (2021), governance upgrades (2024)'),
 -- 40. Zcash
-('Zcash', 'ZEC', 5941.800000000000000, '2016-10-29', 18.940000000000000, '2020-03-13', 21000000.000000000000000, 16000000.000000000000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Equihash', 'Zooko Wilcox', 2016, 'https://z.cash', 'Halo 2 upgrade (2022)'),
+('Zcash', 'ZEC', 5941.80000000, '2016-10-29', 18.94000000, '2020-03-13', 21000000.00000000, 16500000.00000000, 'Public', 'PoW', 'Layer-1', 'Native Coin', 'Equihash', 'Zooko Wilcox', 2016, 'https://z.cash', 'Halo 2 upgrade (2022), NU5 upgrade (2024)'),
 -- 41. Chiliz
-('Chiliz', 'CHZ', 0.878633000000000, '2021-03-13', 0.004001000000000, '2019-09-28', 8888888888.000000000000000, 6000000000.000000000000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Alexandre Dreyfus', 2019, 'https://chiliz.com', 'Socios.com expansion (2023)'),
+('Chiliz', 'CHZ', 0.87863300, '2021-03-13', 0.00400100, '2019-09-28', 8888888888.00000000, 7000000000.00000000, 'Public', 'PoA', 'Layer-1', 'Utility Token', 'N/A', 'Alexandre Dreyfus', 2019, 'https://www.chiliz.com', 'Socios.com expansion (2023), fan token growth (2024)'),
 -- 42. Helium
-('Helium', 'HNT', 54.880000000000000, '2021-11-12', 0.113248000000000, '2020-04-18', 223000000.000000000000000, 160000000.000000000000000, 'Public', 'PoC', 'Layer-1', 'Native Coin', 'N/A', 'Amir Haleem', 2019, 'https://helium.com', 'Solana migration (2023)'),
+('Helium', 'HNT', 54.88000000, '2021-11-12', 0.11324800, '2020-04-18', 223000000.00000000, 160000000.00000000, 'Public', 'PoC', 'Layer-1', 'Native Coin', 'N/A', 'Amir Haleem', 2019, 'https://www.helium.com', 'Solana migration (2023), IoT network expansion (2024)'),
 -- 43. Optimism
-('Optimism', 'OP', 4.850000000000000, '2022-05-31', 0.400000000000000, '2022-12-07', 4294967296.000000000000000, 1000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Optimism Foundation', 2022, 'https://optimism.io', 'Bedrock upgrade (2023)'),
+('Optimism', 'OP', 4.85000000, '2022-05-31', 0.40000000, '2022-12-07', 4294967296.00000000, 1200000000.00000000, 'Public', 'PoS', 'Layer-2', 'Governance Token', 'Keccak-256', 'Optimism Foundation', 2022, 'https://www.optimism.io', 'Bedrock upgrade (2023), Canyon upgrade (2024)'),
 -- 44. Maker
-('Maker', 'MKR', 4095.000000000000000, '2021-05-03', 97.960000000000000, '2017-01-29', 1005577.000000000000000, 950000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Rune Christensen', 2017, 'https://makerdao.com', 'Endgame plan (2024)'),
+('Maker', 'MKR', 4095.00000000, '2021-05-03', 97.96000000, '2017-01-29', 1005577.00000000, 977000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Rune Christensen', 2017, 'https://makerdao.com', 'Endgame plan (2024), Sky ecosystem launch (2024)'),
 -- 45. Injective
-('Injective', 'INJ', 44.950000000000000, '2024-03-14', 0.657000000000000, '2020-11-04', 100000000.000000000000000, 85000000.000000000000000, 'Public', 'Tendermint BFT', 'Appchain', 'Native Coin', 'N/A', 'Eric Chen', 2020, 'https://injective.com', 'Cosmos SDK integration'),
+('Injective', 'INJ', 44.95000000, '2024-03-14', 0.65700000, '2020-11-04', 100000000.00000000, 88000000.00000000, 'Public', 'Tendermint BFT', 'Appchain', 'Native Coin', 'N/A', 'Eric Chen', 2020, 'https://injective.com', 'Cosmos SDK integration, DeFi hub expansion (2024)'),
 -- 46. Immutable X
-('Immutable X', 'IMX', 3.760000000000000, '2021-11-26', 0.110000000000000, '2021-06-11', 2000000000.000000000000000, 1500000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'James Ferguson', 2021, 'https://immutable.com', 'Immutable zkEVM launch (2024)'),
+('Immutable X', 'IMX', 3.76000000, '2021-11-26', 0.11000000, '2021-06-11', 2000000000.00000000, 1600000000.00000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'James Ferguson', 2021, 'https://www.immutable.com', 'Immutable zkEVM launch (2024), gaming ecosystem growth (2024)'),
 -- 47. Aptos
-('Aptos', 'APT', 20.250000000000000, '2023-01-26', 3.080000000000000, '2022-12-07', 1000000000.000000000000000, 400000000.000000000000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'N/A', 'Mo Shaikh', 2022, 'https://aptoslabs.com', 'Mainnet launch (2022)'),
+('Aptos', 'APT', 20.25000000, '2023-01-26', 3.08000000, '2022-12-07', 1100000000.00000000, 450000000.00000000, 'Public', 'PoS', 'Layer-1', 'Native Coin', 'N/A', 'Mo Shaikh', 2022, 'https://aptoslabs.com', 'Mainnet launch (2022), Move language adoption (2024)'),
 -- 48. Sei
-('Sei', 'SEI', 0.880000000000000, '2023-08-15', 0.095000000000000, '2023-09-11', 10000000000.000000000000000, 3000000000.000000000000000, 'Public', 'Tendermint BFT', 'Layer-1', 'Native Coin', 'N/A', 'Jayendra Jog', 2023, 'https://sei.network', 'Mainnet launch (2023)'),
+('Sei', 'SEI', 0.88000000, '2023-08-15', 0.09500000, '2023-09-11', 10000000000.00000000, 3300000000.00000000, 'Public', 'Tendermint BFT', 'Layer-1', 'Native Coin', 'N/A', 'Jayendra Jog', 2023, 'https://www.sei.network', 'Mainnet launch (2023), DeFi and NFT growth (2024)'),
 -- 49. Lido DAO
-('Lido DAO', 'LDO', 3.330000000000000, '2021-11-16', 0.404000000000000, '2020-12-17', 1000000000.000000000000000, 900000000.000000000000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Konstantin Lomashuk', 2020, 'https://lido.fi', 'Liquid staking expansion (2023)'),
+('Lido DAO', 'LDO', 3.33000000, '2021-11-16', 0.40400000, '2020-12-17', 1000000000.00000000, 900000000.00000000, 'Public', 'PoS (ETH)', 'Layer-2', 'Governance Token', 'Keccak-256', 'Konstantin Lomashuk', 2020, 'https://lido.fi', 'Liquid staking expansion (2023), multi-chain staking (2024)'),
 -- 50. Ondo
-('Ondo', 'ONDO', 3.330000000000000, '2024-03-31', 0.810000000000000, '2024-01-18', 10000000000.000000000000000, 2000000000.000000000000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Nathan Allman', 2024, 'https://ondo.finance', 'RWA tokenization launch (2024)');
+('Ondo', 'ONDO', 3.33000000, '2024-03-31', 0.81000000, '2024-01-18', 10000000000.00000000, 2000000000.00000000, 'Public', 'PoS', 'Layer-2', 'Utility Token', 'Keccak-256', 'Nathan Allman', 2024, 'https://ondo.finance', 'RWA tokenization launch (2024), institutional adoption (2024)');
+
 
 -- CRYPTO DATA END
 
